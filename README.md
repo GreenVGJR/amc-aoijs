@@ -1,4 +1,4 @@
-This is code advanced music for aoi.js, discord bot.
+This is code advanced music for aoi.js, discord bot. (handler version)
 
 Ver. *4.4.4 - 5.0.0*
 
