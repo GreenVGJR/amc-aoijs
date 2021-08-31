@@ -18,6 +18,7 @@ bot.status({
 //Customize Property For Message//
 bot.variables({
   file: "server.js", //For reboot and stats//
+  database: "./database/main/main_scheme_1.sql", //For stats//
 
   pause: "⏸️ Paused.",
   resume: "▶️ Resumed!",
@@ -38,7 +39,7 @@ bot.variables({
   color: "000000",
   permission: "2176183360",
   userid: "default",
-  logmusic: "0", //0 = On | 1 = Off | 2 = On with reaction//
+  logmusic: "0",
   247: "0", //0 = off | 1 = on stay 2 minutes | 2 = stay 24/7//
   channelstatus: "757831705397559337", //Change to your channel id, to send message when the bot restart.// 
   vol: "50", //Default Volume//
@@ -54,6 +55,7 @@ bot.variables({
   cachemessage: "",
   durationcache: "0",
   reactmessageid: "",
+  nontrigger: "0", //for disable play message when react active//
 
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
   ytemoji: "https://cdn.discordapp.com/emojis/852432148207108110.png?size=4096",
@@ -90,7 +92,8 @@ $sendMessage[\`Ready on client $userTag[$clientID]\` | Running at \`$packageVers
 
 bot.awaitedCommand({
 name: "massfilter",
-code: `$resetServerVar[durationcache]
+code: `$setUserVar[reactmessageid;;$clientID]
+$resetServerVar[durationcache]
 $resetServerVar[filters]
 $suppressErrors`
 })
@@ -100,7 +103,7 @@ name: "filter",
 code: `$if[$message[1]==]
 $title[Filter]
 $description[\`\`\`
-28 ) 3d, 8d, 8d-v2, double, delay, chorus, clarity, deep, distorted, echo, earwax, fan, flanger, gate, half, high, low, mid, nightcore, nightcore-normal, phaser, pulsator, pulsator-2x, purebass, space, surround, vibrato, vibrato-2x
+29 ) 3d, 8d, 8d-v2, double, delay, chorus, clarity, deep, distorted, echo, earwax, fan, flanger, gate, half, high, low, mid, nightcore, nightcore-normal, phaser, pulsator, pulsator-2x, purebass, space, surround, vaporwave, vibrato, vibrato-2x
 
 2  ) all, clear
 \`\`\`]
@@ -388,6 +391,15 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
+$elseif[$toLowercase[$message[1]]==vaporwave]
+Applying..
+$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Vaporwave} {color:$getVar[color]}]
+$songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0.875;speed:1;echo:0;contrast:0;pulsator:0;vibrato:0;earwax:0]
+$setServerVar[filters;Vaporwave]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$onlyIf[$queueLength!=0;$getVar[errorqueue]]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]
+$endelseif
 $else
 There no filter \`$message\`.
 $endif
@@ -490,7 +502,7 @@ $onlyBotPerms[addreactions;]
 $endelseif
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$queueLength!=0;$getVar[errorqueue] $djsEval[message.member.voice.channel.leave();]]
+$onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors
@@ -519,9 +531,9 @@ $textSplit[$songInfo[duration]; ]
 $addTimestamp
 $thumbnail[$songInfo[thumbnail]]
 $color[$getVar[color]]
-$else
+$elseIf[$checkContains[$getGlobalUserVar[logmusic;$songInfo[userID]];0;1]-$hasPerms[$clientID;addreactions]==false-true]
 $setUserVar[reactmessageid;$get[a];$clientID]
-$reactionCollector[$get[a];$songInfo[userID];10m;🔄,▶,⏸,⏹,⏭,🔂,🔁,🔀;clearqueueyes,resume,pause,stop,skip,loopsong,loopqueue,recentshuffle;yes]
+$reactionCollector[$get[a];$songInfo[userID];1h;🔄,⏯,⏹,⏭,🔁,🔀;clearqueueyes,resume-pause,stop,skip,loop,recentshuffle;yes]
 $wait[$ping]
 $let[a;$sendMessage[{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
 {title:$songInfo[title]}
@@ -540,13 +552,10 @@ $let[a;$sendMessage[{author:Started Playing:$replaceText[$replaceText[$checkCont
 {field:Filters:\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`:no}
 {timestamp}
 {thumbnail:$songInfo[thumbnail]}
-{color:$getVar[color]} {delete:$multi[$splitText[1];1000]};yes]]
-$textSplit[$songInfo[duration] $songInfo[current_duration]; ]
-$endif
-$if[$getGlobalUserVar[vol;$songInfo[userID]]>=$sum[$getServerVar[maxvol];1]]]
-$setGlobalUserVar[vol;50;$songInfo[userID]]
-$volume[50]
-$sendMessage[{title:Volume User was change to 50%.} {footer:Bypass limit Max Volume Server} {color:$getVar[color]} {delete:5s};no]
+{color:$getVar[color]};yes]]
+$textSplit[$songInfo[duration]; ]
+$onlyIf[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==false;{execute:recentskipplay}]
+$endelseif
 $endif
 $onlyIf[$getGlobalUserVar[logmusic;$songInfo[userID]]!=1;]
 $volume[$getGlobalUserVar[vol;$songInfo[userID]]]
@@ -573,16 +582,39 @@ code: `$editMessage[$getUserVar[reactmessageid;$clientID];{author:Started Playin
 {field:Filters:\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`:no}
 {timestamp}
 {thumbnail:$songInfo[thumbnail]}
-{color:$getVar[color]} {delete:$multi[$splitText[4];1000]}]
+{color:$getVar[color]}]
 $textSplit[$songInfo[duration] $songInfo[current_duration]; ]
 $onlyIf[$queueLength!=0;]
 $suppressErrors`
 })
 
 bot.awaitedCommand({
+name: "recentskipplay",
+code: `$editMessage[$getUserVar[reactmessageid;$clientID];{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
+{title:$songInfo[title]}
+{field:Requested By:<@$songInfo[userID]>:yes}
+{field:Running At:$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null]:yes}
+{field:$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;Streaming];false;Uploaded] By:[$songInfo[publisher]]($songInfo[publisher_url]):yes}
+{field:Duration:\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`:yes}
+{field:Volume:\`$volume%\`:yes}
+{field:URL:[Song]($songInfo[url] "$songInfo[title]"):yes}
+{field:Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;[YouTube](https://www.youtube.com/)];false;[Soundcloud](https://soundcloud.com/)]:yes}
+{field:Ping:\`$dbPingms\`:yes}
+{field:Song:\`$queueLength\`:yes}
+{field:ID:\`$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$replaceText[$replaceText[$songInfo[url];https://youtube.com/watch?v=;];https://www.youtube.com/watch?v=;]];false;undefined]\`:yes}
+{field:24/7:\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`:yes}
+{field:Loop:\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`:yes}
+{field:Filters:\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`:no}
+{timestamp}
+{thumbnail:$songInfo[thumbnail]}
+{color:$getVar[color]}]
+$textSplit[$songInfo[duration]; ]`
+})
+
+bot.awaitedCommand({
 name: "recentshuffle",
 code: `$loop[1;recentplay]
-$wait[5s]
+$wait[2s]
 $editMessage[$getUserVar[reactmessageid;$clientID];{author:Shuffle Queue:$getVar[customemoji1]} {field:Requested By:<@$authorID>:yes} {field:Song:\`$numberSeparator[$queueLength]\`:yes} {description:\`$cropText[$queue[1;$queueLength;{number} - {title}];2000]\`} {color:$getVar[color]} {footer:Redirecting..} {timestamp}]
 $shuffleQueue
 $onlyIf[$queueLength>1;Only have 1 song. {delete:2s}]
@@ -596,6 +628,11 @@ bot.musicStartCommand({
 $setGlobalUserVar[saveseek;0;$songInfo[userID]]
 $sendMessage[{description:Seek recently to $humanizeMS[$multi[$getGlobalUserVar[saveseek;$songInfo[userID]];1000];10]} {color:$getVar[color]} {timestamp};no]
 $seekTo[$getGlobalUserVar[saveseek;$songInfo[userID]]]
+$endif
+$if[$getGlobalUserVar[vol;$songInfo[userID]]>=$sum[$getServerVar[maxvol];1]]]
+$setGlobalUserVar[vol;50;$songInfo[userID]]
+$volume[50]
+$sendMessage[{title:Volume User was change to 50%.} {footer:Bypass limit Max Volume Server} {color:$getVar[color]} {delete:5s};no]
 $endif
 $suppressErrors`
 })
@@ -614,12 +651,18 @@ $setServerVar[linkdownload;$jsonRequest[$jsonRequest[https://api.leref.ga/soundc
 $wait[1s]
 $onlyIf[$getVar[clientidsoundcloud]!=;]
 $endif
+$if[$getUserVar[nontrigger;$clientID]==1]
+$setUserVar[nontrigger;0;$clientID]
+$endif
 $suppressErrors`
 })
 
 bot.musicEndCommand({
   channel: "$channelID",
-  code: `$setServerVar[filters;none]
+  code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
+$setServerVar[filters;none]
 $title[There no song again on queue.]
 $footer[Left VC.]
 $color[$getVar[color]]`
@@ -634,7 +677,7 @@ $editIn[2ms;{description:$replaceText[$getVar[clearsong];{amount};$queueLength]}
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $setServerVar[filters;none (temporary)]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
-$onlyIf[$queueLength!=0;$getVar[errorqueue]]`
+$onlyIf[$queueLength!=0;]`
 });
 
 bot.awaitedCommand({
@@ -658,26 +701,20 @@ $addTimestamp`
 })
 
 bot.awaitedCommand({
-name: "pause",
+name: "resume-pause",
 code: `$loop[1;recentplay]
-$pauseSong
-$setServerVar[durationcache;$splitText[1]]
-$textSplit[$songInfo[current_duration]; ]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$queueLength!=0;]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
-$onlyIf[$voiceID!=;]`
-})
-
-bot.awaitedCommand({
-name: "resume",
-code: `$loop[1;recentplay]
+$if[$queueStatus==paused]
 $if[$getServerVar[durationcache]==0]
 $resumeSong
 $else
 $setServerVar[durationcache;0]
 $seekTo[$getServerVar[durationcache]]
 $resumeSong
+$endif
+$else
+$setServerVar[durationcache;$splitText[1]]
+$pauseSong
+$textSplit[$songInfo[current_duration]; ]
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;]
@@ -686,23 +723,20 @@ $onlyIf[$voiceID!=;]`
 })
 
 bot.awaitedCommand({
-name: "loopsong",
+name: "loop",
 code: `$loop[1;recentplay]
+$if[$loopStatus==none]
 $let[a;$loopSong]
+$elseIf[$loopStatus==song]
+$let[b;$loopQueue]
+$let[a;$loopSong]
+$endelseif
+$elseIf[$loopStatus==queue]
+$let[b;$loopQueue]
+$endelseif
+$else
+$endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$loopStatus!=queue;You currently active **queue loop.** {delete:2s}]
-$onlyIf[$queueLength!=0;]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
-$onlyIf[$voiceID!=;]
-$suppressErrors`
-})
-
-bot.awaitedCommand({
-name: "loopqueue",
-code: `$loop[1;recentplay]
-$let[a;$loopQueue]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$loopStatus!=song;You currently active **song loop.** {delete:2s}]
 $onlyIf[$queueLength!=0;]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;]
@@ -721,8 +755,19 @@ $onlyIf[$queueLength!=0;]`
 
 bot.awaitedCommand({
 name: "skip",
-code: `$skipSong
-$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+code: `$loop[1;recentskipplay]
+$setUserVar[nontrigger;1;$clientID]
+$skipSong
+$editMessage[$getUserVar[reactmessageid;$clientID];{title:$replaceText[$getVar[skip];{song};$songInfo[title]]}
+{thumbnail:$songInfo[thumbnail;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]}
+{field:Starting Playing:\`$songInfo[title;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]\`:yes}
+{field:Duration:\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`:yes}
+{field:Position:\`$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]\`:yes}
+{field:Loop:\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`:yes}
+{field:24/7:\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`:yes}
+{timestamp}
+{color:$getVar[color]}]
+$textSplit[$songInfo[duration;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]; ]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength>1;Only have 1 song. {delete:2s}]
 $onlyIf[$queueLength!=0;]
@@ -749,6 +794,9 @@ $endif
 $if[$checkContains[$message;https://cdn.discordapp.com/attachments/]==true]
 $let[song;$playSong[$uri[decode;$splitText[7]];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
 $textSplit[$message;/]
+$elseIf[$checkContains[$message;https://soundcloud.com/]==true]
+$let[song;$playSoundcloud[$message;$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
+$endelseif
 $else
 $let[song;$playSong[$message;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
 $endif
@@ -771,7 +819,10 @@ bot.command({
   name: "playskip",
   aliases: ["ps"],
   cooldown: "3s",
-  code: `$skipTo[$sub[$queueLength;1]]
+  code: `$if[$checkContains[$getGlobalUserVar[logmusic];0;1]==false]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
+$skipTo[$sub[$queueLength;1]]
 $replaceText[$replaceText[$checkCondition[$queueLength>1];false;];true;$replaceText[$replaceText[$checkContains[$getGlobalUserVar[logmusic];0;2];true;Starting Playing: \`$playSong[$message;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]\`];false;]]
 $botTyping
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -987,15 +1038,17 @@ $cooldown[$commandInfo[help;cooldown];Please wait **%time%** before using again.
 bot.command({
   name: "stats",
   cooldown: "3s",
-  code: `$addField[Size Server;> $cropText[$numberSeparator[$multi[$get[sizeserver];8];.];5]KB;yes]
+  code: `$addField[AV (Global);> $numberSeparator[$vcSize[users;all]];yes]
+$addField[AV (Server);> $numberSeparator[$vcSize[users;$guildID]];yes]
+$addField[Size Database;> $cropText[$fileSize[$getVar[database];kb];5]KB;yes]
+$addField[Size Server;> $cropText[$numberSeparator[$multi[$get[sizeserver];8];.];5]KB;yes]
 $addField[Size Code;> $cropText[$fileSize[$getVar[file];kb];5]KB;yes]
-$addField[Command;> $commandsCount;yes]
-$addField[Server;> $serverCount
-> \`($truncate[$divide[$allMembersCount;$serverCount]] / Server)\`;yes]
+$addField[Command;> $numberSeparator[$commandsCount];yes]
+$addField[Server;> $numberSeparator[$serverCount];yes]
 $addField[Members;> $numberSeparator[$allMembersCount];yes]
 $addField[RAM Left;> $cropText[$divide[$sub[$maxRam;$ram];1024];4]GB;yes]
 $addField[RAM;> $cropText[$divide[$ram;1024];4]GB;yes]
-$addField[CPU;> $truncate[$cpu]%;yes]
+$addField[CPU;> $cropText[$cpu;4]%;yes]
 $addField[Is Deafen/Mute;> $replaceText[$isDeafened[$clientID];null;false] / $replaceText[$isMuted[$clientID];null;false];yes]
 $addField[Is Playing;> $checkCondition[$queueLength!=0];yes]
 $addField[Is Connect;> $checkCondition[$voiceID[$clientID]!=];yes]
@@ -1003,9 +1056,9 @@ $addField[API Ping;> $numberSeparator[$botPing]ms;yes]
 $addField[DB Ping;> $numberSeparator[$dbPing]ms;yes]
 $addField[WS Ping;> $numberSeparator[$ping]ms;yes]
 $addField[Platform;> $djsEval[require ('os').platform();yes];yes]
-$addField[Last Online;> $formatDate[$getVar[last];LLLL];yes]
-$addField[Uptime;> $uptime;yes]
-$footer[Ver. $packageVersion ($nodeVersion);$userAvatar[$authorID;64]]
+$addField[Last Online;> <t:$cropText[$getVar[last];10]:R>;yes]
+$addField[Uptime;> $client[readytimestamp];yes]
+$footer[Ver. $packageVersion ($nodeVersion);$userAvatar[$authorID;512]]
 $thumbnail[$userAvatar[$clientID]]
 $color[$getVar[color]]
 $addTimestamp
@@ -1052,7 +1105,7 @@ Websocket Ping   : $numberSeparator[$ping]ms
 API       Ping   : $numberSeparator[$botPing]ms
 Database  Ping   : $numberSeparator[$dbPing]ms
 Message   Ping   : $executionTimems
-Shard $shardID   Ping   : $numberSeparator[$sub[$dateStamp;$get[stamp]]]ms $wait[$dbping] $let[stamp;$dateStamp]
+Shard     Ping   : $numberSeparator[$sub[$dateStamp;$get[stamp]]]ms $wait[$dbping] $let[stamp;$dateStamp]
 Average   Ping   : $numberSeparator[$truncate[$divide[$sum[$ping;$botPing;$dbPing];3]]]ms
 \`\`\`\
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1074,7 +1127,7 @@ bot.command({
 name: "log-off",
 cooldown: "3s",
 code: `$setGlobalUserVar[logmusic;1]
-$title[Log music now **disable**]
+$title[Log music: **disable**]
 $color[$getVar[color]]
 $addTimestamp
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1087,7 +1140,7 @@ bot.command({
 name: "log-on",
 cooldown: "3s",
 code: `$setGlobalUserVar[logmusic;0]
-$title[Log music now **enable**]
+$title[Log music: **enable**]
 $color[$getVar[color]]
 $addTimestamp
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1100,7 +1153,7 @@ bot.command({
 name: "log-on-reaction",
 cooldown: "3s",
 code: `$setGlobalUserVar[logmusic;2]
-$title[Log music now **enable** (with reaction control)]
+$title[Log music: **enable** (with reaction control)]
 $color[$getVar[color]]
 $addTimestamp
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1118,7 +1171,7 @@ $title[Filter]
 $description[\`\`\`
 3  ) bass, pitch, speed
 
-28 ) 3d, 8d, 8d-v2, double, delay, chorus, clarity, deep, distorted, echo, earwax, fan, flanger, gate, half, high, low, mid, nightcore, nightcore-normal, phaser, pulsator, pulsator-2x, purebass, space, surround, vibrato, vibrato-2x
+29 ) 3d, 8d, 8d-v2, double, delay, chorus, clarity, deep, distorted, echo, earwax, fan, flanger, gate, half, high, low, mid, nightcore, nightcore-normal, phaser, pulsator, pulsator-2x, purebass, space, surround, vaporwave, vibrato, vibrato-2x
 
 2  ) all, clear
 \`\`\`]
@@ -1431,6 +1484,15 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
+$elseif[$toLowercase[$message[1]]==vaporwave]
+Applying..
+$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Vaporwave} {color:$getVar[color]}]
+$songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0.875;speed:1;echo:0;contrast:0;pulsator:0;vibrato:0;earwax:0]
+$setServerVar[filters;Vaporwave]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$onlyIf[$queueLength!=0;$getVar[errorqueue]]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]
+$endelseif
 $else
 There no filter \`$message\`.
 $endif
@@ -1497,7 +1559,7 @@ $color[$getVar[color]]
 $addTimestamp
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $cooldown[$commandInfo[user-info;cooldown];Please wait **%time%** before using again.]
-$onlyIf[$isBot[$findUser[$message;yes]]!=true;{description:\`❌ Oops.. It's like we cant collect data user.\`} {color:$getVar[color]}]`
+$onlyIf[$isBot[$findUser[$message;yes]]!=true;{description:\`❌ Oops.. looks like we cant collect data user.\`} {color:$getVar[color]}]`
 });
 
 bot.command({
@@ -1514,7 +1576,7 @@ $else
 $description[Seek to \`$replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0 second];true;$humanizeMS[$multi[$noMentionMessage;1000];10]]\`]
 $footer[Value: $noMentionMessage]
 $color[$getVar[color]]
-$wait[$multi[$botPing;1;2;3]]
+$wait[$sum[$multi[$botPing;1;2;3];$dbPing]]
 $seekTo[$noMentionMessage]
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1573,11 +1635,16 @@ bot.command({
   name: "join",
   aliases: ["j", "summon"],
   cooldown: "3s",
-  code: `$replaceText[$getVar[join];{join};$channelName[$replaceText[$replaceText[$checkCondition[$message!=];false;$voiceID];true;$findChannel[$message]]]]
+  code: `$joinVC[$replaceText[$replaceText[$checkCondition[$message!=];false;$voiceID];true;$findChannel[$message]]]
 $if[$hasPerms[$clientID;movemembers]==true]
 $moveUser[$authorID;$replaceText[$replaceText[$checkCondition[$message!=];false;$voiceID];true;$findChannel[$message]]]
 $endif
-$joinVC[$replaceText[$replaceText[$checkCondition[$message!=];false;$voiceID[$authorID]];true;$findChannel[$message]]]
+$if[$getGlobalUserVar[controlreact]==1]
+$addCmdReactions[✅]
+$onlyBotPerms[addreactions;]
+$else
+$replaceText[$getVar[join];{join};$channelName[$replaceText[$replaceText[$checkCondition[$message!=];false;$voiceID];true;$findChannel[$message]]]]
+$endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$voiceID[$clientID]==;Already joined!]
 $cooldown[$commandInfo[join;cooldown];Please wait **%time%** before using again.]
@@ -1590,7 +1657,8 @@ bot.command({
   name: "rejoin",
   aliases: ["reconnect"],
   cooldown: "3s",
-  code: `$if[$voiceID[$clientID]==]
+  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$if[$voiceID[$clientID]==]
 $joinVC[$voiceID]
 $else
 $joinVC[$voiceID]
@@ -1608,13 +1676,19 @@ bot.command({
   name: "disconnect",
   aliases: ["dc", "bye", "leave"],
   cooldown: "3s",
-  code: `$if[$hasPerms[$clientID;movemembers]==true]
+  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$if[$hasPerms[$clientID;movemembers]==true]
 $moveUser[$authorID]
 $endif
 $leaveVC
 $setServerVar[filters;none]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$if[$getGlobalUserVar[controlreact]==1]
+$addCmdReactions[✔]
+$onlyBotPerms[addreactions;]
+$else
 $getVar[dc]
+$endif
 $onlyIf[$voiceID[$clientID]!=;Already disconnected!]
 $cooldown[$commandInfo[disconnect;cooldown];Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
@@ -1625,7 +1699,8 @@ $suppressErrors[something just happened.]`
 bot.command({
   name: "move", 
   cooldown: "3s",
-  code: `$moveUser[$authorID;$findChannel[$message]]
+  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$moveUser[$authorID;$findChannel[$message]]
 $moveUser[$clientID;$findChannel[$message]]
 $addCmdReactions[✅]
 $onlyIf[$findChannel[$message[1]]!=$voiceID;]
@@ -1646,8 +1721,8 @@ $createSlashCommand[$guildID;filter;For list, just leave blank;filter:Use FIlter
 $createSlashCommand[$guildID;resume;Resume Song]
 $createSlashCommand[$guildID;pause;Pause Song]
 $createSlashCommand[$guildID;stop;Stop Song]
-$title[Successfully Created]
-$description[You need to re-login / [re-invite]($replaceText[$getBotInvite;permissions=0;permissions=$getVar[permission]]), if wanna see slash command.] $color[$getVar[color]]
+$title[Successfully created]
+$description[You can use slash command now.] $color[$getVar[color]]
 $footer[Status: $replaceText[$replaceText[$checkCondition[$getSlashCommandID[pause]!=];true;Update];false;Create]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $cooldown[$commandInfo[slash;cooldown];Please wait **%time%** before using again.]
@@ -1659,7 +1734,7 @@ bot.command({
  name: "react",
  cooldown: "3s",
  code: `$if[$toLowercase[$message]==on]
-$description[Command for \`pause, resume and stop\` will be only return reaction.]
+$description[Command for \`pause, resume, stop, loop, join, disconnect, shuffle, shuffleskip\` will be only return reaction.]
 $addTimestamp
 $color[$getVar[color]]
 $setGlobalUserVar[controlreact;1]
@@ -1732,9 +1807,15 @@ bot.command({
   name: "loop",
   aliases: ["l", "loopsong", "loopmusic"],
   cooldown: "3s",
-  code: `$description[$replaceText[$replaceText[$checkCondition[$loopSong==true];true;Loop now **on**];false;Loop now **off**]]
+  code: `$if[$getGlobalUserVar[controlreact]==1]
+$let[say goodbye;$loopSong]
+$addCmdReactions[🔂]
+$onlyBotPerms[addreactions;]
+$else
+$description[$replaceText[$replaceText[$checkCondition[$loopSong==true];true;Loop now **on**];false;Loop now **off**]]
 $color[$getVar[color]]
 $addTimestamp
+$endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$loopStatus!=queue;You currently active **queue loop.**]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1748,9 +1829,15 @@ bot.command({
   name: "qloop",
   aliases: ["ql", "loopqueue"],
   cooldown: "3s",
-  code: `$description[$replaceText[$replaceText[$checkCondition[$loopQueue==true];true;Queue Loop now **on**];false;Queue Loop now **off**]]
+  code: `$if[$getGlobalUserVar[controlreact]==1]
+$let[let you down;$loopQueue]
+$addCmdReactions[🔁]
+$onlyBotPerms[addreactions;]
+$else
+$description[$replaceText[$replaceText[$checkCondition[$loopQueue==true];true;Queue Loop now **on**];false;Queue Loop now **off**]]
 $color[$getVar[color]]
 $addTimestamp
+$endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$loopStatus!=song;You currently active **song loop.**]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1832,11 +1919,17 @@ bot.command({
   name: "shuffle",
   aliases: ["sf"],
   cooldown: "3s",
-  code: `$editIn[2ms;{author:$getVar[shuffle]} {title:Queue} {color:$getVar[color]} {description:$queue[1;3;\`{number} - {title}\`]} {timestamp};{author:$getVar[shuffle]} {title:Queue} {color:$getVar[color]} {description:$queue[1;7;\`{number} - {title}\`]} {timestamp};{author:$getVar[shuffle]} {title:Queue} {color:$getVar[color]} {description:$queue[1;10;\`{number} - {title}\`]} {timestamp}]
+  code: `$if[$getGlobalUserVar[controlreact]==1]
+$shuffleQueue
+$addCmdReactions[🔀]
+$onlyBotPerms[addreactions;]
+$else
+$editIn[2ms;{author:$getVar[shuffle]} {title:Queue} {color:$getVar[color]} {description:$queue[1;3;\`{number} - {title}\`]} {timestamp};{author:$getVar[shuffle]} {title:Queue} {color:$getVar[color]} {description:$queue[1;7;\`{number} - {title}\`]} {timestamp};{author:$getVar[shuffle]} {title:Queue} {color:$getVar[color]} {description:$queue[1;10;\`{number} - {title}\`]} {timestamp}]
 $shuffleQueue
 $title[Updating..]
 $addTimestamp
 $color[$getVar[color]]
+$endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength>1;Only have **$queueLength song**.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1850,6 +1943,10 @@ bot.command({
   aliases: ["sfs"],
   cooldown: "3s",
   code: `$skipSong
+$if[$getGlobalUserVar[controlreact]==1]
+$addCmdReactions[🔀;⏭]
+$onlyBotPerms[addreactions;]
+$else
 $author[$getVar[shuffle]]
 $title[$replaceText[$getVar[skip];{song};$songInfo[title]]]
 $thumbnail[$songInfo[thumbnail;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]]
@@ -1861,6 +1958,7 @@ $addField[Starting Playing;\`$songInfo[title;$replaceText[$replaceText[$checkCon
 $addTimestamp
 $color[$getVar[color]]
 $textSplit[$songInfo[duration;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]; ]
+$endif
 $shuffleQueue
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength>1;Only have **$queueLength song**.]
@@ -1927,7 +2025,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 bot.command({
   name: "stop",
   cooldown: "3s",
-  code: `$setServerVar[durationcache;0]
+  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$setServerVar[durationcache;0]
 $stopSong
 $if[$getGlobalUserVar[controlreact]==0]
 $sendMessage[$getVar[stop];no]
@@ -1938,7 +2037,7 @@ $endelseif
 $endif
 $setServerVar[filters;none]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$queueLength!=0;$getVar[errorqueue] $djsEval[message.member.voice.channel.leave();]]
+$onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors`
