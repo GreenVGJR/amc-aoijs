@@ -942,7 +942,6 @@ $addField[> Control;\`\`\`kt
 - nowplaying
 - loop
 - shuffle
-- stay
 - shuffleskip
 - pruning
 - skip
@@ -952,11 +951,8 @@ $addField[> Control;\`\`\`kt
 - seek
 - remove
 - volume
-- maxvolume
 - filter
-- log-on
-- log-on-reaction
-- log-off
+- musicsettings
 \`\`\`;no]
 $addField[> Playlist;\`\`\`kt
 - playlist
@@ -1003,7 +999,9 @@ $addField[> Aliases;\`\`\`kt
 (q)
 - volume
 (v)
-\`\`\`;yes]
+- musicsettings
+(musicsetting, musicset)
+\`\`\`;no]
 $addField[> Misc;\`\`\`kt
 - ping
 - uptime
@@ -1013,7 +1011,6 @@ $addField[> Misc;\`\`\`kt
 - user-info
 - top
 - download (--refresh)
-- react
 \`\`\`;yes]
 $addField[> Music Player;\`\`\`kt
 - play
@@ -1038,8 +1035,7 @@ $cooldown[$commandInfo[help;cooldown];Please wait **%time%** before using again.
 bot.command({
   name: "stats",
   cooldown: "3s",
-  code: `$addField[AV (Global);> $numberSeparator[$vcSize[users;all]];yes]
-$addField[AV (Server);> $numberSeparator[$vcSize[users;$guildID]];yes]
+  code: `$color[$getVar[color]]
 $addField[Size Database;> $cropText[$fileSize[$getVar[database];kb];5]KB;yes]
 $addField[Size Server;> $cropText[$numberSeparator[$multi[$get[sizeserver];8];.];5]KB;yes]
 $addField[Size Code;> $cropText[$fileSize[$getVar[file];kb];5]KB;yes]
@@ -1060,33 +1056,12 @@ $addField[Last Online;> <t:$cropText[$getVar[last];10]:R>;yes]
 $addField[Uptime;> $client[readytimestamp];yes]
 $footer[Ver. $packageVersion ($nodeVersion);$userAvatar[$authorID;512]]
 $thumbnail[$userAvatar[$clientID]]
-$color[$getVar[color]]
 $addTimestamp
 $let[sizeserver;$charCount[$serverNames[]]]
 $cacheMembers
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $cooldown[$commandInfo[stats;cooldown];Please wait **%time%** before using again.]`
 });
-
-bot.command({
-name: "maxvolume",
-cooldown: "3s",
-code: `$if[$message[1]==]
-$author[$serverName]
-$footer[Current Max Volume: $getServerVar[maxvol]%;$serverIcon[$guildID;128]]
-$color[$getVar[color]]
-$elseIf[$isNumber[$message[1]]==true]
-$setServerVar[maxvol;$message[1]]
-Setted to \`$message[1]%\`
-$onlyIf[$message[1]<=501;Max volume just **500%**]
-$onlyIf[$checkContains[$message[1];-]!=true;You cant set to negative.]
-$onlyPerms[manageserver;Missing Permission, **Manage Server** - User]
-$endelseif
-$endif
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
-$cooldown[$commandInfo[maxvolume;cooldown];Please wait **%time%** before using again.]`
-})
 
 bot.command({
 name: "invite",
@@ -1124,44 +1099,99 @@ $cooldown[$commandInfo[uptime;cooldown];Please wait **%time%** before using agai
 });
 
 bot.command({
-name: "log-off",
-cooldown: "3s",
-code: `$setGlobalUserVar[logmusic;1]
-$title[Log music: **disable**]
+ name: "musicsettings",
+ aliases: ["musicsetting", "musicset"],
+ cooldown: "3s",
+ code: `$if[$message[1]==]
+$addField[Max Volume;> \`$getServerVar[maxvol]%\`
+> (musicsettings maxvol <value>);yes]
+$addField[Stay VC;> \`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;off];1;on];2;on - 24/7]\`
+> (musicsettings stay);yes]
+$addField[React Only;> \`$replaceText[$replaceText[$getGlobalUserVar[controlreact];0;off];1;on]\`
+> (musicsettings react);yes]
+$addField[Log Music;> \`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[logmusic];1;off];2;on - reaction];0;on]\`
+> (musicsettings log);yes]
 $color[$getVar[color]]
+$footer[Inspiration by DisTube]
 $addTimestamp
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$getGlobalUserVar[logmusic]!=1;Already disable!]
-$cooldown[$commandInfo[log-off;cooldown];Please wait **%time%** before using again.]
-$suppressErrors[]`
-})
-
-bot.command({
-name: "log-on",
-cooldown: "3s",
-code: `$setGlobalUserVar[logmusic;0]
+$thumbnail[$userAvatar[$clientID;1024]]
+$elseIf[$message[1]==log]
+$if[$getGlobalUserVar[logmusic]==1]
+$setGlobalUserVar[logmusic;0]
 $title[Log music: **enable**]
 $color[$getVar[color]]
 $addTimestamp
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$getGlobalUserVar[logmusic]!=0;Already enable!]
-$cooldown[$commandInfo[log-on;cooldown];Please wait **%time%** before using again.]
-$suppressErrors[]`
-})
-
-bot.command({
-name: "log-on-reaction",
-cooldown: "3s",
-code: `$setGlobalUserVar[logmusic;2]
+$elseIf[$getGlobalUserVar[logmusic]==0]
+$setGlobalUserVar[logmusic;2]
 $title[Log music: **enable** (with reaction control)]
 $color[$getVar[color]]
 $addTimestamp
+$endelseif
+$elseIf[$getGlobalUserVar[logmusic]==2]
+$setGlobalUserVar[logmusic;1]
+$title[Log music: **disable**]
+$color[$getVar[color]]
+$addTimestamp
+$endelseif
+$endif
+$endelseif
+$elseIf[$message[1]==react]
+$if[$getGlobalUserVar[controlreact]==0]
+$description[Command for \`pause, resume, stop, loop, join, disconnect, shuffle, shuffleskip\` will be only return reaction.]
+$addTimestamp
+$color[$getVar[color]]
+$setGlobalUserVar[controlreact;1]
+$onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
+$elseIf[$getGlobalUserVar[controlreact]==1]
+$description[Disabled.]
+$color[$getVar[color]]
+$addTimestamp
+$setGlobalUserVar[controlreact;0]
+$onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
+$endelseif
+$endif
+$endelseif
+$elseIf[$message[1]==stay]
+$if[$getGlobalUserVar[247]==2]
+$title[Off. Now no longer to be stay on voice channel.]
+$color[$getVar[color]]
+$addTimestamp
+$setGlobalUserVar[247;0]
+$elseif[$getGlobalUserVar[247]==0]
+$title[On. Will be stay **2 minutes** on voice channel.]
+$color[$getVar[color]]
+$addTimestamp
+$setGlobalUserVar[247;1]
+$endelseif
+$elseif[$getGlobalUserVar[247]==1]
+$title[On. Will be stay **24/7** on voice channel.]
+$color[$getVar[color]]
+$addTimestamp
+$setGlobalUserVar[247;2]
+$endelseif
+$endif
+$endelseif
+$elseIf[$message[1]==maxvol]
+$if[$message[2]==]
+$author[$serverName]
+$footer[Current Max Volume: $getServerVar[maxvol]%;$serverIcon[$guildID;128]]
+$color[$getVar[color]]
+$elseIf[$message[2]!=]
+$setServerVar[maxvol;$message[2]]
+$title[Changed to \`$message[2]%\`]
+$addTimestamp
+$color[$getVar[color]]
+$onlyIf[$message[2]<=501;Max volume just **500%**]
+$onlyIf[$checkContains[$message[3];-]!=true;You cant set to negative.]
+$onlyPerms[manageserver;Missing Permission, **Manage Server** - User]
+$onlyIf[$message[2]!=;]
+$endelseif
+$endif
+$endelseif
+$endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$getGlobalUserVar[logmusic]!=2;Already enable!]
-$cooldown[$commandInfo[log-on-reaction;cooldown];Please wait **%time%** before using again.]
-$suppressErrors`
+$cooldown[$commandInfo[musicsettings;cooldown];Please wait **%time%** before using again.]`
 })
-
 
 bot.command({
 name: "filter",
@@ -1592,46 +1622,6 @@ $suppressErrors`
 });
 
 bot.command({
-  name: "stay",
-  cooldown: "3s",
-  code: `$if[$message==]
-$addField[Status;> $replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;stay off];1;stay on];2;stay 24/7];no]
-$addField[Stay;> stay off = Turn off.
-> stay on = Turn on.
-> stay 24/7 = Stay 24/7 on voice channel.;no]
-$color[$getVar[color]]
-$footer[Leave the bot from voice channel, to make it works]
-$addTimestamp
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$elseif[$message==off]
-$title[Off. Now no longer to be stay on voice channel.]
-$color[$getVar[color]]
-$addTimestamp
-$setGlobalUserVar[247;0]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$getGlobalUserVar[247]!=0;Already inactive!]
-$endelseif
-$elseif[$message==on]
-$title[On. Will be stay **2 minutes** on voice channel.]
-$color[$getVar[color]]
-$addTimestamp
-$setGlobalUserVar[247;1]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$getGlobalUserVar[247]!=1;Already active!]
-$endelseif
-$elseif[$message==24/7]
-$title[On. Will be stay **24/7** on voice channel.]
-$color[$getVar[color]]
-$addTimestamp
-$setGlobalUserVar[247;2]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$getGlobalUserVar[247]!=2;Already active!]
-$endelseif
-$endif
-$cooldown[$commandInfo[stay;cooldown];Please wait **%time%** before using again.]`
-});
-
-bot.command({
   name: "join",
   aliases: ["j", "summon"],
   cooldown: "3s",
@@ -1729,31 +1719,6 @@ $cooldown[$commandInfo[slash;cooldown];Please wait **%time%** before using again
 $onlyPerms[manageserver;You didnt have permission **Manage Server**.]
 $suppressErrors[failed.]`
 });
-
-bot.command({
- name: "react",
- cooldown: "3s",
- code: `$if[$toLowercase[$message]==on]
-$description[Command for \`pause, resume, stop, loop, join, disconnect, shuffle, shuffleskip\` will be only return reaction.]
-$addTimestamp
-$color[$getVar[color]]
-$setGlobalUserVar[controlreact;1]
-$onlyIf[$getGlobalUserVar[controlreact]!=1;Already enable!]
-$onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
-$elseIf[$toLowercase[$message]==off]
-$description[Disabled.]
-$color[$getVar[color]]
-$addTimestamp
-$setGlobalUserVar[controlreact;0]
-$onlyIf[$getGlobalUserVar[controlreact]!=0;Already disable!]
-$onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
-$endelseif
-$endif
-$argsCheck[1;Available: \`react on / off\`]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
-$cooldown[$commandInfo[react;cooldown];Please wait **%time%** before using again.]
-$suppressErrors`
-})
 
 bot.command({
   name: "pause",
