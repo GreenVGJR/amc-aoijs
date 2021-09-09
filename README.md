@@ -1,9 +1,10 @@
-This is code advanced music for aoi.js, discord bot. (handler version)
+[![amc-aoijs](https://github-readme-stats.vercel.app/api/pin/?username=greenvgjr&repo=amc-aoijs&theme=dark)](https://github.com/GreenVGJR/amc-aoijs/)<br/>
 
-Ver. *4.4.4 - 5.0.0*
+### This is code advanced music for aoi.js, discord bot.
 
-Last Update: *August 14 2021 - 13.41 WIB (GMT +7)*
+```
+Ver. 4.4.4 - 5.0.0
 
-[List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler](https://github.com/GreenVGJR/amc-aoijs/tree/handler) | [Non-Handler](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler)
-
-not yet done
+Last Update: September 9 2021 - 09.55 WIB (GMT +7)
+```
+##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler](https://github.com/GreenVGJR/amc-aoijs/tree/handler) | [Non-Handler](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler)
