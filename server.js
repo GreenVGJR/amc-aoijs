@@ -18,5 +18,5 @@ bot.onMessage()
 bot.onInteractionCreate()
 
 //Handlers//
-bot.variables(require(`./handlers/variable`))
+bot.variables(require(`./handlers/variables.js`))
 bot.loadCommands(`./commands`)
