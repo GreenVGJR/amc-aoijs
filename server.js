@@ -35,7 +35,7 @@ bot.variables({
   dc: "Disconnected.",
 
   //Changing Other//
-  clientidsoundcloud: "U5LTZLyHCTli23KWKwRh0XXtNd2vDq8f",
+  clientidsoundcloud: "",
   color: "000000",
   permission: "2176183360",
   userid: "default",
@@ -80,53 +80,6 @@ bot.variables({
 //Callbacks
 bot.onMessage();
 bot.onInteractionCreate();
-
-bot.loopCommand({
- channel: "819733499451277337",
- executeOnStartup: true,
- every: 3500,
- code: `$author[Status;$serverIcon[$guildID;2048]]
-$description[__Owner__
-
-$replaceText[$replaceText[$replaceText[$replaceText[$status[681124961494237442];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[681124961494237442]\`
-
-
-__Staff__
-
-$replaceText[$replaceText[$replaceText[$replaceText[$status[690390562230108170];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[690390562230108170]\`
-$replaceText[$replaceText[$replaceText[$replaceText[$status[710465413321850900];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[710465413321850900]\`
-
-
-__Bot__
-
-$replaceText[$replaceText[$replaceText[$replaceText[$status[734582194390958153];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[734582194390958153]\`
-$replaceText[$replaceText[$replaceText[$replaceText[$status[735982943331287222];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[735982943331287222]\`
-
-
-__Other Bot__
-
-**Reaction**
-$replaceText[$replaceText[$replaceText[$replaceText[$status[338222603829510164];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[338222603829510164]\`
-$replaceText[$replaceText[$replaceText[$replaceText[$status[550613223733329920];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[550613223733329920]\`
-
-**Moderation**
-$replaceText[$replaceText[$replaceText[$replaceText[$status[543645076862140419];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[543645076862140419]\`
-
-**Anime Soul**
-$replaceText[$replaceText[$replaceText[$replaceText[$status[673362753489993749];offline;<:offline:771219463818313728>];online;<:online:755391389831004181>];idle;<:idle:771219272764489758>];dnd;<:dnd:771219987385942016>] \`$userTag[673362753489993749]\`
-
-
-__Monitor__
-
-<:vg_cpu:820153356819103766> $cpu%
-💾 $ramMB - $truncate[$ram]MB
-📶 $pingms
-📶 $dbpingms]
-$footer[Update every 3-4 seconds]
-$addTimestamp
-$color[$getVar[color]]
-`
-})
 
 bot.readyCommand({
     channel: "$getVar[channelstatus]",
