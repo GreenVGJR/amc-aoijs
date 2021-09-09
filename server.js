@@ -16,7 +16,6 @@ bot.status({
 //Callbacks//
 bot.onMessage()
 bot.onInteractionCreate()
-bot.readyCommand()
 
 //Handlers//
 bot.variables(require(`./handlers/variable`))
