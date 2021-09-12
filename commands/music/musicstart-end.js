@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = [{
 type: "musicStartCommand",
   channel: "$channelID",
   code: `$if[$getGlobalUserVar[saveseek;$songInfo[userID]]!=0]
