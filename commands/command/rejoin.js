@@ -2,7 +2,9 @@ module.exports = {
   name: "rejoin",
   aliases: ["reconnect"],
   cooldown: "3s",
-  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+  code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
 $if[$voiceID[$clientID]==]
 $joinVC[$voiceID]
 $else
