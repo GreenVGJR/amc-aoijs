@@ -17,6 +17,7 @@
     "ffmpeg-static": "^4.4.0",
     "node-opus": "^0.3.3",
     "opusscript": "^0.0.8",
-    "ytdl-core": "^4.9.1"
+    "ytdl-core": "^4.9.1",
+    "tweetnacl": "^1.0.3"
   }
 }
