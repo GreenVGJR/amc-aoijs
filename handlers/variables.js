@@ -32,10 +32,6 @@ module.exports = {
   filters: "none",
   controlreact: "0",
   saveseek: "0",
-  cachefuncs: "",
-  cachedescs: "",  
-  cacheerrors: "",
-  cachemessage: "",
   durationcache: "0",
   reactmessageid: "",
   nontrigger: "0", //for disable play message when react active//
