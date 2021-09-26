@@ -1,7 +1,9 @@
 module.exports = {
   name: "move", 
   cooldown: "3s",
-  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+  code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
 $moveUser[$authorID;$findChannel[$message]]
 $moveUser[$clientID;$findChannel[$message]]
 $addCmdReactions[✅]
