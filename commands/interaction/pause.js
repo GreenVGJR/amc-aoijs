@@ -1,7 +1,8 @@
 module.exports = {
 type: "interactionCommand",
 name: "pause",
-code: `$if[$getGlobalUserVar[controlreact]==0]
+code: `$pauseSong
+$if[$getGlobalUserVar[controlreact]==0]
 $title[$getVar[pause]]
 $color[$getVar[color]]
 $addTimestamp
