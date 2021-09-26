@@ -49,10 +49,6 @@ bot.variables({
   filters: "none",
   controlreact: "0",
   saveseek: "0",
-  cachefuncs: "",
-  cachedescs: "",  
-  cacheerrors: "",
-  cachemessage: "",
   durationcache: "0",
   reactmessageid: "",
   nontrigger: "0", //for disable play message when react active//
@@ -437,15 +433,14 @@ $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Ad
 $cooldown[$commandInfo[play;cooldown];Please wait **%time%** before using again.]
 $argsCheck[>1;Please write name of song or put link video.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$onlyIf[$sum[$membersCount[$guildID;online];$membersCount[$guildID;idle];$membersCount[$guildID;dnd]]!=0;Cant execute this command.
-> **Permission need: "members intent" & "presence intent"**]
 $suppressErrors[something just happened.]
 $interactionReply[\`$userTag[$authorID]\` using slash.]`
 })
 
 bot.interactionCommand({
 name: "pause",
-code: `$if[$getGlobalUserVar[controlreact]==0]
+code: `$pauseSong
+$if[$getGlobalUserVar[controlreact]==0]
 $title[$getVar[pause]]
 $color[$getVar[color]]
 $addTimestamp
@@ -512,9 +507,6 @@ $interactionReply[\`$userTag[$authorID]\` using slash.]`
 bot.musicStartCommand({
   channel: "$channelID",
   code: `$if[$checkContains[$getGlobalUserVar[logmusic;$songInfo[userID]];0;1]-$hasPerms[$clientID;addreactions]==true-true]
-$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
-$deleteMessage[$getUserVar[reactmessageid;$clientID]]
-$endif
 $author[Started Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]]
 $title[$songInfo[title]]
 $addField[Filters;\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`;no]
@@ -536,7 +528,7 @@ $thumbnail[$songInfo[thumbnail]]
 $color[$getVar[color]]
 $elseIf[$checkContains[$getGlobalUserVar[logmusic;$songInfo[userID]];0;1]-$hasPerms[$clientID;addreactions]==false-true]
 $setUserVar[reactmessageid;$get[a];$clientID]
-$reactionCollector[$get[a];$songInfo[userID];1d;🔄,⏯,⏹,⏭,🔁,🔀;clearqueueyes,resume-pause,stop,skip,loop,recentshuffle;yes]
+$reactionCollector[$get[a];$songInfo[userID];1h;🔄,⏯,⏹,⏭,🔁,🔀;clearqueueyes,resume-pause,stop,skip,loop,recentshuffle;yes]
 $wait[$ping]
 $let[a;$sendMessage[{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
 {title:$songInfo[title]}
@@ -697,7 +689,7 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]`
 bot.awaitedCommand({
 name: "top",
 code: `$deletecommand
-$title[Top Playing Song]
+$title[Top Playing Song - $numberSeparator[$charCount[$globalUserLeaderboard[userused;asc;\`) {top} {username} - {value}\`]]]]
 $description[$globalUserLeaderboard[userused;asc;\`) {top} {username} - {value}\`]]
 $color[$getVar[color]]
 $addTimestamp`
@@ -758,7 +750,8 @@ $onlyIf[$queueLength!=0;]`
 
 bot.awaitedCommand({
 name: "skip",
-code: `$setUserVar[nontrigger;1;$clientID]
+code: `$loop[1;recentskipplay]
+$setUserVar[nontrigger;1;$clientID]
 $skipSong
 $editMessage[$getUserVar[reactmessageid;$clientID];{title:$replaceText[$getVar[skip];{song};$songInfo[title]]}
 {thumbnail:$songInfo[thumbnail;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]}
@@ -812,6 +805,8 @@ $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Ad
 $cooldown[$commandInfo[play;cooldown];Please wait **%time%** before using again.]
 $argsCheck[>1;Please write name of song or put link video.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
+$onlyIf[$sum[$membersCount[$guildID;online];$membersCount[$guildID;idle];$membersCount[$guildID;dnd]]!=0;Cant execute this command.
+> **Permission need: "members intent" & "presence intent"**]
 $suppressErrors`
 });
 
@@ -834,6 +829,8 @@ $cooldown[$commandInfo[playskip;cooldown];Please wait **%time%** before using ag
 $argsCheck[>1;Please write name of song or put link video.]
 $onlyIf[$queueLength>=1;Require **1 song** to run it.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
+$onlyIf[$sum[$membersCount[$guildID;online];$membersCount[$guildID;idle];$membersCount[$guildID;dnd]]!=0;Cant execute this command.
+> **Permission need: "members intent" & "presence intent"**]
 $suppressErrors`
 });
 
@@ -865,6 +862,8 @@ $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Ad
 $cooldown[$commandInfo[soundcloud;cooldown];Please wait **%time%** before using again.]
 $argsCheck[>1;Please put link song that from soundcloud.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
+$onlyIf[$sum[$membersCount[$guildID;online];$membersCount[$guildID;idle];$membersCount[$guildID;dnd]]!=0;Cant execute this command.
+> **Permission need: "members intent" & "presence intent"**]
 $suppressErrors`
 });
 
@@ -1643,7 +1642,9 @@ bot.command({
   name: "rejoin",
   aliases: ["reconnect"],
   cooldown: "3s",
-  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+  code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
 $if[$voiceID[$clientID]==]
 $joinVC[$voiceID]
 $else
@@ -1662,7 +1663,9 @@ bot.command({
   name: "disconnect",
   aliases: ["dc", "bye", "leave"],
   cooldown: "3s",
-  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+  code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
 $if[$hasPerms[$clientID;movemembers]==true]
 $moveUser[$authorID]
 $endif
@@ -1685,7 +1688,9 @@ $suppressErrors[something just happened.]`
 bot.command({
   name: "move", 
   cooldown: "3s",
-  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+  code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
 $moveUser[$authorID;$findChannel[$message]]
 $moveUser[$clientID;$findChannel[$message]]
 $addCmdReactions[✅]
@@ -1841,23 +1846,11 @@ $argsCheck[>1;what]`
 
 bot.command({
   name: "funcs",
-  code: `$if[$noMentionMessage==$getGlobalUserVar[cachemessage]]
-$author[$getGlobalUserVar[cachedescs]$getGlobalUserVar[cacheerrors]]
-Usage: \`$getGlobalUserVar[cachefuncs]\`
-$color[$getVar[color]]
-$addTimestamp
-$else
-$setGlobalUserVar[cachemessage;$noMentionMessage]
-$setGlobalUserVar[cacheerrors;$getObjectProperty[message]]
-$setGlobalUserVar[cachedescs;$getObjectProperty[data[0].desc]]
-$setGlobalUserVar[cachefuncs;$getObjectProperty[data[0].usage]]
-$wait[1s]
-$author[$getObjectProperty[data[0].desc]$getObjectProperty[message]]
+  code: `$author[$getObjectProperty[data[0].desc]$getObjectProperty[message]]
 Usage: \`$getObjectProperty[data[0].usage]\`
 $createObject[$jsonRequest[https://api.leref.ga/functions/$message;;Functions \`$message\` not found.]]
 $color[$getVar[color]]
 $addTimestamp
-$endif
 $argsCheck[>1;Functions?]
 $onlyIf[$checkContains[$botOwnerID;$authorID]!=false;]`
 });
@@ -1986,7 +1979,9 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 bot.command({
   name: "stop",
   cooldown: "3s",
-  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+  code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
 $setServerVar[durationcache;0]
 $stopSong
 $if[$getGlobalUserVar[controlreact]==0]
@@ -2188,6 +2183,8 @@ $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Ad
 $cooldown[$commandInfo[playlist-play;cooldown];Please wait **%time%** before using again.]
 $argsCheck[1;Usage: \`playlist-play (number playlist)\`]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
+$onlyIf[$sum[$membersCount[$guildID;online];$membersCount[$guildID;idle];$membersCount[$guildID;dnd]]!=0;Cant execute this command.
+> **Permission need: "members intent" & "presence intent"**]
 $suppressErrors[something just happened.]`
 });
 
