@@ -2,7 +2,9 @@ module.exports = {
   name: "disconnect",
   aliases: ["dc", "bye", "leave"],
   cooldown: "3s",
-  code: `$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+  code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
+$deleteMessage[$getUserVar[reactmessageid;$clientID]]
+$endif
 $if[$hasPerms[$clientID;movemembers]==true]
 $moveUser[$authorID]
 $endif
