@@ -3,8 +3,8 @@
 ### This is code advanced music for aoi.js, discord bot.
 
 ```
-Ver. 4.4.4 - 5.0.0
+Ver. 4.5.0 - 5.0.0
 
-Last Update: September 26 2021 - 22.46 WIB (GMT +7)
+Last Update: October 01 2021 - 17.33 WIB (GMT +7)
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler (Unstable)](https://github.com/GreenVGJR/amc-aoijs/tree/handler) | [Non-Handler](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler)
