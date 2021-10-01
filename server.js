@@ -79,7 +79,8 @@ bot.onInteractionCreate();
 
 bot.readyCommand({
     channel: "$getVar[channelstatus]",
-    code: `$editIn[$botPing;Reseted.;Reseted. **$serverCount Servers**]
+    code: `$log[Filter reseted.]
+$editIn[$botPing;Reseted.;Reseted. **$serverCount Servers**]
 $forEachGuild[massfilter]
 Reseting Filter..
 $setVar[last;$dateStamp]
@@ -1040,7 +1041,7 @@ $addField[Members;> $numberSeparator[$allMembersCount];yes]
 $addField[RAM Left;> $cropText[$divide[$sub[$maxRam;$ram];1024];4]GB;yes]
 $addField[RAM;> $cropText[$divide[$ram;1024];4]GB;yes]
 $addField[CPU;> $cropText[$cpu;4]%;yes]
-$addField[Is Deafen/Mute;> $replaceText[$isDeafened[$clientID];null;false] / $replaceText[$isMuted[$clientID];null;false];yes]
+$addField[Is Deafen/Mute;> $replaceText[$isDeafened[$clientID];null;false]-$isSelfDeafened[$clientID] / $replaceText[$isMuted[$clientID];null;false]-$isSelfMuted[$clientID];yes]
 $addField[Is Playing;> $checkCondition[$queueLength!=0];yes]
 $addField[Is Connect;> $checkCondition[$voiceID[$clientID]!=];yes]
 $addField[API Ping;> $numberSeparator[$botPing]ms;yes]
