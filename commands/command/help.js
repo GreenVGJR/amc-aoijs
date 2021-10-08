@@ -6,7 +6,7 @@ __Owner Command__
 \`reboot, eval, funcs\`
 $endif
 $title[Command List]
-$addField[> Control;\`\`\`kt
+$addField[> Control;\`\`\`
 - playskip 
 - pause
 - resume
@@ -26,21 +26,21 @@ $addField[> Control;\`\`\`kt
 - filter
 - musicsettings
 \`\`\`;no]
-$addField[> Playlist;\`\`\`kt
+$addField[> Playlist;\`\`\`
 - playlist
 - playlist-add
 - playlist-remove
 - playlist-play
 \`\`\`;yes]
 $addField[> Slash;
-\`\`\`kt
+\`\`\`
 - /filter
 - /play
 - /pause
 - /resume
 - /stop
 \`\`\`;yes]
-$addField[> Aliases;\`\`\`kt
+$addField[> Aliases;\`\`\`
 - join
 (j, summon)
 - disconnect
@@ -74,7 +74,7 @@ $addField[> Aliases;\`\`\`kt
 - musicsettings
 (musicsetting, musicset)
 \`\`\`;no]
-$addField[> Misc;\`\`\`kt
+$addField[> Misc;\`\`\`
 - ping
 - uptime
 - stats
@@ -84,11 +84,11 @@ $addField[> Misc;\`\`\`kt
 - top
 - download (--refresh)
 \`\`\`;yes]
-$addField[> Music Player;\`\`\`kt
+$addField[> Music Player;\`\`\`
 - play
 - soundcloud
 \`\`\`;yes]
-$addField[> Main;\`\`\`kt
+$addField[> Main;\`\`\`
 - join
 - rejoin
 - disconnect
