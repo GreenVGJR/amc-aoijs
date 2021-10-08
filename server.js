@@ -3,6 +3,7 @@ const Aoijs = require("aoi.js")
 const bot = new Aoijs.Bot({
 token: "TOKEN", 
 prefix: "whatever",  //<- Change whatever with your prefix//
+mobile: true,
 connectedBots: true
 })
 
