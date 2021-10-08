@@ -5,6 +5,6 @@
 ```
 Ver. 4.5.0 - 5.0.0
 
-Last Update: October 01 2021 - 17.33 WIB (GMT +7)
+Last Update: October 08 2021 - 22.48 WIB (GMT +7)
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler (Unstable)](https://github.com/GreenVGJR/amc-aoijs/tree/handler) | [Non-Handler](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler)
