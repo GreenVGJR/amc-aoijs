@@ -21,6 +21,14 @@ $deafenUser[$clientID;yes]
 $onlyBotPerms[deafenmembers;]
 $else
 $endif
+$if[$isSelfDeafened[$clientID]==false]
+$title[Non-self-Deafened]
+$description[<@$clientID> Failed to self-deafen.]
+$color[$getVar[color]]
+$addTimestamp
+$deleteIn[2s]
+$onlyIf[$isDeafened[$clientID]==true;]
+$endif
 $if[$checkContains[$songInfo[url];https://youtube.com/]==true]
 $setServerVar[linkdownload;https://api.vevioz.com/?v=$replaceText[$songInfo[url];https://youtube.com/watch?v=;]&type=mp3&bitrate=320]
 $else
