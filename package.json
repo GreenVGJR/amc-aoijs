@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
-    "aoi.js": "^4.4.4",
+    "aoi.js": "^4.5.0",
     "ffmpeg-static": "^4.4.0",
     "node-opus": "^0.3.3",
     "opusscript": "^0.0.8",
