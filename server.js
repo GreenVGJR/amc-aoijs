@@ -2173,8 +2173,6 @@ $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Ad
 $cooldown[3s;Please wait **%time%** before using again.]
 $argsCheck[1;Usage: \`playlist-play (number playlist)\`]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$onlyIf[$sum[$membersCount[$guildID;online];$membersCount[$guildID;idle];$membersCount[$guildID;dnd]]!=0;Cant execute this command.
-> **Permission need: "members intent" & "presence intent"**]
 $suppressErrors[something just happened.]`
 });
 
