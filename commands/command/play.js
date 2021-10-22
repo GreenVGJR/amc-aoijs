@@ -1,7 +1,6 @@
 module.exports = {
   name: "play",
   aliases: ["youtube", "p", "yt"],
-  cooldown: "3s",
   code: `$if[$queueLength<1]
 $deleteMessage[$get[id]]
 $wait[3s]
@@ -37,7 +36,7 @@ $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
-$cooldown[$commandInfo[play;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $argsCheck[>1;Please write name of song or put link video.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors`
