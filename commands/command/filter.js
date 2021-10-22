@@ -1,12 +1,11 @@
 module.exports = {
 name: "filter",
-cooldown: "3s",
 code: `$if[$message[1]==]
 $title[Filter]
 $description[\`\`\`
 3  ) bass, pitch, speed
 
-29 ) 3d, 8d, 8d-v2, double, delay, chorus, clarity, deep, distorted, echo, earwax, fan, flanger, gate, half, high, low, mid, nightcore, nightcore-normal, phaser, pulsator, pulsator-2x, purebass, space, surround, vaporwave, vibrato, vibrato-2x
+30 ) 3d, 8d, 8d-v2, chipmunk, chorus, clarity, distorted, deep, delay, double, echo, earwax, fan, flanger, gate, half, high, low, mid, nightcore, nightcore-normal, phaser, pulsator, pulsator-2x, purebass, space, surround, vaporwave, vibrato, vibrato-2x
 
 2  ) all, clear
 \`\`\`]
@@ -19,6 +18,15 @@ $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.3;speed:0.775;ea
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Nightcore} {color:$getVar[color]}]
 $setServerVar[filters;Nightcore]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$onlyIf[$queueLength!=0;$getVar[errorqueue]]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]
+$endelseif
+$elseif[$toLowercase[$message[1]]==chipmunk]
+$songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.9;speed:0.550;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
+Applying..
+$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Chipmunk} {color:$getVar[color]}]
+$setServerVar[filters;Chipmunk]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
@@ -334,6 +342,6 @@ $endif
 $onlyIf[$songInfo[duration]!=0 Seconds (00:00:00);\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$cooldown[$commandInfo[filter;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]`
 }
