@@ -1,7 +1,6 @@
 module.exports = {
   name: "qloop",
   aliases: ["ql", "loopqueue"],
-  cooldown: "3s",
   code: `$if[$getGlobalUserVar[controlreact]==1]
 $let[let you down;$loopQueue]
 $addCmdReactions[🔁]
@@ -14,7 +13,7 @@ $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$loopStatus!=song;You currently active **song loop.**]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$cooldown[$commandInfo[qloop;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[]`
