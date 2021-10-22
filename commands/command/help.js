@@ -1,12 +1,11 @@
 module.exports = {
   name: "help",
-  cooldown: "3s",
   code: `$if[$checkContains[$botOwnerID;$authorID]==true]
 __Owner Command__
 \`reboot, eval, funcs\`
 $endif
 $title[Command List]
-$addField[> Control;\`\`\`
+$addField[> Control;\`\`\`kt
 - playskip 
 - pause
 - resume
@@ -26,21 +25,21 @@ $addField[> Control;\`\`\`
 - filter
 - musicsettings
 \`\`\`;no]
-$addField[> Playlist;\`\`\`
+$addField[> Playlist;\`\`\`kt
 - playlist
 - playlist-add
 - playlist-remove
 - playlist-play
 \`\`\`;yes]
 $addField[> Slash;
-\`\`\`
+\`\`\`kt
 - /filter
 - /play
 - /pause
 - /resume
 - /stop
 \`\`\`;yes]
-$addField[> Aliases;\`\`\`
+$addField[> Aliases;\`\`\`kt
 - join
 (j, summon)
 - disconnect
@@ -70,11 +69,11 @@ $addField[> Aliases;\`\`\`
 - queue
 (q)
 - volume
-(v)
+(v, vol)
 - musicsettings
 (musicsetting, musicset)
 \`\`\`;no]
-$addField[> Misc;\`\`\`
+$addField[> Misc;\`\`\`kt
 - ping
 - uptime
 - stats
@@ -84,11 +83,11 @@ $addField[> Misc;\`\`\`
 - top
 - download (--refresh)
 \`\`\`;yes]
-$addField[> Music Player;\`\`\`
+$addField[> Music Player;\`\`\`kt
 - play
 - soundcloud
 \`\`\`;yes]
-$addField[> Main;\`\`\`
+$addField[> Main;\`\`\`kt
 - join
 - rejoin
 - disconnect
@@ -101,5 +100,5 @@ $footer[Ping: $pingms - API: $botpingms - DB: $dbPingms]
 $thumbnail[$userAvatar[$clientID]]
 $color[$getVar[color]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$cooldown[$commandInfo[help;cooldown];Please wait **%time%** before using again.]`
+$cooldown[3s;Please wait **%time%** before using again.]`
 }
