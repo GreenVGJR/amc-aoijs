@@ -1,9 +1,8 @@
 module.exports = {
   name: "download",
-  cooldown: "3s",
   code: `$if[$checkContains[$songInfo[url] $suppressErrors;https://soundcloud.com/]==true]
 $attachment[$getServerVar[linkdownload];$cropText[$songInfo[title];28]_128_Bitrate.mp3]
-$onlyIf[$checkContains[$getServerVar[linkdownload];playlist.m3u8]!=true;no download song available.]
+$onlyIf[$checkContains[$getServerVar[linkdownload];playlist.m3u8]!=true;not available.]
 $endif
 $if[$toLowercase[$message]==]
 $color[$getVar[color]]
@@ -21,5 +20,5 @@ $onlyBotPerms[attachfiles;Missing Permission **Attach Files** - Bot]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
-$cooldown[$commandInfo[download;cooldown];Please wait **%time%** before using again.]`
+$cooldown[3s;Please wait **%time%** before using again.]`
 }
