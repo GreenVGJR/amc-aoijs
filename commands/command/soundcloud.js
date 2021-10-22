@@ -1,7 +1,6 @@
 module.exports = {
   name: "soundcloud",
   aliases: ["sc"],
-  cooldown: "3s",
   code: `$if[$queueLength<1]
 $deleteMessage[$get[id]]
 $wait[3s]
@@ -29,7 +28,7 @@ $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
-$cooldown[$commandInfo[soundcloud;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $argsCheck[>1;Please put link song that from soundcloud.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors`
