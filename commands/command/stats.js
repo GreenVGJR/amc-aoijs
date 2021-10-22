@@ -1,6 +1,5 @@
 module.exports = {
   name: "stats",
-  cooldown: "3s",
   code: `$color[$getVar[color]]
 $addField[Size Database;> $cropText[$fileSize[$getVar[database];kb];5]KB;yes]
 $addField[Size Code;> $cropText[$fileSize[$getVar[file];kb];5]KB;yes]
@@ -10,9 +9,9 @@ $addField[Members;> $numberSeparator[$allMembersCount];yes]
 $addField[RAM Left;> $cropText[$divide[$sub[$maxRam;$ram];1024];4]GB;yes]
 $addField[RAM;> $cropText[$divide[$ram;1024];4]GB
 > (Used)
-> $truncate[$cropText[$djsEval[process.memoryUsage().heapTotal / 1024 / 1024;yes];4]]MB
-> (Virtual Used)
-> $truncate[$cropText[$djsEval[process.memoryUsage().external / 1024 / 1024;yes];4]]MB
+> $truncate[$djsEval[process.memoryUsage().heapTotal / 1024 / 1024;yes]]MB
+> (Heap)
+> $truncate[$djsEval[process.memoryUsage().external / 1024 / 1024;yes]]MB
 > (External);yes]
 $addField[CPU;> $cropText[$cpu;4]%;yes]
 $addField[Is Deafen/Mute;> $replaceText[$isDeafened[$clientID];null;false]-$replaceText[$isSelfDeafened[$clientID];null;false] / $replaceText[$isMuted[$clientID];null;false]-$replaceText[$isSelfMuted[$clientID];null;false];yes]
@@ -29,5 +28,5 @@ $thumbnail[$userAvatar[$clientID]]
 $addTimestamp
 $cacheMembers
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$cooldown[$commandInfo[stats;cooldown];Please wait **%time%** before using again.]`
+$cooldown[3s;Please wait **%time%** before using again.]`
 }
