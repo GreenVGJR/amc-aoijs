@@ -1,6 +1,5 @@
 module.exports = {
   name: "check",
-  cooldown: "3s",
   code: `$title[Check]
 $description[\`\`\`
 Public       : $replaceText[$replaceText[$client[ispublic];true;✅];false;❌]
@@ -41,5 +40,5 @@ $footer[Color: $getVar[color]
 Latency: $numberSeparator[$botPing]ms]
 $addTimestamp
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$cooldown[$commandInfo[check;cooldown];Please wait **%time%** before using again.]`
+$cooldown[3s;Please wait **%time%** before using again.]`
 }
