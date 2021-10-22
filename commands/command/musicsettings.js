@@ -1,7 +1,6 @@
 module.exports = {
  name: "musicsettings",
  aliases: ["musicsetting", "musicset"],
- cooldown: "3s",
  code: `$if[$message[1]==]
 $addField[Max Volume;> \`$getServerVar[maxvol]%\`
 > (musicsettings maxvol <value>);yes]
@@ -90,5 +89,5 @@ $endif
 $endelseif
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$cooldown[$commandInfo[musicsettings;cooldown];Please wait **%time%** before using again.]`
+$cooldown[3s;Please wait **%time%** before using again.]`
 }
