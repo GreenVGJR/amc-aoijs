@@ -1,6 +1,5 @@
 module.exports = {
   name: "pause",
-  cooldown: "3s",
   code: `$pauseSong
 $if[$getGlobalUserVar[controlreact]==0]
 $title[$getVar[pause]]
@@ -15,7 +14,7 @@ $setServerVar[durationcache;$splitText[1]]
 $textSplit[$songInfo[current_duration]; ]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$cooldown[$commandInfo[pause;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 }
