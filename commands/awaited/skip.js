@@ -1,8 +1,7 @@
 module.exports = {
 type: "awaitedCommand",
 name: "skip",
-code: `$loop[1;recentskipplay]
-$setUserVar[nontrigger;1;$clientID]
+code: `$setUserVar[nontrigger;1;$clientID]
 $skipSong
 $editMessage[$getUserVar[reactmessageid;$clientID];{title:$replaceText[$getVar[skip];{song};$songInfo[title]]}
 {thumbnail:$songInfo[thumbnail;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]}
