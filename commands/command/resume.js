@@ -1,6 +1,5 @@
 module.exports = {
   name: "resume",
-  cooldown: "3s",
   code: `$if[$getServerVar[durationcache]==0]
 $resumeSong
 $else
@@ -19,7 +18,7 @@ $endelseif
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$cooldown[$commandInfo[resume;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 }
