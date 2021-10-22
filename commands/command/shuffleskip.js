@@ -1,7 +1,6 @@
 module.exports = {
   name: "shuffleskip",
   aliases: ["sfs"],
-  cooldown: "3s",
   code: `$skipSong
 $if[$getGlobalUserVar[controlreact]==1]
 $addCmdReactions[🔀;⏭]
@@ -23,7 +22,7 @@ $shuffleQueue
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength>1;Only have **$queueLength song**.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$cooldown[$commandInfo[shuffleskip;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 }
