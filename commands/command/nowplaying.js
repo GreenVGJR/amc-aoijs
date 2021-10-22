@@ -1,7 +1,6 @@
 module.exports = {
   name: "nowplaying",
   aliases: ["np"],
-  cooldown: "3s",
   code: `$author[Now Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]]
 $title[$songInfo[title]]
 $addField[Filters;\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`;yes]
@@ -28,6 +27,6 @@ $thumbnail[$songInfo[thumbnail]]
 $color[$getVar[color]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$cooldown[$commandInfo[nowplaying;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 }
