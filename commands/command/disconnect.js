@@ -1,7 +1,6 @@
 module.exports = {
   name: "disconnect",
   aliases: ["dc", "bye", "leave"],
-  cooldown: "3s",
   code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
 $deleteMessage[$getUserVar[reactmessageid;$clientID]]
 $endif
@@ -18,7 +17,7 @@ $else
 $getVar[dc]
 $endif
 $onlyIf[$voiceID[$clientID]!=;Already disconnected!]
-$cooldown[$commandInfo[disconnect;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[something just happened.]`
