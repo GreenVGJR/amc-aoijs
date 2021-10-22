@@ -1,6 +1,5 @@
 module.exports = {
 name: "playlist",
-cooldown: "3s",
 code: `$author[Playlist $username's;$getVar[customemoji1]]
 $description[1) $getGlobalUserVar[1]
 2) $getGlobalUserVar[2]
@@ -17,5 +16,5 @@ $addTimestamp
 $color[$getVar[color]]
 $thumbnail[$userAvatar[$authorID;512]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$cooldown[$commandInfo[playlist;cooldown];Please wait **%time%** before using again.]`
+$cooldown[3s;Please wait **%time%** before using again.]`
 }
