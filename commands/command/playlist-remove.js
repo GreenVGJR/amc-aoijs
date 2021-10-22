@@ -1,6 +1,5 @@
 module.exports = {
 name: "playlist-remove",
-cooldown: "3s",
 code: `$setGlobalUserVar[$message[1];]
 $title[Your song has remove on $message[1]]
 $color[$getVar[color]]
