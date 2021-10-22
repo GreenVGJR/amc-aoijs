@@ -1,7 +1,6 @@
 module.exports = {
   name: "playskip",
   aliases: ["ps"],
-  cooldown: "3s",
   code: `$if[$checkContains[$getGlobalUserVar[logmusic];0;1]==false]
 $deleteMessage[$getUserVar[reactmessageid;$clientID]]
 $endif
@@ -13,7 +12,7 @@ $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
-$cooldown[$commandInfo[playskip;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $argsCheck[>1;Please write name of song or put link video.]
 $onlyIf[$queueLength>=1;Require **1 song** to run it.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
