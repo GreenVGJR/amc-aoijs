@@ -32,7 +32,7 @@ $onlyIf[$isNumber[$message[1]]!=false;Must number!]
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
-$cooldown[$commandInfo[playlist-play;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $argsCheck[1;Usage: \`playlist-play (number playlist)\`]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[something just happened.]`
