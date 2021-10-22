@@ -1,7 +1,6 @@
 module.exports = {
   name: "skip",
   aliases: ["s"],
-  cooldown: "3s",
   code: `$if[$message[1]==]
 $skipSong
 $title[$replaceText[$getVar[skip];{song};$songInfo[title]]]
@@ -35,7 +34,7 @@ $endelseif
 $endif
 $onlyIf[$queueLength>1;Only have **$queueLength song**.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$cooldown[$commandInfo[skip;cooldown];Please wait **%time%** before using again.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 }
