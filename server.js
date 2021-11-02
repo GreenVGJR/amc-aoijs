@@ -35,8 +35,8 @@ bot.variables({
   dc: "Disconnected.",
 
   //Changing Other//
-  clientidsoundcloud: "",
-  color: "000000",
+  clientidsoundcloud: "", //for soundcloud
+  color: "000001",
   permission: "2176183360",
   userid: "default",
   logmusic: "0",
@@ -72,11 +72,7 @@ bot.variables({
   8: "",
   9: "",
   10: ""
-});
-
-//Callbacks
-bot.onMessage();
-bot.onInteractionCreate();
+})
 
 bot.readyCommand({
     channel: "$getVar[channelstatus]",
@@ -410,7 +406,7 @@ $endelseif
 $else
 There no filter \`$message\`.
 $endif
-$onlyIf[$songInfo[duration]!=0 Seconds (00:00:00);\`This track was LIVE\`]
+$onlyIf[$songInfo[duration]!=0 Seconds;\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $cooldown[3s;Please wait **%time%** before using again.]
@@ -432,7 +428,7 @@ $thumbnail[$songInfo[thumbnail;$sub[$queueLength;1]]]
 $addField[Filters;\`$getServerVar[filters]\`;no]
 $addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
 $addField[Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
 $addField[Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
 $color[$getVar[color]]
 $textSplit[$songInfo[duration;$sub[$queueLength;1]]; ]
@@ -535,8 +531,8 @@ $addField[Ping;\`$dbPingms\`;yes]
 $addField[Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;[YouTube](https://www.youtube.com/)];false;[Soundcloud](https://soundcloud.com/)];yes]
 $addField[URL;[Song]($songInfo[url] "$songInfo[title]");yes] 
 $addField[Volume;\`$volume%\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
-$addField[$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;Streaming];false;Uploaded] By;[$songInfo[publisher]]($songInfo[publisher_url]);yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;Streaming];false;Uploaded] By;[$songInfo[publisher]]($songInfo[publisher_url]);yes]
 $addField[Running At;$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null];yes]
 $addField[Requested By;<@$songInfo[userID]>;yes]
 $textSplit[$songInfo[duration]; ]
@@ -545,14 +541,14 @@ $thumbnail[$songInfo[thumbnail]]
 $color[$getVar[color]]
 $elseIf[$checkContains[$getGlobalUserVar[logmusic;$songInfo[userID]];0;1]-$hasPerms[$clientID;addreactions]==false-true]
 $setUserVar[reactmessageid;$get[a];$clientID]
-$reactionCollector[$get[a];$songInfo[userID];1h;🔄,⏯,⏹,⏭,🔁,🔀;clearqueueyes,resume-pause,stop,skip,loop,recentshuffle;yes]
+$reactionCollector[$get[a];$songInfo[userID];1d;🔄,⏯,⏹,⏭,🔁,🔀;clearqueueyes,resume-pause,stop,skip,loop,recentshuffle;yes]
 $wait[$ping]
 $let[a;$sendMessage[{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
 {title:$songInfo[title]}
 {field:Requested By:<@$songInfo[userID]>:yes}
 {field:Running At:$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null]:yes}
-{field:$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;Streaming];false;Uploaded] By:[$songInfo[publisher]]($songInfo[publisher_url]):yes}
-{field:Duration:\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`:yes}
+{field:$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;Streaming];false;Uploaded] By:[$songInfo[publisher]]($songInfo[publisher_url]):yes}
+{field:Duration:\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`:yes}
 {field:Volume:\`$volume%\`:yes}
 {field:URL:[Song]($songInfo[url] "$songInfo[title]"):yes}
 {field:Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;[YouTube](https://www.youtube.com/)];false;[Soundcloud](https://soundcloud.com/)]:yes}
@@ -580,9 +576,8 @@ code: `$editMessage[$getUserVar[reactmessageid;$clientID];{author:Started Playin
 {title:$songInfo[title]}
 {field:Requested By:<@$songInfo[userID]>:yes}
 {field:Running At:$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null]:yes}
-{field:$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;Streaming];false;Uploaded] By:[$songInfo[publisher]]($songInfo[publisher_url]):yes}
-{field:Duration:\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replacetext[$replacetext[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;LIVE];false;$filterMessage[$filterMessage[$splitText[6];(];)]]]\`
-\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`:yes}
+{field:$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;Streaming];false;Uploaded] By:[$songInfo[publisher]]($songInfo[publisher_url]):yes}
+{field:Duration:\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`:yes}
 {field:Volume:\`$volume%\`:yes}
 {field:URL:[Song]($songInfo[url] "$songInfo[title]"):yes}
 {field:Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;[YouTube](https://www.youtube.com/)];false;[Soundcloud](https://soundcloud.com/)]:yes}
@@ -606,8 +601,8 @@ code: `$editMessage[$getUserVar[reactmessageid;$clientID];{author:Started Playin
 {title:$songInfo[title]}
 {field:Requested By:<@$songInfo[userID]>:yes}
 {field:Running At:$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null]:yes}
-{field:$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;Streaming];false;Uploaded] By:[$songInfo[publisher]]($songInfo[publisher_url]):yes}
-{field:Duration:\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`:yes}
+{field:$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;Streaming];false;Uploaded] By:[$songInfo[publisher]]($songInfo[publisher_url]):yes}
+{field:Duration:\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`:yes}
 {field:Volume:\`$volume%\`:yes}
 {field:URL:[Song]($songInfo[url] "$songInfo[title]"):yes}
 {field:Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;[YouTube](https://www.youtube.com/)];false;[Soundcloud](https://soundcloud.com/)]:yes}
@@ -627,7 +622,7 @@ bot.awaitedCommand({
 name: "recentshuffle",
 code: `$loop[1;recentplay]
 $wait[2s]
-$editMessage[$getUserVar[reactmessageid;$clientID];{author:Shuffle Queue:$getVar[customemoji1]} {field:Requested By:<@$authorID>:yes} {field:Song:\`$numberSeparator[$queueLength]\`:yes} {description:\`$cropText[$queue[1;$queueLength;{number} - {title}];2000]\`} {color:$getVar[color]} {footer:Redirecting..} {timestamp}]
+$editMessage[$getUserVar[reactmessageid;$clientID];{author:Shuffle Queue:$getVar[customemoji1]} {field:Requested By:<@$authorID>:yes} {field:Song:\`$numberSeparator[$queueLength]\`:yes} {description:\`$cropText[$queue[1;$queueLength;{number} - {title}];4000]\`} {color:$getVar[color]} {footer:Redirecting..} {timestamp}]
 $shuffleQueue
 $onlyIf[$queueLength>1;Only have 1 song. {delete:2s}]
 $onlyIf[$queueLength!=0;]
@@ -645,6 +640,13 @@ $if[$getGlobalUserVar[vol;$songInfo[userID]]>=$sum[$getServerVar[maxvol];1]]]
 $setGlobalUserVar[vol;50;$songInfo[userID]]
 $volume[50]
 $sendMessage[{title:Volume User was change to 50%.} {footer:Bypass limit Max Volume Server} {color:$getVar[color]} {delete:5s};no]
+$endif
+$if[$checkContains[$usersInChannel[$voiceID[$clientID];id; ];$songInfo[userID]]==false]
+$leaveVC
+$sendMessage[Looks like there no people on vc.;no]
+$onlyIf[$getGlobalUserVar[247;$songInfo[userID]]!=2;]
+$onlyIf[$getTextSplitLength<2;]
+$textSplit[$usersInChannel[$voiceID[$clientID];id; ]; ]
 $endif
 $suppressErrors`
 })
@@ -666,11 +668,13 @@ $deleteIn[2s]
 $onlyIf[$isDeafened[$clientID]==true;]
 $endif
 $if[$checkContains[$songInfo[url];https://youtube.com/]==true]
-$setServerVar[linkdownload;https://api.vevioz.com/?v=$replaceText[$songInfo[url];https://youtube.com/watch?v=;]&type=mp3&bitrate=320]
+$setServerVar[linkdownload;$replaceText[$uri[decode;$advancedTextSplit[$httpRequest[$songInfo[url]];"AUDIO_QUALITY_MEDIUM";2;"signatureCipher":";2;url=;2;";1]];%2C;,]]
 $else
-$setServerVar[linkdownload;$jsonRequest[$jsonRequest[https://api.leref.ga/soundcloud?url=$songInfo[url];songInfo.trackURL]?client_id=$getVar[clientidsoundcloud];url]]
-$wait[1s]
-$onlyIf[$getVar[clientidsoundcloud]!=;]
+$if[$getVar[clientidsoundcloud]==]
+$setServerVar[linkdownload;$advancedTextSplit[$httpRequest[$songInfo[url]];{"url":;3;";2]]
+$else
+$setServerVar[linkdownload;$jsonRequest[$advancedTextSplit[$httpRequest[$songInfo[url]];{"url":;3;";2]?client_id=$getVar[clientidsoundcloud];url]]
+$endif
 $endif
 $if[$getUserVar[nontrigger;$clientID]==1]
 $setUserVar[nontrigger;0;$clientID]
@@ -781,7 +785,7 @@ $skipSong
 $editMessage[$getUserVar[reactmessageid;$clientID];{title:$replaceText[$getVar[skip];{song};$songInfo[title]]}
 {thumbnail:$songInfo[thumbnail;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]}
 {field:Starting Playing:\`$songInfo[title;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]\`:yes}
-{field:Duration:\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`:yes}
+{field:Duration:\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`:yes}
 {field:Position:\`$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]\`:yes}
 {field:Loop:\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`:yes}
 {field:24/7:\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`:yes}
@@ -808,7 +812,7 @@ $thumbnail[$songInfo[thumbnail;$sub[$queueLength;1]]]
 $addField[Filters;\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`;no]
 $addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
 $addField[Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
 $addField[Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
 $color[$getVar[color]]
 $textSplit[$songInfo[duration;$sub[$queueLength;1]]; ]
@@ -834,8 +838,7 @@ $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
 $cooldown[3s;Please wait **%time%** before using again.]
 $argsCheck[>1;Please write name of song or put link video.]
-$onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors`
+$onlyIf[$voiceID!=;$getVar[errorjoin]]`
 });
 
 bot.command({
@@ -873,7 +876,7 @@ $thumbnail[$songInfo[thumbnail;$sub[$queueLength;1]]]
 $addField[Filters;\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`;no]
 $addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
 $addField[Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
 $addField[Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
 $color[$getVar[color]]
 $textSplit[$songInfo[duration;$sub[$queueLength;1]]; ]
@@ -897,9 +900,11 @@ $suppressErrors`
 
 bot.command({
   name: "download",
-  code: `$if[$checkContains[$songInfo[url] $suppressErrors;https://soundcloud.com/]==true]
+  code: `$if[$queueLength==0
+$if[$checkContains[$songInfo[url];https://soundcloud.com/]==true]
 $attachment[$getServerVar[linkdownload];$cropText[$songInfo[title];28]_128_Bitrate.mp3]
 $onlyIf[$checkContains[$getServerVar[linkdownload];playlist.m3u8]!=true;not available]
+$endif
 $endif
 $if[$toLowercase[$message]==]
 $color[$getVar[color]]
@@ -923,12 +928,12 @@ $cooldown[3s;Please wait **%time%** before using again.]`
 bot.command({
   name: "user",
   code: `$setServerVar[userid;$mentioned[1]]
-$description[\`$userTag[$mentioned[1]]\` just only can execute command now.]
+$description[\`$userTag[$mentioned[1]]\` now only can execute command now.]
 $addTimestamp
 $color[$getVar[color]]
 $addCmdReactions[✅]
-$onlyIf[$isBot[$mentioned[1]]!=true;Failed.]
-$onlyIf[$mentioned[1]!=;Failed.]
+$onlyIf[$isBot[$mentioned[1]]!=true;That not user]
+$onlyIf[$mentioned[1]!=;Mention someone]
 $argsCheck[1;Mention someone]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyPerms[manageserver;Missing Permission, **Manage Server** - User]`
@@ -937,7 +942,7 @@ $onlyPerms[manageserver;Missing Permission, **Manage Server** - User]`
 bot.command({
   name: "user-disable",
   code: `$setServerVar[userid;default]
-$description[Change to default.]
+$description[Changed to default.]
 $color[$getVar[color]]
 $addCmdReactions[✅]
 $addTimestamp
@@ -1066,14 +1071,14 @@ $addField[RAM;> $cropText[$divide[$ram;1024];4]GB
 > (Heap)
 > $truncate[$djsEval[process.memoryUsage().external / 1024 / 1024;yes]]MB
 > (External);yes]
-$addField[CPU;> $cropText[$cpu;4]%;yes]
+$addField[CPU;> $truncate[$cpu]%;yes]
 $addField[Is Deafen/Mute;> $replaceText[$isDeafened[$clientID];null;false]-$replaceText[$isSelfDeafened[$clientID];null;false] / $replaceText[$isMuted[$clientID];null;false]-$replaceText[$isSelfMuted[$clientID];null;false];yes]
 $addField[Is Playing;> $checkCondition[$queueLength!=0];yes]
 $addField[Is Connect;> $checkCondition[$voiceID[$clientID]!=];yes]
 $addField[API Ping;> $numberSeparator[$botPing]ms;yes]
 $addField[DB Ping;> $numberSeparator[$dbPing]ms;yes]
 $addField[WS Ping;> $numberSeparator[$ping]ms;yes]
-$addField[Platform;> $djsEval[require ('os').platform();yes];yes]
+$addField[Platform;> $djsEval[require ('os').platform();yes] $djsEval[require ('os').arch;yes];yes]
 $addField[Last Online;> <t:$cropText[$getVar[last];10]:R>;yes]
 $addField[Uptime;> $client[readytimestamp];yes]
 $footer[Ver. $packageVersion ($nodeVersion);$userAvatar[$authorID;512]]
@@ -1549,7 +1554,7 @@ $endelseif
 $else
 There no filter \`$message\`.
 $endif
-$onlyIf[$songInfo[duration]!=0 Seconds (00:00:00);\`This track was LIVE\`]
+$onlyIf[$songInfo[duration]!=0 Seconds;\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $cooldown[3s;Please wait **%time%** before using again.]
@@ -1617,14 +1622,14 @@ $onlyIf[$isBot[$findUser[$message;yes]]!=true;{description:\`❌ Oops.. looks li
 bot.command({
   name: "seek",
   code: `$if[$toLowercase[$message[2]]==save]
-$addField[Seek to \`$replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$message[1];1000];10]!=];false;0 second];true;$humanizeMS[$multi[$message[1];1000];10]]\`;one-time use saving seek.]
+$addField[Seek to \`$replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$message[1];1000];10]!=];false;0 second];true;$humanizeMS[$multi[$message[1];1000];10]] ($djsEval[new Date($replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0];true;$noMentionMessage] * 1000).toISOString().substr(11, 8);yes])\`;one-time use saving seek.]
 $footer[Value: $message[1]]
 $color[$getVar[color]]
 $setGlobalUserVar[saveseek;$message[1]]
 $seekTo[$message[1]]
 $onlyIf[$message[1]!=0;You cant.]
 $else
-$description[Seek to \`$replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0 second];true;$humanizeMS[$multi[$noMentionMessage;1000];10]]\`]
+$description[Seek to \`$replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0 second];true;$humanizeMS[$multi[$noMentionMessage;1000];10]] ($djsEval[new Date($replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0];true;$noMentionMessage;1000] * 1000).toISOString().substr(11, 8);yes])\`]
 $footer[Value: $noMentionMessage]
 $color[$getVar[color]]
 $wait[$sum[$multi[$botPing;1;2;3];$dbPing]]
@@ -1634,7 +1639,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$checkContains[$message[1];-]!=true;You cant seek negative.]
 $onlyIf[$isNumber[$message[1]]!=false;Must number!]
 $argsCheck[>1;Usage: \`seek (number)\`]
-$onlyIf[$songInfo[duration]!=0 Seconds (00:00:00);\`This track was LIVE\`]
+$onlyIf[$songInfo[duration]!=0 Seconds;\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
@@ -1903,7 +1908,7 @@ $thumbnail[$songInfo[thumbnail;$replaceText[$replaceText[$checkContains[$loopSta
 $addField[24/7;\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`;yes]
 $addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
 $addField[Position;\`$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
 $addField[Starting Playing;\`$songInfo[title;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]\`;yes]
 $addTimestamp
 $color[$getVar[color]]
@@ -1954,13 +1959,12 @@ $addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue
 $addField[ID;\`$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$replaceText[$replaceText[$songInfo[url];https://youtube.com/watch?v=;];https://www.youtube.com/watch?v=;]];false;undefined]\`;yes]
 $addField[URL;[Song]($songInfo[url] "$songInfo[title]");yes] 
 $addField[Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;[YouTube](https://www.youtube.com/)];false;[Soundcloud](https://soundcloud.com/)];yes]
-$addField[Duration Left;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;LIVE];false;$filterMessage[$filterMessage[$splitText[9];(];)]]\`;yes]
-$addField[Duration Now;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;LIVE];false;$filterMessage[$filterMessage[$splitText[6];(];)]]\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
-$addField[$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds (00:00:00)];true;Streaming];false;Uploaded] By;[$songInfo[publisher]]($songInfo[publisher_url]);yes]
+$addField[Duration Left;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;LIVE];false;$djsEval[new Date($advancedTextSplit[$songInfo[duration_left]; ;1] * 1000).toISOString().substr(11, 8);yes]]\`;yes]
+$addField[Duration Now;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;LIVE];false;$djsEval[new Date($advancedTextSplit[$songInfo[current_duration]; ;1] * 1000).toISOString().substr(11, 8);yes]]\`;yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($advancedTextSplit[$songInfo[duration]; ;1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;Streaming];false;Uploaded] By;[$songInfo[publisher]]($songInfo[publisher_url]);yes]
 $addField[Running At;$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null];yes]
 $addField[Requested By;<@$songInfo[userID]>;yes]
-$textSplit[$songInfo[duration] $songInfo[current_duration] $songInfo[duration_left]; ]
 $addTimestamp
 $thumbnail[$songInfo[thumbnail]]
 $color[$getVar[color]]
@@ -2003,7 +2007,7 @@ $thumbnail[$songInfo[thumbnail;$replaceText[$replaceText[$checkContains[$loopSta
 $addField[24/7;\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`;yes]
 $addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
 $addField[Position;\`$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
 $addField[Starting Playing;\`$songInfo[title;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]\`;yes]
 $addTimestamp
 $color[$getVar[color]]
@@ -2016,7 +2020,7 @@ $thumbnail[$songInfo[thumbnail;$message[1]]]
 $addField[24/7;\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`;yes]
 $addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
 $addField[Position;\`$message[1]\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
 $addField[Starting Playing;\`$songInfo[title;$message[1]]\`;yes]
 $addTimestamp
 $color[$getVar[color]]
@@ -2061,10 +2065,10 @@ bot.command({
   aliases: ["q"],
   code: `$author[Queue;$getVar[customemoji1]]
 $addField[Page $replaceText[$replaceText[$checkCondition[$noMentionMessage!=];false;1];true;$noMentionMessage] - $truncate[$sum[$divide[$queueLength;10];0.9]] ($abbreviate[$charCount[$queue[1;$queueLength;{number} - {title}]]]);$queue[$replaceText[$replaceText[$checkCondition[$noMentionMessage!=];false;1];true;$noMentionMessage];10;\`{number} - {title}\`]]
-$addField[Estimated Next Playing;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
+$addField[Estimated Next Playing;\`$djsEval[new Date($advancedTextSplit[$songInfo[duration_left]; ;1] * 1000).toISOString().substr(11, 8);yes]\`;yes]
 $addField[Next Requested By;<@$songInfo[userID;1]>;yes]
 $addField[Requested By;<@$songInfo[userID]>;yes]
-$addField[Total Duration;\`$replaceText[$formatDate[$filterMessage[$filterMessage[$multi[$sum[$splitText[4];$splitText[7]];1000];(];)];mm:ss];0:;00:]\`;yes]
+$addField[Total Duration;\`$djsEval[new Date($sum[$advancedTextSplit[$songInfo[duration]; ;1];$advancedTextSplit[$songInfo[duration;1]; ;1]] * 1000).toISOString().substr(11, 8);yes]\`;yes]
 $addField[Next Playing;[$songInfo[title;1] | $songInfo[publisher;1]]($songInfo[url;1]);yes]
 $addField[Now Playing;[$songInfo[title] | $songInfo[publisher]]($songInfo[url]);yes]
 $footer[$queueLength Song]
@@ -2075,12 +2079,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$checkContains[$replaceText[$replaceText[$checkCondition[$noMentionMessage!=];false;1];true;$noMentionMessage];-]!=true;]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$noMentionMessage!=];false;1];true;$noMentionMessage]<=$truncate[$sum[$divide[$queueLength;10];0.9]];]
 $onlyIf[$isNumber[$replaceText[$replaceText[$checkCondition[$noMentionMessage!=];false;1];true;$noMentionMessage]]!=false;]
-$onlyIf[$queueLength!=1;{author:Currently Playing:$getVar[customemoji1]} {title:$songInfo[title]} {url:$songInfo[url]} {footer:$songInfo[publisher]:$songInfo[thumbnail]} {field:Duration:\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[6];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[6];(];)];00:00:00;LIVE]]\`:yes} {field:Duration Left:\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[6];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[6];(];)]==00:00:00];true;LIVE];false;$filterMessage[$filterMessage[$splitText[3];(];)]]]\`:yes} {thumbnail:$songInfo[thumbnail]} {color:$getVar[color]}]
-$if[$queueLength==1]
-$textSplit[$songInfo[duration_left] $songInfo[duration]; ]
-$else
-$textSplit[$songInfo[duration_left] $songInfo[duration] $songInfo[duration;1]; ]
-$endif
+$onlyIf[$queueLength!=1;{author:Currently Playing:$getVar[customemoji1]} {title:$songInfo[title]} {url:$songInfo[url]} {footer:$songInfo[publisher]:$songInfo[thumbnail]} {field:Duration:\`$replaceText[$djsEval[new Date($advancedTextSplit[$songInfo[duration]; ;1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`:yes} {field:Duration Left:\`$replaceText[$replaceText[$checkCondition[$advancedTextSplit[$songInfo[duration]; ;1]==0];true;LIVE];false;$djsEval[new Date($advancedTextSplit[$songInfo[duration_left]; ;1] * 1000).toISOString().substr(11, 8);yes]]\`:yes} {thumbnail:$songInfo[thumbnail]} {color:$getVar[color]}]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
@@ -2150,7 +2149,7 @@ $thumbnail[$songInfo[thumbnail;$sub[$queueLength;1]]]
 $addField[Filters;\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`;no]
 $addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
 $addField[Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
-$addField[Duration;\`$replaceText[$replaceText[$checkCondition[$charCount[$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]==2];true;undefined];false;$replaceText[$filterMessage[$filterMessage[$splitText[3];(];)];00:00:00;LIVE]]\`;yes]
+$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
 $addField[Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
 $color[$getVar[color]]
 $textSplit[$songInfo[duration;$sub[$queueLength;1]]; ]
@@ -2173,6 +2172,8 @@ $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Ad
 $cooldown[3s;Please wait **%time%** before using again.]
 $argsCheck[1;Usage: \`playlist-play (number playlist)\`]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
+$onlyIf[$sum[$membersCount[$guildID;online];$membersCount[$guildID;idle];$membersCount[$guildID;dnd]]!=0;Cant execute this command.
+> **Permission need: "members intent" & "presence intent"**]
 $suppressErrors[something just happened.]`
 });
 
