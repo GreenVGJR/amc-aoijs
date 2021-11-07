@@ -41,7 +41,7 @@ bot.variables({
   //Changing Other//
   clientidsoundcloud: "", //for soundcloud
   color: "000001",
-  permission: "2176183360",
+  permission: "294233959488",
   userid: "default",
   logmusic: "0",
   247: "0", //0 = off | 1 = on stay 2 minutes | 2 = stay 24/7//
@@ -56,6 +56,7 @@ bot.variables({
   durationcache: "0",
   reactmessageid: "",
   nontrigger: "0", //for disable play message when react active//
+  scsearch: "0",
 
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
   ytemoji: "https://cdn.discordapp.com/emojis/852432148207108110.png?size=4096",
@@ -75,8 +76,7 @@ bot.variables({
   7: "",
   8: "",
   9: "",
-  10: ""
-})
+  10: "",
 
 //for soundcloud non-link
   awaitsc1: "",
@@ -89,11 +89,10 @@ bot.variables({
 bot.readyCommand({
     channel: "$getVar[channelstatus]",
     code: `$log[Filter reseted.]
-$editIn[2ms;Reseted.;Reseted. **$serverCount Servers**]
+$sendMessage[Filter Reseted. **$serverCount Servers**;no]
 $forEachGuild[massfilter]
-Reseting Filter..
 $setVar[last;$dateStamp]
-$sendMessage[\`Ready on client $userTag[$clientID]\` (\`$packageVersion\`);no]`
+$sendMessage[\`Ready on client $userTag[$clientID]\` (\`$packageVersion\` / \`$nodeVersion\`);no]`
 })
 
 bot.awaitedCommand({
@@ -742,6 +741,7 @@ name: "resume-pause",
 code: `$loop[1;recentplay]
 $if[$queueStatus==paused]
 $if[$getServerVar[durationcache]==0]
+$seekTo[0]
 $resumeSong
 $else
 $setServerVar[durationcache;0]
@@ -901,6 +901,7 @@ $let[id;$sendMessage[{title:Starting Playing} {author:Loading..:$getVar[loademoj
 $endif
 $botTyping
 $else
+$if[$getGlobalUserVar[scsearch]==1]
 $awaitMessages[$authorID;20s;1,2,3,4,5;awaitsc1,awaitsc2,awaitsc3,awaitsc4,awaitsc5;Timed out.]
 $setUserVar[awaitsc5;$get[result5]]
 $setUserVar[awaitsc4;$get[result4]]
@@ -926,6 +927,13 @@ $let[result1;https://soundcloud.com$advancedTextSplit[$get[link];<h2><a href=";3
 $let[link;$httpRequest[https://www.soundcloud.com/search?q=$message]]
 $let[id2;$sendMessage[{title:Searching} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp};yes]]
 $botTyping
+$else
+$botTyping
+$let[song;$playSoundcloud[$get[resultfinal];$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
+$let[resultfinal;https://soundcloud.com$advancedTextSplit[$get[link2];<h2><a href=";3;";1]]
+$let[link2;$httpRequest[https://www.soundcloud.com/search?q=$message]]
+$joinVC[$voiceID]
+$endif
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
@@ -1288,6 +1296,8 @@ bot.command({
  name: "musicsettings",
  aliases: ["musicsetting", "musicset"],
  code: `$if[$message[1]==]
+$addField[SC-Search;> \`$replaceText[$replaceText[$getGlobalUserVar[scsearch];0;off];1;on]\`
+> (musicsettings sc-search);yes]
 $addField[Max Volume;> \`$getServerVar[maxvol]%\`
 > (musicsettings maxvol <value>);yes]
 $addField[Stay VC;> \`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;off];1;on];2;on - 24/7]\`
@@ -1371,6 +1381,19 @@ $onlyIf[$checkContains[$message[3];-]!=true;You cant set to negative.]
 $onlyPerms[manageserver;Missing Permission, **Manage Server** - User]
 $onlyIf[$message[2]!=;]
 $endelseif
+$endif
+$endelseif
+$elseIf[$message[1]==sc-search]
+$if[$getGlobalUserVar[scsearch]==0]
+$description[SC-Search: **on**]
+$addTimestamp
+$color[$getVar[color]]
+$setGlobalUserVar[scsearch;1]
+$else
+$description[SC-Search: **off**]
+$addTimestamp
+$color[$getVar[color]]
+$setGlobalUserVar[scsearch;0]
 $endif
 $endelseif
 $endif
@@ -2346,6 +2369,7 @@ bot.command({
   code: `$if[$isNumber[$message[1]]==true]
 $sendMessage[{field:Volume:\`$volume%\`:yes} {field:Max Volume:\`$getServerVar[maxvol]%\`:yes} {color:$getVar[color]} {timestamp};no]
 $volume[$filterMessage[$message[1];-]]
+$setGlobalUserVar[vol;$filterMessage[$message[1];-]]
 $onlyIf[$getServerVar[maxvol]>=$filterMessage[$message[1];-];You cant go above $getServerVar[maxvol]%]
 $onlyIf[$filterMessage[$message[1];-]>=10;You cant go below 10%]
 $else
@@ -2355,11 +2379,11 @@ $createVar[awaitvolume-$authorID:$get[id]]
 $reactionCollector[$get[id];$authorID;1m;🔉,🔊,🔇;voldown,volup,volmute;yes]
 $let[id;$sendMessage[{field:Volume:\`$volume%\`:yes} {field:Max Volume:\`$getServerVar[maxvol]%\`:yes} {color:$getVar[color]} {timestamp};yes]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
 $endif
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[something just happened.]`
 });
