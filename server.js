@@ -4,8 +4,8 @@ const Aoijs = require("aoi.js")
 const bot = new Aoijs.Bot({
 token: "TOKEN", 
 prefix: "whatever", //<- Change whatever with your prefix//
- intents: true,
- mobilePlatform: true
+intents: "all",
+mobilePlatform: true
 })
 
 //You can delete it, if already have it//
@@ -32,8 +32,8 @@ bot.variables({
 
   clearsong: "✅ Cleared queue. from **{amount} song** to **0**", //Available {amount}//
   shuffle: "Shuffle Queue.",
-  errorjoin: "{title:❌ You're not in a voice channel.} {color:FFFF00}",
-  errorqueue: "{title:❌ There no song was playing.} {color:FF0000}",
+  errorjoin: "{newEmbed:{title:❌ You're not in a voice channel.} {color:FFFF00}}",
+  errorqueue: "{newEmbed:{title:❌ There no song was playing.} {color:FF0000}}",
 
   join: "Joined Voice Channel to the {join}.", //Available {join}//
   dc: "Disconnected.",
@@ -99,14 +99,14 @@ $suppressErrors`
 bot.interactionCommand({
 name: "filter",
 code: `$if[$message[1]==]
-$title[Filter]
-$description[\`\`\`
+$title[1;Filter]
+$description[1;\`\`\`
 30 ) 3d, 8d, 8d-v2, chipmunk, chorus, clarity, distorted, deep, delay, double, echo, earwax, fan, flanger, gate, half, high, low, mid, nightcore, nightcore-normal, phaser, pulsator, pulsator-2x, purebass, space, surround, vaporwave, vibrato, vibrato-2x
 
 2  ) all, clear
 \`\`\`]
-$addField[Filters;$getServerVar[filters];no]
-$color[$getVar[color]]
+$addField[1;Filters;$getServerVar[filters];no]
+$color[1;$getVar[color]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $elseif[$toLowercase[$message[1]]==nightcore]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.3;speed:0.775;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
@@ -424,23 +424,23 @@ name: "play",
 code: `$if[$queueLength<1]
 $deleteMessage[$get[id]]
 $wait[3s]
-$editMessage[$get[id];{author:Starting Playing} {title:$get[song]} {color:$getVar[color]} {timestamp}]
+$editMessage[$get[id];{newEmbed:{author:Starting Playing} {title:$get[song]} {color:$getVar[color]} {timestamp}}]
 $else
-$author[Added to queue;$getVar[customemoji1]
-$title[$songInfo[title;$sub[$queueLength;1]];$songInfo[url;$sub[$queueLength;1]]]
-$thumbnail[$songInfo[thumbnail;$sub[$queueLength;1]]]
-$addField[Filters;\`$getServerVar[filters]\`;no]
-$addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
-$addField[Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
-$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
-$addField[Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
-$color[$getVar[color]]
+$author[1;Added to queue;$getVar[customemoji1]
+$title[1;$songInfo[title;$sub[$queueLength;1]];$songInfo[url;$sub[$queueLength;1]]]
+$thumbnail[1;$songInfo[thumbnail;$sub[$queueLength;1]]]
+$addField[1;Filters;\`$getServerVar[filters]\`;no]
+$addField[1;Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
+$addField[1;Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
+$addField[1;Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[1;Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
+$color[1;$getVar[color]]
 $textSplit[$songInfo[duration;$sub[$queueLength;1]]; ]
 $endif
 $let[song;$playSong[$message;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
 $joinVC[$voiceID]
 $if[$queueLength<1]
-$let[id;$sendMessage[{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp};yes]]
+$let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
@@ -458,9 +458,9 @@ bot.interactionCommand({
 name: "pause",
 code: `$pauseSong
 $if[$getGlobalUserVar[controlreact]==0]
-$title[$getVar[pause]]
-$color[$getVar[color]]
-$addTimestamp
+$title[1;$getVar[pause]]
+$color[1;$getVar[color]]
+$addTimestamp[1]
 $elseif[$getGlobalUserVar[controlreact]==1]
 $addCmdReactions[⏸]
 $onlyBotPerms[addreactions;]
@@ -524,25 +524,25 @@ $interactionReply[\`$userTag[$authorID]\` using slash.]`
 bot.musicStartCommand({
   channel: "$channelID",
   code: `$if[$checkContains[$getGlobalUserVar[logmusic;$songInfo[userID]];0;1]-$hasPerms[$clientID;addreactions]==true-true]
-$author[Started Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]]
-$title[$songInfo[title]]
-$addField[Filters;\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`;no]
-$addField[Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
-$addField[24/7;\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`;yes]
-$addField[ID;\`$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$replaceText[$replaceText[$songInfo[url];https://youtube.com/watch?v=;];https://www.youtube.com/watch?v=;]];false;undefined]\`;yes]
-$addField[Song;\`$queueLength\`;yes]
-$addField[Ping;\`$dbPingms\`;yes]
-$addField[Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;[YouTube](https://www.youtube.com/)];false;[Soundcloud](https://soundcloud.com/)];yes]
-$addField[URL;[Song]($songInfo[url] "$songInfo[title]");yes] 
-$addField[Volume;\`$volume%\`;yes]
-$addField[Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
-$addField[$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;Streaming];false;Uploaded] By;[$songInfo[publisher]]($songInfo[publisher_url]);yes]
-$addField[Running At;$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null];yes]
-$addField[Requested By;<@$songInfo[userID]>;yes]
+$author[1;Started Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]]
+$title[1;$songInfo[title]]
+$addField[1;Filters;\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`;no]
+$addField[1;Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
+$addField[1;24/7;\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`;yes]
+$addField[1;ID;\`$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$replaceText[$replaceText[$songInfo[url];https://youtube.com/watch?v=;];https://www.youtube.com/watch?v=;]];false;undefined]\`;yes]
+$addField[1;Song;\`$queueLength\`;yes]
+$addField[1;Ping;\`$dbPingms\`;yes]
+$addField[1;Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;[YouTube](https://www.youtube.com/)];false;[Soundcloud](https://soundcloud.com/)];yes]
+$addField[1;URL;[Song]($songInfo[url] "$songInfo[title]");yes] 
+$addField[1;Volume;\`$volume%\`;yes]
+$addField[1;Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[1;$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0 Seconds];true;Streaming];false;Uploaded] By;[$songInfo[publisher]]($songInfo[publisher_url]);yes]
+$addField[1;Running At;$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null];yes]
+$addField[1;Requested By;<@$songInfo[userID]>;yes]
 $textSplit[$songInfo[duration]; ]
-$addTimestamp
-$thumbnail[$songInfo[thumbnail]]
-$color[$getVar[color]]
+$addTimestamp[1]
+$thumbnail[1;$songInfo[thumbnail]]
+$color[1;$getVar[color]]
 $elseIf[$checkContains[$getGlobalUserVar[logmusic;$songInfo[userID]];0;1]-$hasPerms[$clientID;addreactions]==false-true]
 $setUserVar[reactmessageid;$get[a];$clientID]
 $reactionCollector[$get[a];$songInfo[userID];1d;🔄,⏯,⏹,⏭,🔁,🔀;clearqueueyes,resume-pause,stop,skip,loop,recentshuffle;yes]
