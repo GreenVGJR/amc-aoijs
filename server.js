@@ -415,7 +415,7 @@ $onlyIf[$songInfo[duration]!=0 Seconds;\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $interactionReply[\`$userTag[$authorID]\` using slash.]
 $suppressErrors`
 })
