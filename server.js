@@ -415,13 +415,15 @@ $onlyIf[$songInfo[duration]!=0 Seconds;\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}}]
 $interactionReply[\`$userTag[$authorID]\` using slash.]
 $suppressErrors`
 })
 
 bot.interactionCommand({
 name: "play",
+$if: "v4",
+prototype: "slash",
 code: `$if[$queueLength<1]
 $deleteMessage[$get[id]]
 $wait[3s]
@@ -444,7 +446,7 @@ $if[$queueLength<1]
 $let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
@@ -457,6 +459,8 @@ $interactionReply[\`$userTag[$authorID]\` using slash.]`
 
 bot.interactionCommand({
 name: "pause",
+$if: "v4",
+prototype: "slash",
 code: `$pauseSong
 $if[$getGlobalUserVar[controlreact]==0]
 $title[1;$getVar[pause]]
@@ -472,13 +476,15 @@ $textSplit[$songInfo[current_duration]; ]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[$commandInfo[pause;cooldown];Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $interactionReply[\`$userTag[$authorID]\` using slash.]`
 })
 
 bot.interactionCommand({
 name: "resume",
+$if: "v4",
+prototype: "slash",
 code: `$if[$getServerVar[durationcache]==0]
 $resumeSong
 $else
@@ -487,9 +493,9 @@ $seekTo[$getServerVar[durationcache]]
 $resumeSong
 $endif
 $if[$getGlobalUserVar[controlreact]==0]
-$title[$getVar[resume]]
-$color[$getVar[color]]
-$addTimestamp
+$title[1;$getVar[resume]]
+$color[1;$getVar[color]]
+$addTimestamp[1]
 $elseif[$getGlobalUserVar[controlreact]==1]
 $addCmdReactions[▶]
 $onlyBotPerms[addreactions;]
@@ -498,12 +504,14 @@ $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[$commandInfo[resume;cooldown];Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $interactionReply[\`$userTag[$authorID]\` using slash.]`
 })
 
 bot.interactionCommand({
 name: "stop",
+$if: "v4",
+prototype: "slash",
 code: `$setServerVar[durationcache;0]
 $setServerVar[filters;none]
 $stopSong
@@ -516,7 +524,7 @@ $endelseif
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors
 $interactionReply[\`$userTag[$authorID]\` using slash.]`
@@ -524,6 +532,7 @@ $interactionReply[\`$userTag[$authorID]\` using slash.]`
 
 bot.musicStartCommand({
   channel: "$channelID",
+  $if: "v4",
   code: `$if[$checkContains[$getGlobalUserVar[logmusic;$songInfo[userID]];0;1]-$hasPerms[$clientID;addreactions]==true-true]
 $author[1;Started Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]]
 $title[1;$songInfo[title]]
@@ -548,7 +557,7 @@ $elseIf[$checkContains[$getGlobalUserVar[logmusic;$songInfo[userID]];0;1]-$hasPe
 $setUserVar[reactmessageid;$get[a];$clientID]
 $reactionCollector[$get[a];$songInfo[userID];1d;🔄,⏯,⏹,⏭,🔁,🔀;clearqueueyes,resume-pause,stop,skip,loop,recentshuffle;yes]
 $wait[$ping]
-$let[a;$sendMessage[{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
+$let[a;$sendMessage[{newEmbed:{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
 {title:$songInfo[title]}
 {field:Requested By:<@$songInfo[userID]>:yes}
 {field:Running At:$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null]:yes}
@@ -565,7 +574,7 @@ $let[a;$sendMessage[{author:Started Playing:$replaceText[$replaceText[$checkCont
 {field:Filters:\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`:no}
 {timestamp}
 {thumbnail:$songInfo[thumbnail]}
-{color:$getVar[color]};yes]]
+{color:$getVar[color]}};yes]]
 $textSplit[$songInfo[duration]; ]
 $onlyIf[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==false;{execute:recentskipplay}]
 $endelseif
@@ -577,7 +586,7 @@ $setGlobalUserVar[userused;$sum[$getGlobalUserVar[userused;$songInfo[userID]];1]
 
 bot.awaitedCommand({
 name: "recentplay",
-code: `$editMessage[$getUserVar[reactmessageid;$clientID];{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
+code: `$editMessage[$getUserVar[reactmessageid;$clientID];{newEmbed:{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
 {title:$songInfo[title]}
 {field:Requested By:<@$songInfo[userID]>:yes}
 {field:Running At:$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null]:yes}
@@ -594,7 +603,7 @@ code: `$editMessage[$getUserVar[reactmessageid;$clientID];{author:Started Playin
 {field:Filters:\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`:no}
 {timestamp}
 {thumbnail:$songInfo[thumbnail]}
-{color:$getVar[color]}]
+{color:$getVar[color]}}]
 $textSplit[$songInfo[duration] $songInfo[current_duration]; ]
 $onlyIf[$queueLength!=0;]
 $suppressErrors`
@@ -602,7 +611,7 @@ $suppressErrors`
 
 bot.awaitedCommand({
 name: "recentskipplay",
-code: `$editMessage[$getUserVar[reactmessageid;$clientID];{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
+code: `$editMessage[$getUserVar[reactmessageid;$clientID];{newEmbed:{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];https://youtube.com/watch?v=;https://www.youtube.com/watch?v=];true;$getVar[ytemoji]];false;$getVar[scemoji]]}
 {title:$songInfo[title]}
 {field:Requested By:<@$songInfo[userID]>:yes}
 {field:Running At:$replaceText[$replaceText[$checkContains[$status[$songInfo[userID]];online;idle;dnd];true;\`$toUppercase[$platform[$songInfo[userID]]]\`];false;null]:yes}
@@ -619,7 +628,7 @@ code: `$editMessage[$getUserVar[reactmessageid;$clientID];{author:Started Playin
 {field:Filters:\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`:no}
 {timestamp}
 {thumbnail:$songInfo[thumbnail]}
-{color:$getVar[color]}]
+{color:$getVar[color]}}]
 $textSplit[$songInfo[duration]; ]`
 })
 
@@ -627,7 +636,7 @@ bot.awaitedCommand({
 name: "recentshuffle",
 code: `$loop[1;recentplay]
 $wait[2s]
-$editMessage[$getUserVar[reactmessageid;$clientID];{author:Shuffle Queue:$getVar[customemoji1]} {field:Requested By:<@$authorID>:yes} {field:Song:\`$numberSeparator[$queueLength]\`:yes} {description:\`$cropText[$queue[1;$queueLength;{number} - {title}];4000]\`} {color:$getVar[color]} {footer:Redirecting..} {timestamp}]
+$editMessage[$getUserVar[reactmessageid;$clientID];{newEmbed:{author:Shuffle Queue:$getVar[customemoji1]} {field:Requested By:<@$authorID>:yes} {field:Song:\`$numberSeparator[$queueLength]\`:yes} {description:\`$cropText[$queue[1;$queueLength;{number} - {title}];4000]\`} {color:$getVar[color]} {footer:Redirecting..} {timestamp}}]
 $shuffleQueue
 $onlyIf[$queueLength>1;Only have 1 song. {delete:2s}]
 $onlyIf[$queueLength!=0;]
@@ -636,15 +645,16 @@ $suppressErrors`
 
 bot.musicStartCommand({
   channel: "$channelID",
+  $if: "v4",
   code: `$if[$getGlobalUserVar[saveseek;$songInfo[userID]]!=0]
 $setGlobalUserVar[saveseek;0;$songInfo[userID]]
-$sendMessage[{description:Seek recently to $humanizeMS[$multi[$getGlobalUserVar[saveseek;$songInfo[userID]];1000];10]} {color:$getVar[color]} {timestamp};no]
+$sendMessage[{newEmbed:{description:Seek recently to $humanizeMS[$multi[$getGlobalUserVar[saveseek;$songInfo[userID]];1000];10]} {color:$getVar[color]} {timestamp}};no]
 $seekTo[$getGlobalUserVar[saveseek;$songInfo[userID]]]
 $endif
 $if[$getGlobalUserVar[vol;$songInfo[userID]]>=$sum[$getServerVar[maxvol];1]]]
 $setGlobalUserVar[vol;50;$songInfo[userID]]
 $volume[50]
-$sendMessage[{title:Volume User was change to 50%.} {footer:Bypass limit Max Volume Server} {color:$getVar[color]} {delete:5s};no]
+$sendMessage[{newEmbed:{title:Volume User was change to 50%.} {footer:Bypass limit Max Volume Server} {color:$getVar[color]} {delete:5s}};no]
 $endif
 $if[$checkContains[$usersInChannel[$voiceID[$clientID];id; ];$songInfo[userID]]==false]
 $leaveVC
@@ -658,6 +668,7 @@ $suppressErrors`
 
 bot.musicStartCommand({
   channel: "$channelID",
+  $if: "v4",
   code: `$if[$isDeafened[$clientID]==true]
 $deafenUser[$clientID;yes]
 $onlyIf[$isSelfDeafened[$clientID]==false;]
@@ -689,13 +700,14 @@ $suppressErrors`
 
 bot.musicEndCommand({
   channel: "$channelID",
+  $if: "v4",
   code: `$if[$messageExists[$channelID;$getUserVar[reactmessageid;$clientID]]==true]
 $deleteMessage[$getUserVar[reactmessageid;$clientID]]
 $endif
 $setServerVar[filters;none]
-$title[There no song again on queue.]
-$footer[Left VC.]
-$color[$getVar[color]]`
+$title[1;There no song again on queue.]
+$footer[1;Left VC.]
+$color[1;$getVar[color]]`
 });
 
 bot.awaitedCommand({
@@ -703,35 +715,36 @@ name: "clearqueueyes",
 code: `$setServerVar[durationcache;0]
 $clearSongQueue
 $pauseSong
-$editIn[2ms;{description:$replaceText[$getVar[clearsong];{amount};$queueLength]} {color:$getVar[color]} {timestamp}] ⚠️ Clearing...
+$editIn[2ms;{newEmbed:{description:$replaceText[$getVar[clearsong];{amount};$queueLength]} {color:$getVar[color]} {timestamp}}] ⚠️ Clearing...
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $setServerVar[filters;none (temporary)]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$queueLength!=0;]`
 });
 
 bot.awaitedCommand({
 name: "clearqueueno",
-code: `$description[Clearing was cancelled.]
-$color[$getVar[color]]
-$addTimestamp
+code: `$description[1;Clearing was cancelled.]
+$color[1;$getVar[color]]
+$addTimestamp[1]
 $deleteIn[3s]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]`
 });
 
 bot.awaitedCommand({
 name: "top",
 code: `$deletecommand
-$title[Top Playing Song - $numberSeparator[$charCount[$globalUserLeaderboard[userused;asc;\`) {top} {username} - {value}\`]]]]
-$description[$globalUserLeaderboard[userused;asc;\`) {top} {username} - {value}\`]]
-$color[$getVar[color]]
-$addTimestamp`
+$title[1;Top Playing Song - $numberSeparator[$charCount[$globalUserLeaderboard[userused;asc;\`) {top} {username} - {value}\`]]]]
+$description[1;$globalUserLeaderboard[userused;asc;\`) {top} {username} - {value}\`]]
+$color[1;$getVar[color]]
+$addTimestamp[1]`
 })
 
 bot.awaitedCommand({
 name: "resume-pause",
+$if: "v4",
 code: `$loop[1;recentplay]
 $if[$queueStatus==paused]
 $if[$getServerVar[durationcache]==0]
@@ -748,12 +761,13 @@ $textSplit[$songInfo[current_duration]; ]
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;]`
 })
 
 bot.awaitedCommand({
 name: "loop",
+$if: "v4",
 code: `$loop[1;recentplay]
 $if[$loopStatus==none]
 $let[a;$loopSong]
@@ -768,7 +782,7 @@ $else
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;]
 $suppressErrors`
 })
@@ -787,7 +801,7 @@ bot.awaitedCommand({
 name: "skip",
 code: `$setUserVar[nontrigger;1;$clientID]
 $skipSong
-$editMessage[$getUserVar[reactmessageid;$clientID];{title:$replaceText[$getVar[skip];{song};$songInfo[title]]}
+$editMessage[$getUserVar[reactmessageid;$clientID];{newEmbed:{title:$replaceText[$getVar[skip];{song};$songInfo[title]]}
 {thumbnail:$songInfo[thumbnail;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]}
 {field:Starting Playing:\`$songInfo[title;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]\`:yes}
 {field:Duration:\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`:yes}
@@ -795,7 +809,7 @@ $editMessage[$getUserVar[reactmessageid;$clientID];{title:$replaceText[$getVar[s
 {field:Loop:\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`:yes}
 {field:24/7:\`$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[userID]];0;off];1;off];2;on]\`:yes}
 {timestamp}
-{color:$getVar[color]}]
+{color:$getVar[color]}}]
 $textSplit[$songInfo[duration;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]; ]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength>1;Only have 1 song. {delete:2s}]
@@ -806,6 +820,7 @@ $suppressErrors`
 bot.command({
   name: "play",
   aliases: ["youtube", "p", "yt"],
+  $if: "v4",
   code: `$if[$queueLength<1]
 $deleteMessage[$get[id]]
 $wait[3s]
@@ -837,7 +852,7 @@ $let[id;$sendMessage[{title:Starting Playing} {author:Loading..:$getVar[loademoj
 $endif
 $botTyping
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
@@ -856,7 +871,7 @@ $skipTo[$sub[$queueLength;1]]
 $replaceText[$replaceText[$checkCondition[$queueLength>1];false;];true;$replaceText[$replaceText[$checkContains[$getGlobalUserVar[logmusic];0;2];true;Starting Playing: \`$playSong[$message;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]\`];false;]]
 $botTyping
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
@@ -893,7 +908,7 @@ $let[id;$sendMessage[{title:Starting Playing} {author:Loading..:$getVar[loademoj
 $endif
 $botTyping
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
@@ -919,7 +934,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyBotPerms[attachfiles;Missing Permission **Attach Files** - Bot]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $cooldown[3s;Please wait **%time%** before using again.]`
 })
 
@@ -1556,7 +1571,7 @@ $onlyIf[$songInfo[duration]!=0 Seconds;\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]`
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]`
 });
 
 bot.command({
@@ -1640,7 +1655,7 @@ $argsCheck[>1;Usage: \`seek (number)\`]
 $onlyIf[$songInfo[duration]!=0 Seconds;\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors`
 });
@@ -1661,7 +1676,7 @@ $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$voiceID[$clientID]==;Already joined!]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[something just happened.]`
 });
@@ -1681,7 +1696,7 @@ $leaveVC
 $setServerVar[filters;none]
 $endif
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[something just happened.]`
 })
@@ -1706,7 +1721,7 @@ $getVar[dc]
 $endif
 $onlyIf[$voiceID[$clientID]!=;Already disconnected!]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[something just happened.]`
 });
@@ -1743,7 +1758,7 @@ $textSplit[$songInfo[current_duration]; ]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 });
 
@@ -1768,7 +1783,7 @@ $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 });
 
@@ -1788,7 +1803,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$loopStatus!=queue;You currently active **queue loop.**]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[]`
 });
@@ -1809,7 +1824,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$loopStatus!=song;You currently active **song loop.**]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[]`
 });
@@ -1865,7 +1880,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$getGlobalUserVar[logmusic]!=2;You currently active reaction control.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors`
 });
@@ -1888,7 +1903,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength>1;Only have **$queueLength song**.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 });
 
@@ -1917,7 +1932,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength>1;Only have **$queueLength song**.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 });
 
@@ -1935,7 +1950,7 @@ $onlyIf[$isNumber[$message[1]]!=false;Must number!]
 $cooldown[3s;Please wait **%time%** before using again.]
 $argsCheck[1;Usage: \`remove (numnber song on queue)\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[something just happened.]`
 });
@@ -1990,7 +2005,7 @@ $setServerVar[filters;none]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors`
 });
@@ -2032,7 +2047,7 @@ $endif
 $onlyIf[$queueLength>1;Only have **$queueLength song**.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 });
 
@@ -2040,7 +2055,7 @@ bot.command({
   name: "clearqueue",
   aliases: ["cq"],
   code: `$awaitReaction[$authorID;15s;{title:Are you sure you wanna clear?} {footer:Song#COLON# $queueLength} {color:$getVar[color]};✅,❌;clearqueueyes,clearqueueno;Confirmation failed.;yes]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]`
@@ -2053,7 +2068,7 @@ $description[Verification first]
 $footer[Code: $random[13000;50000]]
 $color[$getVar[color]]
 $onlyIf[$globalUserLeaderboard[userused;asc]!=;Seems like, this leaderboard was empty..]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyBotPerms[managemessages;Missing Permission, **Manage Messages** - Bot]`
 })
@@ -2159,7 +2174,7 @@ $let[id;$sendMessage[{title:Starting Playing} {author:Loading..:$getVar[loademoj
 $endif
 $botTyping
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$getGlobalUserVar[$message[1]]!=;Nothing song was added on playlist.]
 $onlyIf[$checkContains[$message[1];-]!=true;Failed.]
 $onlyIf[$message[1]<=10;Only available \`10\` slot.]
@@ -2189,7 +2204,7 @@ $reactionCollector[$get[id];$authorID;1m;🔉,🔊,🔇;voldown,volup,volmute;ye
 $let[id;$sendMessage[{field:Volume:\`$volume%\`:yes} {field:Max Volume:\`$getServerVar[maxvol]%\`:yes} {color:$getVar[color]} {timestamp};yes]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $endif
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{title:❌ You cant use this command} {color:$getVar[color]}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
