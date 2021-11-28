@@ -19,35 +19,42 @@ bot.status({
 bot.onMessage()
 bot.onInteractionCreate()
 
-//Customize Property For Message//
+//Variable
 bot.variables({
-  file: "server.js", //For reboot and stats//
-  database: "./database/main/main_scheme_1.sql", //For stats//
+  //System
+  file: "server.js", //For reboot and stats
+  database: "./database/main/main_scheme_1.sql", //For stats
 
+  //Customize Property For Message
   pause: "⏸️ Paused.",
   resume: "▶️ Resumed!",
-  skip: "⏩ Skipped!",  //Available {song}//
+  skip: "⏩ Skipped!",  //Available {song}
   stop: "⏹ Stopped.",  
-  remove: "Removed song on {d-amount}.", //Available {d-amount}//
+  remove: "Removed song on {d-amount}.", //Available {d-amount}
+  filterapply: "Applyed.",
 
-  clearsong: "✅ Cleared queue. from **{amount} song** to **0**", //Available {amount}//
+  clearsong: "✅ Cleared queue. from **{amount} song** to **0**", //Available {amount}
   shuffle: "Shuffle Queue.",
   errorjoin: "{newEmbed:{title:❌ You're not in a voice channel.} {color:FFFF00}}",
   errorqueue: "{newEmbed:{title:❌ There no song was playing.} {color:FF0000}}",
+  errorloop: "",
+  erroruser: "",
 
-  join: "Joined Voice Channel to the {join}.", //Available {join}//
+
+  join: "Joined Voice Channel to the {join}.", //Available {join}
   dc: "Disconnected.",
 
-  //Changing Other//
+  //Changing Other
   clientidsoundcloud: "", //for soundcloud
+  clientidyoutube: "", //for youtube
   color: "000001",
   permission: "2176183360",
   userid: "default",
   logmusic: "0",
-  247: "0", //0 = off | 1 = on stay 2 minutes | 2 = stay 24/7//
-  channelstatus: "757831705397559337", //Change to your channel id, to send message when the bot restart.// 
-  vol: "50", //Default Volume//
-  maxvol: "150", //Max Volume//
+  247: "0", //0 = off | 1 = on stay 2 minutes | 2 = stay 24/7
+  channelstatus: "", //Optional (channelid), for send ready message
+  vol: "50", //Default Volume
+  maxvol: "150", //Max Volume
   last: "null",
   linkdownload: "",
   filters: "none",
@@ -55,8 +62,9 @@ bot.variables({
   saveseek: "0",
   durationcache: "0",
   reactmessageid: "",
-  nontrigger: "0", //for disable play message when react active//
+  nontrigger: "0", //for disable play message when react active
 
+  //Emoji
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
   ytemoji: "https://cdn.discordapp.com/emojis/852432148207108110.png?size=4096",
   scemoji: "https://cdn.discordapp.com/emojis/852432173758676993.png?size=4096",
@@ -65,7 +73,7 @@ bot.variables({
   userused: "0",
   commanduserused: "0",
 
-  //For playlist//
+  //Playlist
   1: "",
   2: "",
   3: "",
@@ -80,12 +88,21 @@ bot.variables({
 
 bot.readyCommand({
     channel: "$getVar[channelstatus]",
-    code: `$log[Filter reseted.]
+    $if: "v4",
+    code: `$if[$getVar[channelstatus]==]
+$log[Filter reseted. ($serverCount Servers)]
+$forEachGuild[massfilter]
+$log[Reseting Filter..]
+$setVar[last;$dateStamp]
+$log[Ready on client $userTag[$clientID]\` (\`$packageVersion\`)]
+$else
+$log[Filter reseted.]
 $editIn[2ms;Reseted.;Reseted. **$serverCount Servers**]
 $forEachGuild[massfilter]
 Reseting Filter..
 $setVar[last;$dateStamp]
-$sendMessage[\`Ready on client $userTag[$clientID]\` (\`$packageVersion\`);no]`
+$sendMessage[\`Ready on client $userTag[$clientID]\` (\`$packageVersion\`);no]
+$endif`
 })
 
 bot.awaitedCommand({
