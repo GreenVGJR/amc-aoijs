@@ -1175,7 +1175,7 @@ $if[$getGlobalUserVar[logmusic]==1]
 $setGlobalUserVar[logmusic;0]
 $title[1;Log music: **enable**]
 $color[1;$getVar[color]]
-$addTimestamp
+$addTimestamp[1]
 $elseIf[$getGlobalUserVar[logmusic]==0]
 $setGlobalUserVar[logmusic;2]
 $title[1;Log music: **enable** (with reaction control)]
