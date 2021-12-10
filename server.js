@@ -677,6 +677,12 @@ $sendMessage[Looks like there no people on vc.;no]
 $onlyIf[$getGlobalUserVar[247;$songInfo[userID]]!=2;]
 $onlyIf[$getTextSplitLength<2;]
 $textSplit[$usersInChannel[$voiceID[$clientID];id; ]; ]
+$elseIf[$voiceID[$clientID]==]
+$leaveVC
+$stopSong
+$sendMessage[Looks like there no people on vc.;no]
+$onlyIf[$getGlobalUserVar[247;$songInfo[userID]]!=2;]
+$endelseif
 $endif
 $suppressErrors`
 })
@@ -696,7 +702,6 @@ $description[<@$clientID> Failed to self-deafen.]
 $color[$getVar[color]]
 $addTimestamp
 $deleteIn[2s]
-$onlyIf[$isDeafened[$clientID]==true;]
 $endif
 $if[$checkContains[$songInfo[url];https://youtube.com/]==true]
 $setServerVar[linkdownload;$replaceText[$uri[decode;$advancedTextSplit[$httpRequest[$songInfo[url]];"AUDIO_QUALITY_MEDIUM";2;"signatureCipher":";2;url=;2;";1]];%2C;,]]
