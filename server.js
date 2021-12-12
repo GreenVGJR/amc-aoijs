@@ -125,285 +125,285 @@ $description[1;\`\`\`
 \`\`\`]
 $addField[1;Filters;$getServerVar[filters];no]
 $color[1;$getVar[color]]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$elseif[$toLowercase[$message[1]]==nightcore]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==nightcore]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.3;speed:0.775;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Nightcore} {color:$getVar[color]}}]
 $setServerVar[filters;Nightcore]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==chipmunk]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==chipmunk]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.9;speed:0.550;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Chipmunk} {color:$getVar[color]}}]
 $setServerVar[filters;Chipmunk]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==surround]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==surround]
 $songFilter[phaser:0;flanger:0;gate:0;surround:1;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[300ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Surround} {color:$getVar[color]}}]
 $setServerVar[filters;Surround]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==flanger]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==flanger]
 $songFilter[phaser:0;flanger:1;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Flanger} {color:$getVar[color]}}]
 $setServerVar[filters;Flanger]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==gate]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==gate]
 $songFilter[phaser:0;flanger:0;gate:1;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Gate} {color:$getVar[color]}}]
 $setServerVar[filters;Gate]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==chorus]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==chorus]
 $songFilter[phaser:1;flanger:1;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Chorus} {color:$getVar[color]}}]
 $setServerVar[filters;Chorus]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==clear]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==clear]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Clearing..
 $editIn[2msClearing.. $random[1;30]%;Clearing.. $random[31;50]%;Clearing.. $random[51;70]%;Clearing.. $random[71;100]%;{title:Cleared.} {color:$getVar[color]}}]
 $setServerVar[filters;none]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==phaser]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==phaser]
 $songFilter[phaser:1;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Phaser} {color:$getVar[color]}}]
 $setServerVar[filters;Phaser]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==earwax]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==earwax]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:1;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Earwax} {color:$getVar[color]}}]
 $setServerVar[filters;Earwax]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==echo]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==echo]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:100;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Echo} {color:$getVar[color]}}]
 $setServerVar[filters;Echo]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==pulsator]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==pulsator]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0.5;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Pulsator} {color:$getVar[color]}}]
 $setServerVar[filters;Pulsator]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==pulsator-2x]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==pulsator-2x]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:2;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Pulsator 2x} {color:$getVar[color]}}]
 $setServerVar[filters;Pulsator 2x]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==distorted]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==distorted]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:99;pulsator:0;vibrato:0]
 $songFilter[contrast:99]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Distorted} {color:$getVar[color]}}]
 $setServerVar[filters;Distorted]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==vibrato]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==vibrato]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0.3]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Vibrato} {color:$getVar[color]}}]
 $setServerVar[filters;Vibrato]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==vibrato-2x]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==vibrato-2x]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0.6]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Vibrato 2x} {color:$getVar[color]}}]
 $setServerVar[filters;Vibrato 2x]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==space]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==space]
 $songFilter[phaser:1;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:1;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Space} {color:$getVar[color]}}]
 $setServerVar[filters;Space]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==all]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==all]
 $songFilter[phaser:1;flanger:1;gate:1;surround:1;bass:10;pitch:1.1;speed:1.1;earwax:1;echo:100;contrast:99;pulsator:0.125;vibrato:0.3]
 Applying..
 $editIn[2s;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = All} {color:$getVar[color]}}]
 $setServerVar[filters;All]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==deep]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==deep]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:-3;pitch:0.9;speed:1.1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 $songFilter[pitch:0.9;speed:1.1;bass:-3]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Deep} {color:$getVar[color]}}]
 $setServerVar[filters;Deep]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==3d]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==3d]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0.125;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = 3D} {color:$getVar[color]}}]
 $setServerVar[filters;3D]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==8d]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==8d]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:30;contrast:0;pulsator:0.08;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = 8D} {color:$getVar[color]}}]
 $setServerVar[filters;8D]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==clarity]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==clarity]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.1;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Clarity} {color:$getVar[color]}}]
 $setServerVar[filters;Clarity]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==nightcore-normal]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==nightcore-normal]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.3;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Nightcore Normal} {color:$getVar[color]}}]
 $setServerVar[filters;Nightcore Normal]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==half]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==half]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0;speed:0.5;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Half} {color:$getVar[color]}}]
 $setServerVar[filters;Half]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==double]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==double]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0;speed:2;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Double} {color:$getVar[color]}}]
 $setServerVar[filters;Double]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==fan]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==fan]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:25;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Fan} {color:$getVar[color]}}]
 $setServerVar[filters;Fan]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==purebass]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==purebass]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:20;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Purebass} {color:$getVar[color]}}]
 $setServerVar[filters;Purebass]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==low]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==low]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Low} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.05;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Low]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==mid]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==mid]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Mid} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.2;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Mid]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==high]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==high]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = High} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.07;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;High]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==delay]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==delay]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Delay} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:1000;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Delay]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==8d-v2]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==8d-v2]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = 8D V2} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;echo:0.1;contrast:0;pulsator:0.15;vibrato:0;earwax:1]
 $setServerVar[filters;8D V2]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
@@ -412,28 +412,28 @@ $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0
 Clearing..
 $editIn[2msClearing.. $random[1;30]%;Clearing.. $random[31;50]%;Clearing.. $random[51;70]%;Clearing.. $random[71;100]%;{title:Cleared.} {color:$getVar[color]}}]
 $setServerVar[filters;none]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
-$elseif[$toLowercase[$message[1]]==vaporwave]
+$elseif[$toLowercase[$interactionData[options.data[0].value]]==vaporwave]
 Applying..
 $editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Vaporwave} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0.875;speed:1;echo:0;contrast:0;pulsator:0;vibrato:0;earwax:0]
 $setServerVar[filters;Vaporwave]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $else
-There no filter \`$message\`.
+There no filter \`$interactionData[options.data[0].value]\`.
 $endif
 $onlyIf[$songInfo[duration]!=0 Seconds;\`This track was LIVE\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $cooldown[3s;Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
-$interactionReply[\`$userTag[$authorID]\` using slash.]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$interactionData[author.id]];false;$getServerVar[userid]]==$interactionData[author.id];{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
+$interactionReply[\`$userTag[$interactionData[author.id]]\` using slash.]
 $suppressErrors`
 })
 
@@ -457,21 +457,20 @@ $addField[1;Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
 $color[1;$getVar[color]]
 $textSplit[$songInfo[duration;$sub[$queueLength;1]]; ]
 $endif
-$let[song;$playSong[$message;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
-$joinVC[$voiceID]
+$let[song;$playSong[$interactionData[options.data[0].value];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$interactionData[author.id]];0;0s];1;120s];2;7d];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247;$interactionData[author.id]];0;yes];1;yes];2;no];No result.]]
+$joinVC[$voiceID[$interactionData[author.id]]]
 $if[$queueLength<1]
 $let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$interactionData[author.id]];false;$getServerVar[userid]]==$interactionData[author.id];{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
-$cooldown[$commandInfo[play;cooldown];Please wait **%time%** before using again.]
-$argsCheck[>1;Please write name of song or put link video.]
+$cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors[something just happened.]
-$interactionReply[\`$userTag[$authorID]\` using slash.]`
+$interactionReply[\`$userTag[$interactionData[author.id]]\` using slash.]`
 })
 
 bot.interactionCommand({
@@ -479,23 +478,23 @@ name: "pause",
 $if: "v4",
 prototype: "slash",
 code: `$pauseSong
-$if[$getGlobalUserVar[controlreact]==0]
+$if[$getGlobalUserVar[controlreact;$interactionData[author.id]]==0]
 $title[1;$getVar[pause]]
 $color[1;$getVar[color]]
 $addTimestamp[1]
-$elseif[$getGlobalUserVar[controlreact]==1]
+$elseif[$getGlobalUserVar[controlreact;$interactionData[author.id]]==1]
 $addCmdReactions[⏸]
 $onlyBotPerms[addreactions;]
 $endelseif
 $endif
 $setServerVar[durationcache;$splitText[1]]
 $textSplit[$songInfo[current_duration]; ]
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$cooldown[$commandInfo[pause;cooldown];Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
+$cooldown[3s;Please wait **%time%** before using again.]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$interactionData[author.id]];false;$getServerVar[userid]]==$interactionData[author.id];{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$interactionReply[\`$userTag[$authorID]\` using slash.]`
+$interactionReply[\`$userTag[$interactionData[author.id]]\` using slash.]`
 })
 
 bot.interactionCommand({
@@ -509,20 +508,20 @@ $setServerVar[durationcache;0]
 $seekTo[$getServerVar[durationcache]]
 $resumeSong
 $endif
-$if[$getGlobalUserVar[controlreact]==0]
+$if[$getGlobalUserVar[controlreact;$interactionData[author.id]]==0]
 $title[1;$getVar[resume]]
 $color[1;$getVar[color]]
 $addTimestamp[1]
-$elseif[$getGlobalUserVar[controlreact]==1]
+$elseif[$getGlobalUserVar[controlreact;$interactionData[author.id]]==1]
 $addCmdReactions[▶]
 $onlyBotPerms[addreactions;]
 $endelseif
 $endif
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$cooldown[$commandInfo[resume;cooldown];Please wait **%time%** before using again.]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
-$interactionReply[\`$userTag[$authorID]\` using slash.]`
+$cooldown[3s;Please wait **%time%** before using again.]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$interactionData[author.id]];false;$getServerVar[userid]]==$interactionData[author.id];{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
+$interactionReply[\`$userTag[$interactionData[author.id]]\` using slash.]`
 })
 
 bot.interactionCommand({
@@ -532,19 +531,19 @@ prototype: "slash",
 code: `$setServerVar[durationcache;0]
 $setServerVar[filters;none]
 $stopSong
-$if[$getGlobalUserVar[controlreact]==0]
+$if[$getGlobalUserVar[controlreact;$interactionData[author.id]]==0]
 $sendMessage[$getVar[stop];no]
-$elseIf[$getGlobalUserVar[controlreact]==1]
+$elseIf[$getGlobalUserVar[controlreact;$interactionData[author.id]]==1]
 $addCmdReactions[⏹]
 $onlyBotPerms[addreactions;]
 $endelseif
 $endif
-$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
+$setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
-$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$interactionData[author.id]];false;$getServerVar[userid]]==$interactionData[author.id];{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors
-$interactionReply[\`$userTag[$authorID]\` using slash.]`
+$interactionReply[\`$userTag[$interactionData[author.id]]\` using slash.]`
 })
 
 bot.musicStartCommand({
