@@ -32,6 +32,7 @@ bot.variables({
   stop: "⏹ Stopped.",  
   remove: "Removed song on {d-amount}.", //Available {d-amount}
   filterapply: "Applyed.",
+  filterapplying: "Applying..",
 
   clearsong: "✅ Cleared queue. from **{amount} song** to **0**", //Available {amount}
   shuffle: "Shuffle Queue.",
@@ -46,9 +47,9 @@ bot.variables({
   leftvc: "There no song again on queue.", //Description
   secondleftvc: "Left VC.", //Footer
 
-  //Changing Other - Advanced
-  clientidsoundcloud: "", //for soundcloud
-  clientidyoutube: "", //for youtube
+  //Changing Other - Advance
+  clientidsoundcloud: "", //For soundcloud
+  clientidyoutube: "", //For youtube
   color: "000001",
   permission: "2176183360",
   userid: "default",
@@ -60,11 +61,11 @@ bot.variables({
   last: "null",
   linkdownload: "",
   filters: "none",
-  controlreact: "0",
+  controlreact: "0", //0 = off | 1 = on
   saveseek: "0",
   durationcache: "0",
   reactmessageid: "",
-  nontrigger: "0", //for disable play message when react active
+  nontrigger: "0", //For disable play message when react active
 
   //Emoji
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
@@ -98,8 +99,8 @@ $log[Reseting Filter..]
 $setVar[last;$dateStamp]
 $log[Ready on client $userTag[$clientID]\` (\`$packageVersion\`)]
 $else
-$log[Filter reseted.]
-$editIn[2ms;Reseted.;Reseted. **$serverCount Servers**]
+$log[Filter reseted. ($serverCount Servers)]
+$editIn[2ms;Reseted. **$serverCount Servers**]
 $forEachGuild[massfilter]
 Reseting Filter..
 $setVar[last;$dateStamp]
@@ -130,8 +131,8 @@ $color[1;$getVar[color]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==nightcore]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.3;speed:0.775;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Nightcore} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Nightcore} {color:$getVar[color]}}]
 $setServerVar[filters;Nightcore]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -139,8 +140,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==chipmunk]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.9;speed:0.550;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Chipmunk} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Chipmunk} {color:$getVar[color]}}]
 $setServerVar[filters;Chipmunk]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -148,8 +149,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==surround]
 $songFilter[phaser:0;flanger:0;gate:0;surround:1;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[300ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Surround} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[300ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{title:$getVar[filterapply]} {footer:Filter = Surround} {color:$getVar[color]}}]
 $setServerVar[filters;Surround]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -157,8 +158,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==flanger]
 $songFilter[phaser:0;flanger:1;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Flanger} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Flanger} {color:$getVar[color]}}]
 $setServerVar[filters;Flanger]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -166,8 +167,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==gate]
 $songFilter[phaser:0;flanger:0;gate:1;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Gate} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Gate} {color:$getVar[color]}}]
 $setServerVar[filters;Gate]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -175,8 +176,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==chorus]
 $songFilter[phaser:1;flanger:1;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Chorus} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Chorus} {color:$getVar[color]}}]
 $setServerVar[filters;Chorus]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -193,8 +194,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==phaser]
 $songFilter[phaser:1;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Phaser} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Phaser} {color:$getVar[color]}}]
 $setServerVar[filters;Phaser]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -202,8 +203,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==earwax]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:1;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Earwax} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Earwax} {color:$getVar[color]}}]
 $setServerVar[filters;Earwax]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -211,8 +212,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==echo]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:100;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Echo} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Echo} {color:$getVar[color]}}]
 $setServerVar[filters;Echo]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -220,8 +221,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==pulsator]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0.5;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Pulsator} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Pulsator} {color:$getVar[color]}}]
 $setServerVar[filters;Pulsator]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -229,8 +230,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==pulsator-2x]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:2;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Pulsator 2x} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Pulsator 2x} {color:$getVar[color]}}]
 $setServerVar[filters;Pulsator 2x]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -239,8 +240,8 @@ $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==distorted]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:99;pulsator:0;vibrato:0]
 $songFilter[contrast:99]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Distorted} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Distorted} {color:$getVar[color]}}]
 $setServerVar[filters;Distorted]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -248,8 +249,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==vibrato]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0.3]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Vibrato} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Vibrato} {color:$getVar[color]}}]
 $setServerVar[filters;Vibrato]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -257,8 +258,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==vibrato-2x]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0.6]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Vibrato 2x} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Vibrato 2x} {color:$getVar[color]}}]
 $setServerVar[filters;Vibrato 2x]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -266,8 +267,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==space]
 $songFilter[phaser:1;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:1;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Space} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Space} {color:$getVar[color]}}]
 $setServerVar[filters;Space]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -275,8 +276,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==all]
 $songFilter[phaser:1;flanger:1;gate:1;surround:1;bass:10;pitch:1.1;speed:1.1;earwax:1;echo:100;contrast:99;pulsator:0.125;vibrato:0.3]
-Applying..
-$editIn[2s;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = All} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2s;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{title:$getVar[filterapply]} {footer:Filter = All} {color:$getVar[color]}}]
 $setServerVar[filters;All]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -285,8 +286,8 @@ $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==deep]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:-3;pitch:0.9;speed:1.1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 $songFilter[pitch:0.9;speed:1.1;bass:-3]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Deep} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Deep} {color:$getVar[color]}}]
 $setServerVar[filters;Deep]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -294,8 +295,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==3d]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0.125;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = 3D} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = 3D} {color:$getVar[color]}}]
 $setServerVar[filters;3D]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -303,8 +304,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==8d]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:30;contrast:0;pulsator:0.08;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = 8D} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = 8D} {color:$getVar[color]}}]
 $setServerVar[filters;8D]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -312,8 +313,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==clarity]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.1;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Clarity} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Clarity} {color:$getVar[color]}}]
 $setServerVar[filters;Clarity]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -321,8 +322,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==nightcore-normal]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.3;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Nightcore Normal} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Nightcore Normal} {color:$getVar[color]}}]
 $setServerVar[filters;Nightcore Normal]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -330,8 +331,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==half]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0;speed:0.5;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Half} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Half} {color:$getVar[color]}}]
 $setServerVar[filters;Half]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -339,8 +340,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==double]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0;speed:2;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Double} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Double} {color:$getVar[color]}}]
 $setServerVar[filters;Double]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -348,8 +349,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==fan]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:25;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Fan} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Fan} {color:$getVar[color]}}]
 $setServerVar[filters;Fan]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -357,16 +358,16 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==purebass]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:20;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Purebass} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Purebass} {color:$getVar[color]}}]
 $setServerVar[filters;Purebass]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==low]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Low} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Low} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.05;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Low]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
@@ -374,8 +375,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==mid]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Mid} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Mid} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.2;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Mid]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
@@ -383,8 +384,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==high]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = High} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = High} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.07;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;High]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
@@ -392,8 +393,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==delay]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Delay} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Delay} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:1000;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Delay]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
@@ -401,8 +402,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==8d-v2]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = 8D V2} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = 8D V2} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;echo:0.1;contrast:0;pulsator:0.15;vibrato:0;earwax:1]
 $setServerVar[filters;8D V2]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
@@ -419,8 +420,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$interactionData[options.data[0].value]]==vaporwave]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{newEmbed:{title:Applyed.} {footer:Filter = Vaporwave} {color:$getVar[color]}}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Vaporwave} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0.875;speed:1;echo:0;contrast:0;pulsator:0;vibrato:0;earwax:0]
 $setServerVar[filters;Vaporwave]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$interactionData[author.id]];1];$interactionData[author.id]]
@@ -1270,8 +1271,8 @@ $color[1;$getVar[color]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $elseif[$toLowercase[$message[1]]==nightcore]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.3;speed:0.775;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Nightcore} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Nightcore} {color:$getVar[color]}}]
 $setServerVar[filters;Nightcore]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1279,8 +1280,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==chipmunk]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.9;speed:0.550;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Chipmunk} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Chipmunk} {color:$getVar[color]}}]
 $setServerVar[filters;Chipmunk]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1288,8 +1289,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==bass]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:$replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;5];pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Bass | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;5] dB} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Bass | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;5] dB} {color:$getVar[color]}}]
 $setServerVar[filters;Bass | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;5]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;5]<=20;Max. **20**]
@@ -1299,8 +1300,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==surround]
 $songFilter[phaser:0;flanger:0;gate:0;surround:1;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[300ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Surround} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[300ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Surround} {color:$getVar[color]}}]
 $setServerVar[filters;Surround]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1308,8 +1309,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==flanger]
 $songFilter[phaser:0;flanger:1;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Flanger} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Flanger} {color:$getVar[color]}}]
 $setServerVar[filters;Flanger]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1317,8 +1318,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==gate]
 $songFilter[phaser:0;flanger:0;gate:1;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Gate} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Gate} {color:$getVar[color]}}]
 $setServerVar[filters;Gate]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1326,8 +1327,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==chorus]
 $songFilter[phaser:1;flanger:1;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Chorus} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Chorus} {color:$getVar[color]}}]
 $setServerVar[filters;Chorus]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1336,7 +1337,7 @@ $endelseif
 $elseif[$toLowercase[$message[1]]==clear]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 Clearing..
-$editIn[2msClearing.. $random[1;30]%;Clearing.. $random[31;50]%;Clearing.. $random[51;70]%;Clearing.. $random[71;100]%;{title:Cleared.} {color:$getVar[color]}]
+$editIn[2msClearing.. $random[1;30]%;Clearing.. $random[31;50]%;Clearing.. $random[51;70]%;Clearing.. $random[71;100]%;{title:Cleared.} {color:$getVar[color]}}]
 $setServerVar[filters;none]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1344,8 +1345,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==phaser]
 $songFilter[phaser:1;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Phaser} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Phaser} {color:$getVar[color]}}]
 $setServerVar[filters;Phaser]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1353,8 +1354,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==earwax]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:1;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Earwax} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Earwax} {color:$getVar[color]}}]
 $setServerVar[filters;Earwax]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1362,8 +1363,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==pitch]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:$replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1];speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Pitch | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1]} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Pitch | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1]} {color:$getVar[color]}}]
 $setServerVar[filters;Pitch | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1]<=1.9;Max. **1.9**]
@@ -1373,8 +1374,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==speed]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:$replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1];earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Speed | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1]} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Speed | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1]} {color:$getVar[color]}}]
 $setServerVar[filters;Speed | $replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$message[2]!=];true;$message[2]];false;1.1]<=9.9;Max. **9.9**]
@@ -1384,8 +1385,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==echo]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:100;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Echo} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Echo} {color:$getVar[color]}}]
 $setServerVar[filters;Echo]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1393,8 +1394,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==pulsator]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0.5;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Pulsator} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Pulsator} {color:$getVar[color]}}]
 $setServerVar[filters;Pulsator]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1402,8 +1403,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==pulsator-2x]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:2;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Pulsator 2x} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Pulsator 2x} {color:$getVar[color]}}]
 $setServerVar[filters;Pulsator 2x]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1412,8 +1413,8 @@ $endelseif
 $elseif[$toLowercase[$message[1]]==distorted]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:99;pulsator:0;vibrato:0]
 $songFilter[contrast:99]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Distorted} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Distorted} {color:$getVar[color]}}]
 $setServerVar[filters;Distorted]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1421,8 +1422,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==vibrato]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0.3]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Vibrato} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Vibrato} {color:$getVar[color]}}]
 $setServerVar[filters;Vibrato]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1430,8 +1431,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==vibrato-2x]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0.6]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Vibrato 2x} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Vibrato 2x} {color:$getVar[color]}}]
 $setServerVar[filters;Vibrato 2x]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1439,8 +1440,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==space]
 $songFilter[phaser:1;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:1;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Space} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Space} {color:$getVar[color]}}]
 $setServerVar[filters;Space]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1448,8 +1449,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==all]
 $songFilter[phaser:1;flanger:1;gate:1;surround:1;bass:10;pitch:1.1;speed:1.1;earwax:1;echo:100;contrast:99;pulsator:0.125;vibrato:0.3]
-Applying..
-$editIn[2s;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = All} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2s;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = All} {color:$getVar[color]}}]
 $setServerVar[filters;All]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1458,8 +1459,8 @@ $endelseif
 $elseif[$toLowercase[$message[1]]==deep]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:-3;pitch:0.9;speed:1.1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
 $songFilter[pitch:0.9;speed:1.1;bass:-3]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Deep} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Deep} {color:$getVar[color]}}]
 $setServerVar[filters;Deep]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1467,8 +1468,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==3d]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0.135;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = 3D} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = 3D} {color:$getVar[color]}}]
 $setServerVar[filters;3D]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1476,8 +1477,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==8d]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:30;contrast:0;pulsator:0.08;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = 8D} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = 8D} {color:$getVar[color]}}]
 $setServerVar[filters;8D]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1485,8 +1486,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==clarity]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.1;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Clarity} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Clarity} {color:$getVar[color]}}]
 $setServerVar[filters;Clarity]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1494,8 +1495,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==nightcore-normal]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1.3;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Nightcore Normal} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Nightcore Normal} {color:$getVar[color]}}]
 $setServerVar[filters;Nightcore Normal]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1503,8 +1504,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==half]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0;speed:0.5;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Half} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Half} {color:$getVar[color]}}]
 $setServerVar[filters;Half]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1512,8 +1513,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==double]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0;speed:2;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Double} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Double} {color:$getVar[color]}}]
 $setServerVar[filters;Double]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1521,8 +1522,8 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==fan]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:25;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Fan} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Fan} {color:$getVar[color]}}]
 $setServerVar[filters;Fan]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
@@ -1530,16 +1531,16 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==purebass]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:20;pitch:1;speed:1;earwax:0;echo:0;contrast:0;pulsator:0;vibrato:0]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Purebass} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Purebass} {color:$getVar[color]}}]
 $setServerVar[filters;Purebass]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==low]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Low} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Low} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.05;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Low]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1547,8 +1548,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==mid]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Mid} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Mid} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.2;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Mid]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1556,8 +1557,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==high]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = High} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = High} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:0.07;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;High]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1565,8 +1566,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==delay]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Delay} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Delay} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;earwax:0;echo:1000;contrast:0;pulsator:0;vibrato:0]
 $setServerVar[filters;Delay]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1574,8 +1575,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==8d-v2]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = 8D V2} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = 8D V2} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:1;speed:1;echo:0.1;contrast:0;pulsator:0.15;vibrato:0;earwax:1]
 $setServerVar[filters;8D V2]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1583,8 +1584,8 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $endelseif
 $elseif[$toLowercase[$message[1]]==vaporwave]
-Applying..
-$editIn[2ms;Applying.. $random[1;55]%;Applying.. $random[56;100]%;{title:Applyed.} {footer:Filter = Vaporwave} {color:$getVar[color]}]
+$getVar[filterapplying]
+$editIn[2ms;$getVar[filterapplying] $random[1;55]%;$getVar[filterapplying] $random[56;100]%;{newEmbed:{title:$getVar[filterapply]} {footer:Filter = Vaporwave} {color:$getVar[color]}}]
 $songFilter[phaser:0;flanger:0;gate:0;surround:0;bass:0;pitch:0.875;speed:1;echo:0;contrast:0;pulsator:0;vibrato:0;earwax:0]
 $setServerVar[filters;Vaporwave]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1673,7 +1674,7 @@ $else
 $description[1;Seek to \`$replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0 second];true;$humanizeMS[$multi[$noMentionMessage;1000];10]] ($djsEval[new Date($replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0];true;$noMentionMessage;1000] * 1000).toISOString().substr(11, 8);yes])\`]
 $footer[1;Value: $noMentionMessage]
 $color[1;$getVar[color]]
-$wait[$sum[$multi[$botPing;1;2;3];$dbPing]]
+$wait[$multi[$botPing;1;2]]
 $seekTo[$noMentionMessage]
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
@@ -1685,7 +1686,7 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -1707,7 +1708,7 @@ $onlyIf[$voiceID[$clientID]==;Already joined!]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[something just happened.]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -1728,7 +1729,7 @@ $endif
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[something just happened.]`
+$suppressErrors[$getVar[customerror]]`
 })
 
 bot.command({
@@ -1754,7 +1755,7 @@ $onlyIf[$voiceID[$clientID]!=;Already disconnected!]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[something just happened.]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -1764,12 +1765,13 @@ $createSlashCommand[$guildID;filter;For list, just leave blank;filter:Use FIlter
 $createSlashCommand[$guildID;resume;Resume Song]
 $createSlashCommand[$guildID;pause;Pause Song]
 $createSlashCommand[$guildID;stop;Stop Song]
-$title[Successfully created]
-$description[You can use slash command now.] $color[$getVar[color]]
+$title[1;Successfully created]
+$description[1;You can use slash command now.]
+$color[1;$getVar[color]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyPerms[manageserver;You didnt have permission **Manage Server**.]
-$suppressErrors[failed.]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -1791,7 +1793,8 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
-$onlyIf[$voiceID!=;$getVar[errorjoin]]`
+$onlyIf[$voiceID!=;$getVar[errorjoin]]
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -1839,7 +1842,7 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -1861,7 +1864,7 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -1872,7 +1875,7 @@ $description[1;) reboot --normal
 > Reboot
 
 ) reboot --destroy
-> Reboot Instantly Turn Off]
+> Kill Client/Websocket]
 $color[1;$getVar[color]]
 $addTimestamp[1]
 $elseIf[$toLowercase[$message[1]]==--normal]
@@ -1918,7 +1921,7 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -1990,7 +1993,7 @@ $argsCheck[1;Usage: \`remove (numnber song on queue)\`]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[something just happened.]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -2046,7 +2049,7 @@ $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -2139,7 +2142,7 @@ $onlyIf[$queueLength!=1;{author:Currently Playing:$getVar[customemoji1]} {title:
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[something just happened.]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -2173,8 +2176,8 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$replaceText[$message[1];-;]<=10;Only available \`10\` slot.]
 $onlyIf[$isNumber[$message[1]]!=false;Must number!]
 $cooldown[3s;Please wait **%time%** before using again.]
-$argsCheck[>2;Usage: \`playlist-add (number playlist) (song)\`]
-$suppressErrors[something just happened.]`
+$argsCheck[>2;Usage: \`playlist-add <number playlist> <song>\`]
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -2188,8 +2191,8 @@ $onlyIf[$checkContains[$message[1];-]!=true;Failed.]
 $onlyIf[$message[1]<=10;Only available \`10\` slot.]
 $onlyIf[$isNumber[$message[1]]!=false;Must number!]
 $cooldown[3s;Please wait **%time%** before using again.]
-$argsCheck[1;Usage: \`playlist-remove (number playlist)\`]
-$suppressErrors[something just happened.]`
+$argsCheck[1;Usage: \`playlist-remove <number playlist>\`]
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -2226,9 +2229,9 @@ $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
 $cooldown[3s;Please wait **%time%** before using again.]
-$argsCheck[1;Usage: \`playlist-play (number playlist)\`]
+$argsCheck[1;Usage: \`playlist-play <number playlist>\`]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[something just happened.]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.command({
@@ -2238,8 +2241,8 @@ bot.command({
   code: `$if[$isNumber[$message[1]]==true]
 $sendMessage[{newEmbed:{field:Volume:\`$volume%\`:yes} {field:Max Volume:\`$getServerVar[maxvol]%\`:yes} {color:$getVar[color]} {timestamp}};no]
 $volume[$filterMessage[$message[1];-]]
-$onlyIf[$getServerVar[maxvol]>=$filterMessage[$message[1];-];You cant go above $getServerVar[maxvol]%]
-$onlyIf[$filterMessage[$message[1];-]>=10;You cant go below 10%]
+$onlyIf[$getServerVar[maxvol]>=$filterMessage[$message[1];-];You can't go above $getServerVar[maxvol]%]
+$onlyIf[$filterMessage[$message[1];-]>=10;You can't go below 10%]
 $else
 $editMessage[$get[id];{newEmbed:{title:Reaction Expired} {field:Volume:\`$volume%\`:yes} {field:Max Volume:\`$getServerVar[maxvol]%\`:yes} {color:$getVar[color]} {timestamp} {delete:5s}}]
 $wait[1m]
@@ -2253,7 +2256,7 @@ $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyBotPerms[addreactions;Missing Permission, **Add Reactions** - Bot]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[something just happened.]`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.awaitedCommand({
