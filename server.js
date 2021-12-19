@@ -86,7 +86,14 @@ bot.variables({
   7: "",
   8: "",
   9: "",
-  10: ""
+  10: "",
+
+//for soundcloud non-link
+  awaitsc1: "",
+  awaitsc2: "",
+  awaitsc3: "",
+  awaitsc4: "",
+  awaitsc5: ""
 })
 
 bot.readyCommand({
@@ -437,7 +444,7 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$interactionData[author.id]];false;$getServerVar[userid]]==$interactionData[author.id];$getVar[errorjoin]]
 $interactionReply[\`$userTag[$interactionData[author.id]]\` using slash.]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 })
 
 bot.interactionCommand({
@@ -472,7 +479,7 @@ $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors[something just happened.]
+$suppressErrors[$getVar[customerror]]
 $interactionReply[\`$userTag[$interactionData[author.id]]\` using slash.]`
 })
 
@@ -545,7 +552,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused;$intera
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$interactionData[author.id]];false;$getServerVar[userid]]==$interactionData[author.id];$getVar[errorjoin]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors
+$suppressErrors[$getVar[customerror]]
 $interactionReply[\`$userTag[$interactionData[author.id]]\` using slash.]`
 })
 
@@ -623,7 +630,7 @@ code: `$editMessage[$getUserVar[reactmessageid;$clientID];{newEmbed:{author:Star
 {color:$getVar[color]}}]
 $textSplit[$songInfo[duration] $songInfo[current_duration]; ]
 $onlyIf[$queueLength!=0;]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 })
 
 bot.awaitedCommand({
@@ -657,7 +664,7 @@ $editMessage[$getUserVar[reactmessageid;$clientID];{newEmbed:{author:Shuffle Que
 $shuffleQueue
 $onlyIf[$queueLength>1;Only have 1 song. {delete:2s}]
 $onlyIf[$queueLength!=0;]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 })
 
 bot.musicStartCommand({
@@ -671,7 +678,7 @@ $endif
 $if[$getGlobalUserVar[vol;$songInfo[userID]]>=$sum[$getServerVar[maxvol];1]]]
 $setGlobalUserVar[vol;50;$songInfo[userID]]
 $volume[50]
-$sendMessage[{newEmbed:{title:Volume User was change to 50%.} {footer:Bypass limit Max Volume Server} {color:$getVar[color]} {delete:5s}};no]
+$sendMessage[{newEmbed:{title:Volume user change to 50%.} {footer:Bypass limit Max Volume Server} {color:$getVar[color]} {delete:5s}};no]
 $endif
 $if[$checkContains[$usersInChannel[$voiceID[$clientID];id; ];$songInfo[userID]]==false]
 $leaveVC
@@ -686,7 +693,7 @@ $sendMessage[Looks like there no people on vc.;no]
 $onlyIf[$getGlobalUserVar[247;$songInfo[userID]]!=2;]
 $endelseif
 $endif
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 })
 
 bot.musicStartCommand({
@@ -717,7 +724,7 @@ $endif
 $if[$getUserVar[nontrigger;$clientID]==1]
 $setUserVar[nontrigger;0;$clientID]
 $endif
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 })
 
 bot.musicEndCommand({
@@ -806,7 +813,7 @@ $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength!=0;]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyIf[$voiceID!=;]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 })
 
 bot.awaitedCommand({
@@ -836,7 +843,7 @@ $textSplit[$songInfo[duration;$replaceText[$replaceText[$checkContains[$loopStat
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$queueLength>1;Only have 1 song. {delete:2s}]
 $onlyIf[$queueLength!=0;]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 })
 
 bot.command({
@@ -939,6 +946,141 @@ $argsCheck[>1;Please put link song that from soundcloud.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
 $suppressErrors`
 });
+
+bot.awaitedCommand({
+ name: "awaitsc1",
+ $if: "v4",
+ code: `$if[$queueLength<1]
+$deleteMessage[$get[id]]
+$wait[3s]
+$editMessage[$get[id];{newEmbed:{author:Starting Playing} {title:$get[song]} {color:$getVar[color]} {timestamp}}]
+$else
+$author[1;Added to queue;$getVar[customemoji1]
+$title[1;$songInfo[title;$sub[$queueLength;1]];$songInfo[url;$sub[$queueLength;1]]]
+$thumbnail[1;$songInfo[thumbnail;$sub[$queueLength;1]]]
+$addField[1;Filters;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration;$sub[$queueLength;1]]==0 Seconds];true;none];false;$getServerVar[filters]]\`;no]
+$addField[1;Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
+$addField[1;Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
+$addField[1;Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[1;Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
+$color[1;$getVar[color]]
+$endif
+$let[song;$playSoundcloud[$getUserVar[awaitsc1];$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
+$joinVC[$voiceID]
+$if[$queueLength<1]
+$let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
+$endif
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]`
+})
+
+bot.awaitedCommand({
+ name: "awaitsc2",
+ $if: "v4",
+ code: `$if[$queueLength<1]
+$deleteMessage[$get[id]]
+$wait[3s]
+$editMessage[$get[id];{newEmbed:{author:Starting Playing} {title:$get[song]} {color:$getVar[color]} {timestamp}}]
+$else
+$author[1;Added to queue;$getVar[customemoji1]
+$title[1;$songInfo[title;$sub[$queueLength;1]];$songInfo[url;$sub[$queueLength;1]]]
+$thumbnail[1;$songInfo[thumbnail;$sub[$queueLength;1]]]
+$addField[1;Filters;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration;$sub[$queueLength;1]]==0 Seconds];true;none];false;$getServerVar[filters]]\`;no]
+$addField[1;Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
+$addField[1;Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
+$addField[1;Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[1;Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
+$color[1;$getVar[color]]
+$endif
+$let[song;$playSoundcloud[$getUserVar[awaitsc2];$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
+$joinVC[$voiceID]
+$if[$queueLength<1]
+$let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
+$endif
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]`
+})
+
+bot.awaitedCommand({
+ name: "awaitsc3",
+ $if: "v4",
+ code: `$if[$queueLength<1]
+$deleteMessage[$get[id]]
+$wait[3s]
+$editMessage[$get[id];{newEmbed:{author:Starting Playing} {title:$get[song]} {color:$getVar[color]} {timestamp}}]
+$else
+$author[1;Added to queue;$getVar[customemoji1]
+$title[1;$songInfo[title;$sub[$queueLength;1]];$songInfo[url;$sub[$queueLength;1]]]
+$thumbnail[1;$songInfo[thumbnail;$sub[$queueLength;1]]]
+$addField[1;Filters;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration;$sub[$queueLength;1]]==0 Seconds];true;none];false;$getServerVar[filters]]\`;no]
+$addField[1;Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
+$addField[1;Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
+$addField[1;Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[1;Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
+$color[1;$getVar[color]]
+$endif
+$let[song;$playSoundcloud[$getUserVar[awaitsc3];$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
+$joinVC[$voiceID]
+$if[$queueLength<1]
+$let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
+$endif
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]`
+})
+
+bot.awaitedCommand({
+ name: "awaitsc4",
+ $if: "v4",
+ code: `$if[$queueLength<1]
+$deleteMessage[$get[id]]
+$wait[3s]
+$editMessage[$get[id];{newEmbed:{author:Starting Playing} {title:$get[song]} {color:$getVar[color]} {timestamp}}]
+$else
+$author[1;Added to queue;$getVar[customemoji1]
+$title[1;$songInfo[title;$sub[$queueLength;1]];$songInfo[url;$sub[$queueLength;1]]]
+$thumbnail[1;$songInfo[thumbnail;$sub[$queueLength;1]]]
+$addField[1;Filters;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration;$sub[$queueLength;1]]==0 Seconds];true;none];false;$getServerVar[filters]]\`;no]
+$addField[1;Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
+$addField[1;Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
+$addField[1;Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[1;Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
+$color[1;$getVar[color]]
+$endif
+$let[song;$playSoundcloud[$getUserVar[awaitsc4];$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
+$joinVC[$voiceID]
+$if[$queueLength<1]
+$let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
+$endif
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]`
+})
+
+bot.awaitedCommand({
+ name: "awaitsc5",
+ $if: "v4",
+ code: `$if[$queueLength<1]
+$deleteMessage[$get[id]]
+$wait[3s]
+$editMessage[$get[id];{newEmbed:{author:Starting Playing} {title:$get[song]} {color:$getVar[color]} {timestamp}}]
+$else
+$author[1;Added to queue;$getVar[customemoji1]
+$title[1;$songInfo[title;$sub[$queueLength;1]];$songInfo[url;$sub[$queueLength;1]]]
+$thumbnail[1;$songInfo[thumbnail;$sub[$queueLength;1]]]
+$addField[1;Filters;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration;$sub[$queueLength;1]]==0 Seconds];true;none];false;$getServerVar[filters]]\`;no]
+$addField[1;Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
+$addField[1;Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
+$addField[1;Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
+$addField[1;Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
+$color[1;$getVar[color]]
+$endif
+$let[song;$playSoundcloud[$getUserVar[awaitsc5];$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
+$joinVC[$voiceID]
+$if[$queueLength<1]
+$let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
+$endif
+$onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]`
+})
 
 bot.command({
   name: "download",
@@ -1760,11 +1902,11 @@ $suppressErrors[$getVar[customerror]]`
 
 bot.command({
   name: "slash",
-  code: `$createSlashCommand[$guildID;play;Play song;song:Support YouTube & Soundcloud:true:3]
-$createSlashCommand[$guildID;filter;For list, just leave blank;filter:Use FIlter:false:3]
-$createSlashCommand[$guildID;resume;Resume Song]
-$createSlashCommand[$guildID;pause;Pause Song]
-$createSlashCommand[$guildID;stop;Stop Song]
+  code: `$createApplicationCommand[$guildID;play;Play song;song:Support YouTube & Soundcloud:true:3]
+$createApplicationCommand[$guildID;filter;For list, just leave blank;filter:Use FIlter:false:3]
+$createApplicationCommand[$guildID;resume;Resume Song]
+$createApplicationCommand[$guildID;pause;Pause Song]
+$createApplicationCommand[$guildID;stop;Stop Song]
 $title[1;Successfully created]
 $description[1;You can use slash command now.]
 $color[1;$getVar[color]]
