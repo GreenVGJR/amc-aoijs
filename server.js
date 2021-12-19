@@ -915,7 +915,8 @@ bot.command({
   name: "soundcloud",
   aliases: ["sc"],
   $if: "v4",
-  code: `$if[$queueLength<1]
+  code: `$if[$checkContains[$message[1];https://soundcloud.com/]==true]
+$if[$queueLength<1]
 $deleteMessage[$get[id]]
 $wait[3s]
 $editMessage[$get[id];{newEmbed:{author:Starting Playing} {title:$get[song]} {color:$getVar[color]} {timestamp}}]
@@ -923,12 +924,13 @@ $else
 $author[1;Added to queue;$getVar[customemoji1]
 $title[1;$songInfo[title;$sub[$queueLength;1]];$songInfo[url;$sub[$queueLength;1]]]
 $thumbnail[1;$songInfo[thumbnail;$sub[$queueLength;1]]]
-$addField[1;Filters;\`$replaceText[$replaceText[$checkCondition[$songInfo[duration;$sub[$queueLength;1]]==0 Seconds];true;none];false;$getServerVar[filters]]\`;no]
+$addField[1;Filters;\`$replaceText[$replaceText[$checkCondition[$filterMessage[$filterMessage[$splitText[3];(];)]==00:00:00];true;none];false;$getServerVar[filters]]\`;no]
 $addField[1;Loop;\`$replaceText[$replaceText[$checkContains[$loopStatus;song;queue];true;on - $loopStatus];false;off]\`;yes]
 $addField[1;Volume;\`$volume% - $getServerVar[maxvol]%\`;yes]
 $addField[1;Duration;\`$replaceText[$djsEval[new Date($splitText[1] * 1000).toISOString().substr(11, 8);yes];00:00:00;LIVE]\`;yes]
 $addField[1;Requested By;<@$songInfo[userID;$sub[$queueLength;1]]>;no]
 $color[1;$getVar[color]]
+$textSplit[$songInfo[duration;$sub[$queueLength;1]]; ]
 $endif
 $let[song;$playSoundcloud[$message;$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
 $joinVC[$voiceID]
@@ -936,15 +938,50 @@ $if[$queueLength<1]
 $let[id;$sendMessage[{newEmbed:{title:Starting Playing} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
 $endif
 $botTyping
+$else
+$if[$getGlobalUserVar[scsearch]==1]
+$awaitMessages[$authorID;20s;1,2,3,4,5;awaitsc1,awaitsc2,awaitsc3,awaitsc4,awaitsc5;Timed out.]
+$setUserVar[awaitsc5;$get[result5]]
+$setUserVar[awaitsc4;$get[result4]]
+$setUserVar[awaitsc3;$get[result3]]
+$setUserVar[awaitsc2;$get[result2]]
+$setUserVar[awaitsc1;$get[result1]]
+$editMessage[$get[id2];{newEmbed:{description:
+1. $get[result1]
+2. $get[result2]
+3. $get[result3]
+4. $get[result4]
+5. $get[result5]} {color:$getVar[color]} {thumbnail:$getVar[scemoji]} {timestamp} {footer:Type 1-5 for play}}]
+$onlyIf[$get[result5]!=https://soundcloud.com;Not found.]
+$onlyIf[$get[result4]!=https://soundcloud.com;Not found.]
+$onlyIf[$get[result3]!=https://soundcloud.com;Not found.]
+$onlyIf[$get[result2]!=https://soundcloud.com;Not found.]
+$onlyIf[$get[result1]!=https://soundcloud.com;Not found.]
+$let[result5;https://soundcloud.com$advancedTextSplit[$get[link];<h2><a href=";7;";1]]
+$let[result4;https://soundcloud.com$advancedTextSplit[$get[link];<h2><a href=";6;";1]]
+$let[result3;https://soundcloud.com$advancedTextSplit[$get[link];<h2><a href=";5;";1]]
+$let[result2;https://soundcloud.com$advancedTextSplit[$get[link];<h2><a href=";4;";1]]
+$let[result1;https://soundcloud.com$advancedTextSplit[$get[link];<h2><a href=";3;";1]]
+$let[link;$httpRequest[https://www.soundcloud.com/search?q=$message]]
+$let[id2;$sendMessage[{newEmbed:{title:Searching} {author:Loading..:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
+$botTyping
+$else
+$botTyping
+$let[song;$playSoundcloud[$get[resultfinal];$getVar[clientidsoundcloud];$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;0s];1;120s];2;7d];yes;$replaceText[$replaceText[$replaceText[$getGlobalUserVar[247];0;yes];1;yes];2;no];No result.]]
+$let[resultfinal;https://soundcloud.com$advancedTextSplit[$get[link2];<h2><a href=";3;";1]]
+$let[link2;$httpRequest[https://www.soundcloud.com/search?q=$message]]
+$joinVC[$voiceID]
+$endif
+$endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
 $onlyBotPerms[connect;Can't connect to the voice channel. - Missing Permission]
 $onlyBotPerms[speak;Can't speak on the voice channel. - Missing Permission]
 $onlyBotPerms[embedlinks;addreactions;Missing Permission, **Embed Links** n **Add Reactions**]
 $cooldown[3s;Please wait **%time%** before using again.]
-$argsCheck[>1;Please put link song that from soundcloud.]
+$argsCheck[>1;Please write name of song or put link song.]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]
-$suppressErrors`
+$suppressErrors[$getVar[customerror]]`
 });
 
 bot.awaitedCommand({
