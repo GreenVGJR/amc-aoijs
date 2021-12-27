@@ -1,6 +1,6 @@
 {
-  "name": "amc",
-  "version": "5.1.0",
+  "name": "a",
+  "version": "0.0.0",
   "description": "none",
   "main": "server.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": { //Template from aoijs/aoi.js/blob/main/package.json
+  "dependencies": {
     "@discordjs/voice": "^0.7.5",
     "aoi.js": "^4.6.0",
     "dbdjs.db": "^2.0.2",
