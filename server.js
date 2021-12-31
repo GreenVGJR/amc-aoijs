@@ -1785,43 +1785,51 @@ bot.command({
   name: "check",
   code: `$title[1;Check]
 $description[1;\`\`\`
-Public       : $replaceText[$replaceText[$client[ispublic];true;✅];false;❌]
+Public         : $replaceText[$replaceText[$client[ispublic];true;✅];false;❌]
 
-Pause        : $replaceText[$replaceText[$checkCondition[$getVar[pause]!=];true;✅];false;❌]
-Resume       : $replaceText[$replaceText[$checkCondition[$getVar[resume]!=];true;✅];false;❌]
-Skip         : $replaceText[$replaceText[$checkCondition[$getVar[skip]!=];true;✅];false;❌]
-Stop         : $replaceText[$replaceText[$checkCondition[$getVar[stop]!=];true;✅];false;❌]
-Shuffle      : $replaceText[$replaceText[$checkCondition[$getVar[shuffle]!=];true;✅];false;❌]
-Clearqueue   : $replaceText[$replaceText[$checkCondition[$getVar[clearsong]!=];true;✅];false;❌]
-Join         : $replaceText[$replaceText[$checkCondition[$getVar[join]!=];true;✅];false;❌]
-Disconnect   : $replaceText[$replaceText[$checkCondition[$getVar[dc]!=];true;✅];false;❌]
-Play         : $replaceText[$replaceText[$checkCondition[$getVar[errorjoin]!=];true;✅];false;❌]
-ClientID     : $replaceText[$replaceText[$checkCondition[$getVar[clientidsoundcloud]!=];true;✅];false;❌]
-UserID       : $replaceText[$replaceText[$checkCondition[$getServerVar[userid]!=default];true;✅];false;❌]
-Log Music    : $replaceText[$replaceText[$checkContains[$getGlobalUserVar[logmusic];0;2];true;✅];false;❌]
-React        : $replaceText[$replaceText[$checkContains[$getGlobalUserVar[controlreact];1];true;✅];false;❌]
+Pause          : $replaceText[$replaceText[$checkCondition[$getVar[pause]!=];true;✅];false;❌]
+Resume         : $replaceText[$replaceText[$checkCondition[$getVar[resume]!=];true;✅];false;❌]
+Skip           : $replaceText[$replaceText[$checkCondition[$getVar[skip]!=];true;✅];false;❌]
+Stop           : $replaceText[$replaceText[$checkCondition[$getVar[stop]!=];true;✅];false;❌]
+Shuffle        : $replaceText[$replaceText[$checkCondition[$getVar[shuffle]!=];true;✅];false;❌]
+Clearqueue     : $replaceText[$replaceText[$checkCondition[$getVar[clearsong]!=];true;✅];false;❌]
+Join           : $replaceText[$replaceText[$checkCondition[$getVar[join]!=];true;✅];false;❌]
+Disconnect     : $replaceText[$replaceText[$checkCondition[$getVar[dc]!=];true;✅];false;❌]
+Play           : $replaceText[$replaceText[$checkCondition[$getVar[errorjoin]!=];true;✅];false;❌]
+ClientID       : $replaceText[$replaceText[$checkCondition[$getVar[clientidsoundcloud]!=];true;✅];false;❌]
+UserID         : $replaceText[$replaceText[$checkCondition[$getServerVar[userid]!=default];true;✅];false;❌]
+Log Music      : $replaceText[$replaceText[$checkContains[$getGlobalUserVar[logmusic];0;2];true;✅];false;❌]
+React          : $replaceText[$replaceText[$checkContains[$getGlobalUserVar[controlreact];1];true;✅];false;❌]
 
-Max Volume   : $getServerVar[maxvol]%
-User Volume  : $getGlobalUserVar[vol]%
+Max Volume     : $getServerVar[maxvol]%
+User Volume    : $getGlobalUserVar[vol]%
 
-1) Emoji     : $replaceText[$replaceText[$checkCondition[$getVar[customemoji1]!=];true;✅];false;❌]
-2) Emoji     : $replaceText[$replaceText[$checkCondition[$getVar[ytemoji]!=];true;✅];false;❌]
-3) Emoji     : $replaceText[$replaceText[$checkCondition[$getVar[scemoji]!=];true;✅];false;❌]
-4) Emoji     : $replaceText[$replaceText[$checkCondition[$getVar[loademoji]!=];true;✅];false;❌]
+1) Emoji       : $replaceText[$replaceText[$checkCondition[$getVar[customemoji1]!=];true;✅];false;❌]
+2) Emoji       : $replaceText[$replaceText[$checkCondition[$getVar[ytemoji]!=];true;✅];false;❌]
+3) Emoji       : $replaceText[$replaceText[$checkCondition[$getVar[scemoji]!=];true;✅];false;❌]
+4) Emoji       : $replaceText[$replaceText[$checkCondition[$getVar[loademoji]!=];true;✅];false;❌]
 
-Connect      : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;connect]==true];true;✅];false;❌]
-Speak        : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;speak]==true];true;✅];false;❌]
-Deafen       : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;deafenmembers]==true];true;✅];false;❌]
-Reactions    : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;addreactions]==true];true;✅];false;❌]
-Messages     : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;managemessages]==true];true;✅];false;❌]
-Embed Links  : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;embedlinks]==true];true;✅];false;❌]
-Attach Files : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;attachfiles]==true];true;✅];false;❌]
-Move Members : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;movemembers]==true];true;✅];false;❌]
-\`\`\`]
+Connect        : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;connect]==true];true;✅];false;❌]
+Speak          : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;speak]==true];true;✅];false;❌]
+Deafen         : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;deafenmembers]==true];true;✅];false;❌]
+Reactions      : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;addreactions]==true];true;✅];false;❌]
+Messages       : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;managemessages]==true];true;✅];false;❌]
+Embed Links    : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;embedlinks]==true];true;✅];false;❌]
+Attach Files   : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;attachfiles]==true];true;✅];false;❌]
+Move Members   : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;movemembers]==true];true;✅];false;❌]
+Public Thread  : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;usepublicthreads]==true];true;✅];false;❌]
+Private Thread : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;useprivatethreads]==true];true;✅];false;❌]
+Slash          : $replaceText[$replaceText[$checkCondition[$hasPerms[$clientID;useappcmds]==true];true;✅];false;❌]
+
+YouTube        : $replaceText[$replaceText[$get[yt];true;✅];false;❌]
+SoundCloud     : $replaceText[$replaceText[$get[sc];true;✅];false;❌]
+\`\`\`] 
 $color[1;$getVar[color]]
 $footer[1;Color: $getVar[color]
 Latency: $numberSeparator[$messageing]ms]
 $addTimestamp[1]
+$let[yt;$isValidLink[https://soundcloud.com/]]
+$let[sc;$isValidLink[https://youtube.com/]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $cooldown[3s;Please wait **%time%** before using again.]`
 });
@@ -1843,8 +1851,8 @@ bot.command({
   name: "seek",
   $if: "v4",
   code: `$if[$toLowercase[$message[2]]==save]
-$addField[1;Seek to \`$replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$message[1];1000];10]!=];false;0 second];true;$humanizeMS[$multi[$message[1];1000];10]] ($djsEval[new Date($replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0];true;$noMentionMessage] * 1000).toISOString().substr(11, 8);yes])\`;one-time use saving seek.]
-$footer[1;Value: $message[1]]
+$description[1;Seek to \`$replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$message[1];1000];10]!=];false;0 second];true;$humanizeMS[$multi[$message[1];1000];10]] ($djsEval[new Date($replaceText[$replaceText[$checkCondition[$humanizeMS[$multi[$noMentionMessage;1000];10]!=];false;0];true;$noMentionMessage] * 1000).toISOString().substr(11, 8);yes])\`]
+$footer[1;Value: $message[1] | Save Seek]
 $color[1;$getVar[color]]
 $setGlobalUserVar[saveseek;$message[1]]
 $seekTo[$message[1]]
@@ -1898,11 +1906,13 @@ bot.command({
 $deleteMessage[$getUserVar[reactmessageid;$clientID]]
 $endif
 $if[$voiceID[$clientID]==]
+$replaceText[$getVar[join];{join};$channelName[$replaceText[$replaceText[$checkCondition[$message!=];false;$voiceID];true;$findChannel[$message]]]]
 $joinVC[$voiceID]
 $else
 $joinVC[$voiceID]
 $wait[$multi[$botPing;2]]
 $leaveVC
+$sendMessage[Rejoining <#$voiceID[$clientID]> {delete:1s};no]
 $setServerVar[filters;none]
 $endif
 $cooldown[3s;Please wait **%time%** before using again.]
@@ -2073,9 +2083,36 @@ $onlyIf[$checkContains[$botOwnerID;$authorID]!=false;]`
 
 bot.command({
   name: "eval",
-  code: `$eval[$message]
-$onlyIf[$checkContains[$botOwnerID;$authorID]!=false;]
-$argsCheck[>1;what]`
+  code: `$if[$toLowercase[$message[1]]==js]
+$editMessage[$get[b];
+\`\`\`js
+$cropText[
+($numberSeparator[$charCount[$messageSlice[1]];.]) Input:
+$messageSlice[1]
+
+($numberSeparator[$charCount[$get[a]];.]) Output:
+$get[a]
+
+Typeof:
+$djsEval[typeof($messageSlice[1]);yes] / $djsEval[typeof($get[a]);yes];2000]
+$let[a;$djseval[$messageSlice[1];yes]]
+\`\`\`]
+$let[b;$sendMessage[\`\`\`js
+($numberSeparator[$charCount[$messageSlice[1]];.]) Input:
+$messageSlice[1]
+
+(0) Output:
+
+
+Typeof:
+undefined / undefined
+\`\`\`
+;yes]]
+$else
+$eval[$message]
+$endif
+$suppressErrors
+$onlyIf[$checkContains[$botOwnerID;$authorID]!=false;]`
 });
 
 bot.command({
