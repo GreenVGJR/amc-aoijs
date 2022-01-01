@@ -1828,8 +1828,8 @@ $color[1;$getVar[color]]
 $footer[1;Color: $getVar[color]
 Latency: $numberSeparator[$messageing]ms]
 $addTimestamp[1]
-$let[yt;$isValidLink[https://soundcloud.com/]]
-$let[sc;$isValidLink[https://youtube.com/]]
+$let[sc;$isValidLink[https://soundcloud.com/]]
+$let[yt;$isValidLink[https://youtube.com/]]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
 $cooldown[3s;Please wait **%time%** before using again.]`
 });
