@@ -47,17 +47,18 @@ bot.variables({
   leftvc: "There no song again on queue.", //Description
   secondleftvc: "Left VC.", //Footer
 
+  //Changing Other
+  color: "000001",
+  channelstatus: "", //Optional (channelid), for send ready message
+  vol: "50", //Default Volume
+  maxvol: "150", //Max Volume
+
   //Changing Other - Advance
   clientidsoundcloud: "", //For soundcloud
-  clientidyoutube: "", //For youtube
-  color: "000001",
   permission: "2176183360",
   userid: "default",
   logmusic: "0",
   247: "0", //0 = off | 1 = on stay 2 minutes | 2 = stay 24/7
-  channelstatus: "", //Optional (channelid), for send ready message
-  vol: "50", //Default Volume
-  maxvol: "150", //Max Volume
   last: "null",
   linkdownload: "",
   filters: "none",
@@ -841,7 +842,7 @@ $editMessage[$getUserVar[reactmessageid;$clientID];{newEmbed:{title:$replaceText
 {color:$getVar[color]}}]
 $textSplit[$songInfo[duration;$replaceText[$replaceText[$checkContains[$loopStatus;song];true;0];false;1]]; ]
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$queueLength>1;Only have 1 song. {delete:2s}]
+$onlyIf[$queueLength>1;$replaceText[$getVar[errorloop];{amount};$queueLength] {delete:2s}]
 $onlyIf[$queueLength!=0;]
 $suppressErrors[$getVar[customerror]]`
 })
@@ -2084,30 +2085,7 @@ $onlyIf[$checkContains[$botOwnerID;$authorID]!=false;]`
 bot.command({
   name: "eval",
   code: `$if[$toLowercase[$message[1]]==js]
-$editMessage[$get[b];
-\`\`\`js
-$cropText[
-($numberSeparator[$charCount[$messageSlice[1]];.]) Input:
-$messageSlice[1]
-
-($numberSeparator[$charCount[$get[a]];.]) Output:
-$get[a]
-
-Typeof:
-$djsEval[typeof($messageSlice[1]);yes] / $djsEval[typeof($get[a]);yes];2000]
-$let[a;$djseval[$messageSlice[1];yes]]
-\`\`\`]
-$let[b;$sendMessage[\`\`\`js
-($numberSeparator[$charCount[$messageSlice[1]];.]) Input:
-$messageSlice[1]
-
-(0) Output:
-
-
-Typeof:
-undefined / undefined
-\`\`\`
-;yes]]
+$djsEval[$message;yes]
 $else
 $eval[$message]
 $endif
@@ -2156,7 +2134,7 @@ $addTimestamp[1]
 $color[1;$getVar[color]]
 $endif
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$queueLength>1;Only have **$queueLength song**.]
+$onlyIf[$queueLength>1;$replaceText[$getVar[errorloop];{amount};$queueLength]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
@@ -2186,7 +2164,7 @@ $textSplit[$songInfo[duration;$replaceText[$replaceText[$checkContains[$loopStat
 $endif
 $shuffleQueue
 $setGlobalUserVar[commanduserused;$sum[$getGlobalUserVar[commanduserused];1]]
-$onlyIf[$queueLength>1;Only have **$queueLength song**.]
+$onlyIf[$queueLength>1;$replaceText[$getVar[errorloop];{amount};$queueLength]]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $cooldown[3s;Please wait **%time%** before using again.]
 $onlyIf[$replaceText[$replaceText[$checkCondition[$getServerVar[userid]==default];true;$authorID];false;$getServerVar[userid]]==$authorID;$getVar[errorjoin]]
