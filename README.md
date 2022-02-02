@@ -10,3 +10,5 @@ Ver. undefined
 Last Update: none
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
+
+After 5.1.0 release, it will take 5 days - 2 weeks to release stable ver
