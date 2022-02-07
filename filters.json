@@ -1,1 +1,36 @@
-{}
+{
+ "3d": "apulsator=hz=0.06",
+ "8d": "apulsator=hz=0.03",
+ "8d-v2": "apulsator=hz=0.03,earwax",
+ "bass": "bass=g=$message[1],dynaudnorm=f=125", //yes
+ "clarity": "treble=g=3.5",
+ "crystalizer": "crystalizer=i=2",
+ "distorted": "dynaudnorm=f=600"
+ "echo": "aecho=0.8:0.88:60:0.4",
+ "earwax": "earwax",
+ "flanger": "flanger",
+ "gate": "agate",
+ "haas": "haas",
+ "headphone": "headphone",
+ "karaoke": "stereotools=mlev=0.03",
+ "mcompand": "mcompand",
+ "normalizer": "dynaudnorm=f=200",
+ "nightcore": "aresample=48000,asetrate=48000*1.3,atempo=0.775",
+ "phaser": "aphaser=in_gain=0.3",
+ "pitch" : "asetrate=48000*$message[1],aresample=48000", //yes
+ "pulsator": "apulsator=hz=1",
+ "speed" : "atempo=$message[1]", //yes
+ "subboost": "asubboost",
+ "surround": "surround",
+ "reverse": "areverse",
+ "treble": "treble=g=$message[1]", //yes
+ "tremolo": "tremolo",
+ "vaporwave": "aresample=48000,asetrate=48000*0.8",
+ "vibrato": "vibrato=f=3"
+}
+
+/*
+idk if this works or not
+credit:
+- https://ffmpeg.org/ffmpeg-filters.html
+- https://discord.com/channels/732254550689316914/776850005595389973 (distube server - #ffmpeg-audio-filters)
