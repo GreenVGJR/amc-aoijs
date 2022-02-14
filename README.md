@@ -5,9 +5,9 @@ ___
 ### This is code advanced music for aoi.js, discord bot.
 
 ```
-Ver. undefined
+Ver. 5.1.0-dev
 
-Last Update: none
+Last Update: 14 February 2022 - 10:38 WIB
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
 
