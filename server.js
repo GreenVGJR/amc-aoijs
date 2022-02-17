@@ -115,7 +115,9 @@ $endif
 $let[id;$sendMessage[{newEmbed:{author:Processing:$getVar[loademoji]} {color:$getVar[color]}};yes]]
 $onlyIf[$message[1]!=;What song you want search]
 $onlyIf[$checkCondition[$voiceID==$replaceText[$replaceText[$checkCondition[$voiceID[$clientID]==];true;$voiceID];false;$voiceID[$clientID]]]==true;$replaceText[$getVar[errorsameuser];{voice};<#$voiceID[$clientID]>]]
-$onlyIf[$voiceID!=;$getVar[errorjoin]]`
+$onlyIf[$voiceID!=;$getVar[errorjoin]]
+$onlyBotPerms[speak;Missing Permission, **Speak** - Bot]
+$onlyBotPerms[connect;Missing Permission, **Connect** - Bot]`
 })
 
 bot.command({
