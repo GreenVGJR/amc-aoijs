@@ -13,11 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "dependencies": {
-    "aoi.js": "^5.1.0-dev",
-    "@akarui/aoi.music": "^1.0.0"
+    "aoi.js": "^5.1.0",
+    "@akarui/aoi.music": "^1.0.2"
   },
   "devDependencies": {
-    "axios": "^0.24.0",
-    "ffmpeg-static": "^4.4.0"  
+    "axios": "^0.24.0"
   }
 }
