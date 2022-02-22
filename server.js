@@ -13,7 +13,7 @@ bot.status({
   time: 3
 })
 
-const voice = new aoijs.Voice(bot, {
+const voice = new Aoijs.Voice(bot, {
   soundcloud: {
     clientId: "your clientid",
   },
@@ -29,5 +29,5 @@ bot.onMessage()
 
 bot.variables(require(`./variables/variables.js`))
 
-const loader = new aoijs.LoadCommands(bot)
+const loader = new Aoijs.LoadCommands(bot)
  loader.load(bot.cmd,"./commands/")
