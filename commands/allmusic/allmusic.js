@@ -164,7 +164,9 @@ $let[filter;$setFilter[{"aphaser": "1"}]]
 $sendMessage[Applyed \`phaser\`.;no]
 $endelseif
 $endif
+$if[$queueLength!=0]
 $let[cduration;$getCurrentDuration]
+$endif
 $onlyIf[$checkCondition[$voiceID==$replaceText[$replaceText[$checkCondition[$voiceID[$clientID]==];true;$voiceID];false;$voiceID[$clientID]]]==true;$replaceText[$getVar[errorsameuser];{voice};<#$voiceID[$clientID]>]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 },
