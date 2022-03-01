@@ -37,10 +37,14 @@ module.exports = {
   last: "null",
   linkdownload: "",
   filters: "none",
+  cachemessageid: "",
 
   //Emoji
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
   ytemoji: "https://cdn.discordapp.com/emojis/852432148207108110.png?size=4096",
   scemoji: "https://cdn.discordapp.com/emojis/852432173758676993.png?size=4096",
-  loademoji: "https://cdn.discordapp.com/emojis/895505960427196426.gif?size=4096"
+  loademoji: "https://cdn.discordapp.com/emojis/895505960427196426.gif?size=4096",
+ 
+  userused: "0",
+  commanduserused: "0"
 }
