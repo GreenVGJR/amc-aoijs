@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
     "dependencies": {
-    "aoi.js": "^5.1.0",
-    "@akarui/aoi.music": "^1.0.2"
+     "aoi.js": "^5.1.1-dev",
+     "@akarui/aoi.music": "github:akaruidevelopment/music#main"
   },
   "devDependencies": {
     "axios": "^0.24.0"
