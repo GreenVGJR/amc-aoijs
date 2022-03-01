@@ -99,7 +99,7 @@ bot.variables({
   commanduserused: "0"
 })
 
-const voice = new aoijs.Voice(bot, {
+const voice = new Aoijs.Voice(bot, {
   soundcloud: {
     clientId: "your clientid",
   },
