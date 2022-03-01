@@ -150,6 +150,13 @@ voice.trackEndCommand({
 })
 
 bot.command({
+ name: "eval",
+ $if: "v4",
+ code: `$eval[$message]
+ $onlyIf[$botOwnerID==$authorID;]`
+})
+
+bot.command({
  name: "play",
  $if: "v4",
  code: `$if[$queueLength<1]
