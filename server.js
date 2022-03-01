@@ -546,6 +546,7 @@ Disconnect     : $replaceText[$replaceText[$checkCondition[$getVar[dc]!=];true;�
 Play           : $replaceText[$replaceText[$checkCondition[$getVar[errorjoin]!=];true;✅];false;❌]
 UserID         : $replaceText[$replaceText[$checkCondition[$getServerVar[userid]!=default];true;✅];false;❌]
 Log Music      : $replaceText[$replaceText[$checkContains[$getGlobalUserVar[logmusic];0;2];true;✅];false;❌]
+24/7           : $replaceText[$replaceText[$getGlobalUserVar[247];1;✅];0;❌]
 
 Max Volume     : $getServerVar[maxvol]%
 User Volume    : $getGlobalUserVar[vol]%
