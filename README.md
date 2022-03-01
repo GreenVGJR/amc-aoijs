@@ -7,6 +7,6 @@ ___
 ```
 Ver. 5.1.1-dev
 
-Last Update: 25 February 2022 - 00:53 WIB
+Last Update: 01 March 2022 - 23:30 WIB
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
