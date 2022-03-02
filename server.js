@@ -229,7 +229,7 @@ $thumbnail[1;$replaceText[$songInfo[thumbnail;1];undefined;$userAvatar[$clientID
 $skip
 $else
 $title[1;$getVar[skip]]
-$addField[1;Duration;\`$replaceText[$replaceText[$replaceText[$checkContains[$songInfo[url;1];youtube.com;soundcloud.com];false;$humanizeMS[$songInfo[duration;$message[1]];4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url;$message[1]];youtube.com;soundcloud.com];false;0];true;$findNumbers[$songInfo[duration;$message[1]]]]).toISOString().substr(11, 8);yes]];00:00:00;LIVE]\`;yes]
+$addField[1;Duration;\`$replaceText[$replaceText[$replaceText[$checkContains[$songInfo[url;$message[1]];youtube.com;soundcloud.com];false;$humanizeMS[$songInfo[duration;$message[1]];4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url;$message[1]];youtube.com;soundcloud.com];false;0];true;$findNumbers[$songInfo[duration;$message[1]]]]).toISOString().substr(11, 8);yes]];00:00:00;LIVE]\`;yes]
 $addField[1;Now Playing;[$songInfo[title;$message[1]]]($songInfo[url;$message[1]]);yes]
 $addTimestamp[1;$dateStamp]
 $color[1;$getVar[color]]
