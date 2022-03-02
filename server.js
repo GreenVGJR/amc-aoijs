@@ -64,7 +64,9 @@ voice.onTrackEnd()
 voice.trackEndCommand({
  channel: "$channelID",
  $if: "v4",
- code: `$resetServerVar[filters]`
+ code: `$if[$queueLength==0]
+$resetServerVar[filters]
+$endif`
 })
 
 bot.variables(require(`./variables/variables.js`))
