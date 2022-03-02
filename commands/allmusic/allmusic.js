@@ -363,7 +363,7 @@ $addField[1;Uptime;> $uptime;yes]
 $footer[1;Ver. $packageVersion ($nodeVersion);$userAvatar[$authorID;512]]
 $thumbnail[1;$userAvatar[$clientID]]
 $addTimestamp[1;$dateStamp]
-$cacheMembers[$guildID]`
+$let[cache;$cacheMembers[$guildID]]`
 },
  {
  name: "check",
