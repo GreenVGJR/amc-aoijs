@@ -27,8 +27,8 @@ v4.5.0-4.6.0     : https://is.gd/backupmusic_2
 
 4.6.0 old        : https://is.gd/backupmusic_3
 
-5.1.0-unstable   : 
+5.1.0-unstable   : https://is.gd/backupmusic_4
 
-5.1.0-prerelease : 
+5.1.0-prerelease : https://is.gd/backupmusic_5
 
 5.1.0            : 
