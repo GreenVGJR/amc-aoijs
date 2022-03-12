@@ -1,12 +1,34 @@
-[![amc-aoijs](https://github-readme-stats.vercel.app/api/pin/?username=greenvgjr&repo=amc-aoijs&theme=dark)](https://github.com/GreenVGJR/amc-aoijs)<br/>
+_____________
+Emoji Credit
+_____________
 
-[![Forks](https://img.shields.io/github/forks/GreenVGJR/amc-aoijs?style=social)](https://github.com/GreenVGJR/amc-aoijs) [![Stars](https://img.shields.io/github/stars/GreenVGJR/amc-aoijs?style=social)](https://github.com/GreenVGJR/amc-aoijs) [![Issues](https://img.shields.io/github/issues/GreenVGJR/amc-aoijs?style=social)](https://github.com/GreenVGJR/amc-aoijs/issues)
-___
-### This is code advanced music for aoi.js, discord bot.
+> YouTube Music
+- https://icons8.com/icon/Mw6P3tmWMfOB/youtube-music
 
-```
-Ver. 5.1.1-dev
+> SoundCloud
+- https://icons8.com/icon/12499/soundcloud
 
-Last Update: 01 March 2022 - 23:25 WIB
-```
-##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
+> Upload
+- <a target="_blank" href="https://icons8.com/icon/iUNEWv4iBE2i/file">File</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+> Note Song
+- https://icons8.com/icon/1QjKSlRgN3-W/itunes-note
+
+> Loading
+- <a target="_blank" href="https://icons8.com/icon/nITS6PlJtteV/loading-circle">Loading Circle</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+_____________
+Backup File Project
+_____________
+
+(old-dbdjs)      : https://is.gd/backupmusic_1
+
+v4.5.0-4.6.0     : https://is.gd/backupmusic_2
+
+4.6.0 old        : https://is.gd/backupmusic_3
+
+5.1.0-unstable   : 
+
+5.1.0-prerelease : 
+
+5.1.0            : 
