@@ -19,7 +19,16 @@ bot.onMessage()
 bot.readyCommand({
  channel: "$getVar[channelstatus]",
  $if: "v4",
- code: `$log[$forEachGuild[0.5s;{};resetfilter]]
+ code: `$if[$getVar[channelstatus]==]
+$log[$userTag[$clientID] active at $formatDate[$dateStamp;LLLL]]
+$else
+$sendMessage[<@$clientID> active at <t:$cropText[$dateStamp;10]:F>;no]
+$endif
+$log[$forEachGuild[0.5s;{};resetfilter]]
+$log[Reseting Filter..]
+$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]]
+$let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]]
+$log[Checking Music Package..]
 $log[____________________________________________
 
 YouTube    : $replaceText[$replaceText[$isValidLink[https://youtube.com/];true;✅];false;❌]
@@ -30,11 +39,6 @@ ____________________________________________
 IPV4       : $advancedTextSplit[$httpRequest[https://ip-fast.com/api/ip/];";2]
 Load       : $numberSeparator[$divide[$sub[$dateStamp;$get[time]];10]]s
 ____________________________________________]
-$if[$getVar[channelstatus]==]
-$log[$userTag[$clientID] active at $formatDate[$dateStamp;LLLL]]
-$else
-$sendMessage[<@$clientID> active at <t:$cropText[$dateStamp;10]:F>;no]
-$endif
 $let[time;$dateStamp]
 $suppressErrors`
 })
@@ -44,7 +48,6 @@ bot.awaitedCommand({
  code: `$resetServerVar[filters]
 $suppressErrors`
 })
-
 
 //Variables
 bot.variables({
