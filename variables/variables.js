@@ -1,5 +1,5 @@
 module.exports = {
-  file: "server.js", //For reboot and stats
+  file: "server.js", //For stats
   database: "./database/main/main_scheme_1.sql", //For stats
 
   //Customize Property For Message
@@ -31,9 +31,11 @@ module.exports = {
 
   //Changing Other - Advance
   permission: "2176183360",
+  deafenclient: "1", //Server Deafen Client, 0 = false | 1 = true
+  defaultspotify: "youtube", //YouTube/SoundCloud
   userid: "default",
   logmusic: "0",
-  247: "0", //0 = off | 1 = on stay 2 minutes | 2 = stay 24/7
+  247: "0", //0 = off | 1 = stay 24/7
   last: "null",
   linkdownload: "",
   filters: "none",
@@ -41,9 +43,10 @@ module.exports = {
 
   //Emoji
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
+  customemoji2: "https://cdn.discordapp.com/emojis/951749233919279125.png?size=4096",
   ytemoji: "https://cdn.discordapp.com/emojis/852432148207108110.png?size=4096",
   scemoji: "https://cdn.discordapp.com/emojis/852432173758676993.png?size=4096",
-  loademoji: "https://cdn.discordapp.com/emojis/895505960427196426.gif?size=4096",
+  loademoji: "https://cdn.discordapp.com/emojis/951749045787959337.gif?size=4096",
  
   userused: "0",
   commanduserused: "0"
