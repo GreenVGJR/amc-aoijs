@@ -26,8 +26,8 @@ $sendMessage[<@$clientID> active at <t:$cropText[$dateStamp;10]:F>;no]
 $endif
 $log[$forEachGuild[0.5s;{};resetfilter]]
 $log[Reseting Filter..]
-$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]]
-$let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]]
+$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]] //remove this, if you get error when starting server
+$let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]] //remove this, if you get error when starting server
 $log[Checking Music Package..]
 $log[____________________________________________
 
