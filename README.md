@@ -32,3 +32,23 @@ v4.5.0-4.6.0     : https://is.gd/backupmusic_2
 5.1.0-prerelease : https://is.gd/backupmusic_5 (log)
 
 5.1.0            : 
+
+_____________
+FAQ
+_____________
+
+Credit
+
+`you can give credit or not, because yes`
+
+No License
+
+`for what`
+
+Claiming your code
+
+`idc you claim my code or not, but dont takedown my project :/`
+
+Music controller V5
+
+`later`
