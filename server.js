@@ -119,6 +119,8 @@ const voice = new Aoijs.Voice(bot, {
  },
 }); 
  
+voice.onTrackStart()
+
 voice.trackStartCommand({
  channel: "$channelID",
  $if: "v4",
