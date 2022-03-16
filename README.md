@@ -10,3 +10,6 @@ Ver. 5.1.0
 Last Update: 13 March 2022 - 09:03 WIB
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
+
+
+Better to use [Handler Version](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v5), because original file was handler and this convert version (non-handler).
