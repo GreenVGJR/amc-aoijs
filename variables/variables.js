@@ -8,7 +8,6 @@ module.exports = {
   skip: "⏩ Skipped!",  //Available {song}
   stop: "⏹ Stopped.",  
   remove: "Removed song on {d-amount}.", //Available {d-amount}
-  filterapply: "Applyed.",
 
   shuffle: "Shuffle Queue.",
   errorjoin: "\`❌ You're not in a voice channel.\`",
@@ -33,13 +32,16 @@ module.exports = {
   permission: "2176183360",
   deafenclient: "1", //Server Deafen Client, 0 = false | 1 = true
   defaultspotify: "youtube", //YouTube/SoundCloud
+  multiseek: "1000",
   userid: "default",
-  logmusic: "0",
+  logmusic: "1", //0 = off | 1 = on
   247: "0", //0 = off | 1 = stay 24/7
   last: "null",
   linkdownload: "",
   filters: "none",
   cachemessageid: "",
+  cacheplay: "",
+  listfilters: "\`bassonly, clarity, echo, flanger, deep, haas, gate, nightcore, phaser, pitch, phone, pulsator, reverb, tempo, tremolo, remove, subboost, vaporwave, vibrato\`",
 
   //Emoji
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
@@ -48,6 +50,7 @@ module.exports = {
   scemoji: "https://cdn.discordapp.com/emojis/852432173758676993.png?size=4096",
   loademoji: "https://cdn.discordapp.com/emojis/951749045787959337.gif?size=4096",
  
-  userused: "0",
-  commanduserused: "0"
+  listenuser: "0",
+  listenserver: "0",
+  listenglobal: "0"
 }
