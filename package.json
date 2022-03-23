@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
     "dependencies": {
-    "aoi.js": "^5.1.0",
+    "aoi.js": "^5.1.2",
     "@akarui/aoi.music": "github:akaruidevelopment/music#main"
   },
   "devDependencies": {
