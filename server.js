@@ -15,6 +15,7 @@ bot.status({
 
 //Callbacks
 bot.onMessage()
+bot.onInteractionCreate()
 
 bot.readyCommand({
  channel: "$getVar[channelstatus]",
@@ -24,7 +25,7 @@ $log[$userTag[$clientID] active at $formatDate[$dateStamp;LLLL]]
 $else
 $sendMessage[<@$clientID> active at <t:$cropText[$dateStamp;10]:F>;no]
 $endif
-$log[$forEachGuild[0.5s;{};resetfilter]]
+$log[$forEachGuild[0.01s;{};resetfilter]]
 $log[Reseting Filter..]
 $log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]] //remove this, if you get error when starting server
 $let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]] //remove this, if you get error when starting server
@@ -45,7 +46,8 @@ $suppressErrors`
 
 bot.awaitedCommand({
  name: "resetfilter",
- code: `$resetServerVar[filters]
+ code: `$log[Successful reseted.]
+$resetServerVar[filters]
 $suppressErrors`
 })
 
@@ -79,6 +81,7 @@ $if[$getCurrentDuration==0]
 $author[1;Started Playing;$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com];true;$getVar[ytemoji]];false;$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;$getVar[scemoji]];false;$getVar[customemoji1]]]] 
 $title[1;$songInfo[title];$songInfo[url]]
 $addField[1;Filters;\`$getServerVar[filters]\`;no]
+$addField[1;Loop;\`$replaceText[$replaceText[$checkCondition[$loopStatus==none];true;off];false;on - $loopStatus]\`;yes]
 $addField[1;24/7;$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[user.id]];0;\`❌\`];1;\`✅\`];yes]
 $addField[1;Song;\`$numberSeparator[$queueLength]\`;yes]
 $addfield[1;Create;$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;<t:$cropText[$songInfo[createdTimestamp];10]:d>];false;\`none\`];yes] 
@@ -88,10 +91,15 @@ $addField[1;Platform;\`$replaceText[$replaceText[$checkContains[$songInfo[url];y
 $addField[1;Artist;\`$songInfo[author]\`;yes] $addField[1;Duration;\`$replaceText[$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;$humanizeMS[$songInfo[duration];4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;0];true;$findNumbers[$songInfo[duration]]]).toISOString().substr(11, 8);yes]];00:00:00;LIVE]\`;yes]
 $addField[1;Requested By;<@$songInfo[user.id]>;no]
 $addTimestamp[1;$dateStamp] 
-$thumbnail[1;$replaceText[$songInfo[thumbnail];undefined;$userAvatar[$clientID;2048]] 
+$thumbnail[1;$replaceText[$songInfo[thumbnail];undefined;$userAvatar[$clientID;1024]]]
 $color[1;$getVar[color]]
+$onlyIf[$checkCondition[$getServerVar[logmusic]==1]==true;]
 $playerConfig[$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[user.id]];0;yes];1;no];0s;yes]
 $volume[$getGlobalUserVar[vol;$songInfo[user.id]]]
+$setGlobalUserVar[cacheplay;$songInfo[url];$songInfo[user.id]]
+$setGlobalUserVar[listenuser;$sum[$getGlobalUserVar[listenuser;$songInfo[user.id]];1];$songInfo[user.id]]
+$setServerVar[listenserver;$sum[$getServerVar[listenserver];1]]
+$setVar[listenglobal;$sum[$getVar[listenglobal];1]]
 $else
 $volume[$getGlobalUserVar[vol;$songInfo[user.id]]]
 $endif`
@@ -103,7 +111,7 @@ voice.trackEndCommand({
  channel: "$channelID",
  $if: "v4",
  code: `$if[$queueLength==0]
-$resetServerVar[filters]
+$setServerVar[filters;$getVar[filters]]
 $endif`
 })
 
