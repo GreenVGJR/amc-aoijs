@@ -5,8 +5,8 @@ ___
 ### This is code advanced music for aoi.js, discord bot.
 
 ```
-Ver. 5.1.2
+Ver. -
 
-Last Update: 23 March 2022 - 21:13 WIB
+Last Update: -
 ```
-##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
+##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4/](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4)[V5](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v5) | [Non-Handler - V4/](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)[V5](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v5)
