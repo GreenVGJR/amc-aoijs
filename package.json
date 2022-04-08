@@ -11,9 +11,12 @@
   },
   "author": "",
   "license": "ISC",
-    "dependencies": {
+  "dependencies": {
+    "@akarui/aoi.music": "github:akaruidevelopment/music#main",
+    "@discordjs/opus": "^0.7.0",
     "aoi.js": "^5.1.2",
-    "@akarui/aoi.music": "github:akaruidevelopment/music#main"
+    "node-opus": "^0.3.3",
+    "opusscript": "^0.0.8"
   },
   "devDependencies": {
     "axios": "^0.24.0"
