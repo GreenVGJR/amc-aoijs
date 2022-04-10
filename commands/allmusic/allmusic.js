@@ -104,7 +104,7 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 },
  {
  name: "previous",
- aliases: ["pr"],
+ aliases: ["pr", "back"],
  $if: "v4",
  code: `$if[$queueLength<1]
 $deleteMessage[$get[id]]
@@ -192,7 +192,7 @@ $addField[1;Filter;$getVar[listfilters];yes]
 $addTimestamp[1;$dateStamp]
 $footer[1;filter <filter> (value optional) / selectmenu]
 $color[1;$getVar[color]]
-$addSelectMenu[1;filter;List Filters;1;1;no;Remove:Remove Filter Applyed:off:no;Bass-only:Apply Bass-only Filter:bassonly:no;Clarity:Apply Clarity Filter:clarity:no;Echo:Apply Echo Filter:echo:no;Flanger:Apply Flanger Filter:flanger:no;Deep:Apply Haas Filter:haas:no;Gate:Apply Gate Filter:gate:no;Nightcore:Apply Nightcore Filter:nightcore:no;Phaser:Apply Phaser Filter:phaser:no;Phone:Apply Phone Filter:phone:no;Pulsator:Apply Pulsator Filter:pulsator:no;Reverb:Apply Reverb Filter:reverb:no;Tremolo:Apply Tremolo Filter:tremolo:no;Subboost:Apply Subboost Filter:subboost:no;Vaporwave:Apply Vaporwave Filter:vaporwave:no;Vibrato:Apply Vibrato Filter:vibrato:no]
+$addSelectMenu[1;filter;List Filters;1;1;no;Remove:Remove Filter Applyed:off:no;Bass-only:Apply Bass-only Filter:bassonly:no;Clarity:Apply Clarity Filter:clarity:no;Echo:Apply Echo Filter:echo:no;Flanger:Apply Flanger Filter:flanger:no;Deep:Apply Deep Filter:deep:no;Gate:Apply Gate Filter:gate:no;Haas:Apply Haas Filter:haas:no;Nightcore:Apply Nightcore Filter:nightcore:no;Phaser:Apply Phaser Filter:phaser:no;Phone:Apply Phone Filter:phone:no;Pulsator:Apply Pulsator Filter:pulsator:no;Reverb:Apply Reverb Filter:reverb:no;Tremolo:Apply Tremolo Filter:tremolo:no;Subboost:Apply Subboost Filter:subboost:no;Vaporwave:Apply Vaporwave Filter:vaporwave:no;Vibrato:Apply Vibrato Filter:vibrato:no]
 $elseIf[$toLowercase[$message[1]]==nightcore]
 $setServerVar[filters;Nightcore]
 $let[filter;$setFilter[{"atempo": "0.720", "asetrate": "48000*1.3"}]]
@@ -480,7 +480,8 @@ $addField[1;CPU;> $cropText[$cpu;5]%;yes]
 $addField[1;API Ping;> $numberSeparator[$messagePing]ms;yes]
 $addField[1;DB Ping;> $numberSeparator[$dbPing]ms;yes]
 $addField[1;WS Ping;> $numberSeparator[$ping]ms;yes]
-$addField[1;Platform;> $djsEval[require ('os').platform();yes] | $djsEval[require ('os').arch;yes];yes]
+$addField[1;Platform;> $djsEval[require ('os').platform();yes] | $djsEval[require ('os').arch;yes]
+> $advancedTextSplit[$djsEval[require('os').cpus()[0].model;yes]; ;1];yes]
 $addField[1;Last Online;> <t:$cropText[$readyTimestamp;10]:R>;yes]
 $addField[1;Uptime;> $uptime;yes]
 $footer[1;Ver. $packageVersion ($nodeVersion);$userAvatar[$authorID;512]]
@@ -554,7 +555,7 @@ $addField[1;Guide;\`YouTube/SoundCloud/Spotify\`
 \`URL\`
 > <prefix>play <url-music>;no]
 $addField[1;Music;\`24/7, play, pause, resume, nowplaying, previous, skip, shuffle, loop, seek, volume, volume-max, stop, filter, queue, join, disconnect\`;no]
-$addField[1;Basic;\`check, stats, uptime, invite, ping, log, listen-info\`;no]
+$addField[1;Basic;\`check, stats, uptime, invite, ping, log, listen-info, slash\`;no]
 $color[1;$getVar[color]]
 $addTimestamp[1;$dateStamp]`
 },
