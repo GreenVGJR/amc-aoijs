@@ -52,3 +52,12 @@ Claiming your code
 Music controller V5
 
 `later`
+
+_____________
+Intents
+_____________
+
+Normal Bot   : `intents: "all"`
+
+Verified Bot : `intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "GUILD_EMOJIS_AND_STICKERS", "GUILD_VOICE_STATES"]`
+
