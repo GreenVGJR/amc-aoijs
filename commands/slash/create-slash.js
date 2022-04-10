@@ -4,13 +4,13 @@ module.exports = {
 $createApplicationCommand[$guildID;options;List Options Music;true;slash;
 {
  "name": "music",
- "description": "24/7, Log, Volume-Max",
+ "description": "24/7, Log",
  "type": "SUB_COMMAND",
  "options": [{
     "name": "24-7",
     "description": "Disable/Enable 24/7",
     "type": 3,
-    "require": "false",
+    "require": "true",
     "choices": [{
      "name": "Disable",
      "value": "off"
@@ -24,22 +24,16 @@ $createApplicationCommand[$guildID;options;List Options Music;true;slash;
     "name": "log",
     "description": "Disable/Enable Log",
     "type": 3,
-    "require": "false",
+    "require": "true",
     "choices": [{
      "name": "Disable",
-     "value": "off"
+     "value": "off-log"
    },
    {
      "name": "Enable",
-     "value": "on"
+     "value": "on-log"
    }]
-   },
-   {
-    "name": "volume-max",
-    "description": "Change Volume-Max",
-    "type": 10,
-    "require": "false"
-   }]
+ }]
 }]
 $createApplicationCommand[$guildID;play;Play song;true;slash;
 [{
