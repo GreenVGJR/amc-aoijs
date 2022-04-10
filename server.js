@@ -174,6 +174,214 @@ $setServerVar[filters;$getVar[filters]]
 $endif`
 })
 
+bot.interactionCommand({
+ name: "play",
+ prototype: "slash",
+ $if: "v4",
+ code: `$if[$checkContains[$message[1];soundcloud.com/discover/sets/;youtube.com/playlist?list=]==true]
+$interactionReply[;{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1] Song from Playlist.} {color:$getVar[color]}};;;;yes]
+$else
+$if[$queueLength<1]
+$interactionReply[;{newEmbed:{title:Started Playing} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}};;;;yes]
+$else
+$interactionReply[;{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}};;;;yes]
+$endif
+$endif
+$if[$checkContains[$message[1];youtu.be;m.youtube;youtube.com]==true]
+$let[message;$playTrack[youtube;$message[1]]]
+$elseIf[$checkContains[$message[1];soundcloud.com;app.goo.gl]==true]
+$onlyIf[$get[message]!=0;{
+"content": "Track not found",
+"ephemeral": "true",
+"options": {
+ "interaction": "true"
+ }
+}]
+$let[message;$playTrack[soundcloud;$message[1]]]
+$endelseif
+$elseIf[$checkContains[$message[1];open.spotify.com/track]==true]
+$if[$toLowercase[$getVar[defaultspotify]]==youtube]
+$let[message;$playTrack[youtube;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
+$let[url;$djsEval[require('axios').get('$message[1]');yes]]
+$elseif[$toLowercase[$getVar[defaultspotify]]==soundcloud]
+$let[message;$playTrack[soundcloud;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
+$let[url;$djsEval[require('axios').get('$message[1]');yes]]
+$endelseif
+$endif
+$endelseif
+$else
+$if[$isValidLink[$message[1]]==true]
+$let[message;$playTrack[url;$message[1]]]
+$else
+$if[$message[2]==soundcloud]
+$let[message;$playTrack[soundcloud;$message[1]]]
+$elseIf[$message[2]==youtube]
+$let[message;$playTrack[youtube;$message[1]]]
+$endelseif
+$else
+$let[message;$playTrack[youtube;$message[1]]]
+$endif
+$endif
+$endif
+$if[$checkContains[$message[1];soundcloud.com/discover/sets/;youtube.com/playlist?list=]==true]
+$interactionReply[;{newEmbed:{author:Adding to Queue:$getVar[customemoji2]} {footer:This can take long time.} {color:$getVar[color]}};;;;yes]
+$else
+$endif
+$if[$voiceID[$clientID]==]
+$joinVc[$voiceID;no;yes;yes]
+$endif
+$onlyIf[$checkCondition[$voiceID==$replaceText[$replaceText[$checkCondition[$voiceID[$clientID]==];true;$voiceID];false;$voiceID[$clientID]]]==true;{
+"content": "$replaceText[$getVar[errorsameuser];{voice};<#$voiceID[$clientID]>]",
+"ephemeral": "true",
+"options": {
+ "interaction": "true"
+ }
+}]
+$onlyIf[$voiceID!=;{
+"content": "$getVar[errorjoin]",
+"ephemeral": "true",
+"options": {
+ "interaction": "true"
+ }
+}]
+$onlyBotPerms[speak;{
+"content": "Missing Permission, **Speak** - Bot",
+"ephemeral": "true",
+"options": {
+ "interaction": "true"
+ }
+}]
+$onlyBotPerms[connect;{
+"content": "Missing Permission, **Connect** - Bot",
+"ephemeral": "true",
+"options": {
+ "interaction": "true"
+ }
+}]`
+})
+
+bot.interactionCommand({
+ name: "options",
+ prototype: "slash",
+ $if: "v4",
+ code: `$if[$replaceText[$replaceText[$checkCondition[$message[2]==];true;$message[1]];false;$message[2]]==off]
+$if[$queueLength!=0]
+$playerConfig[yes;0s;yes]
+$onlyIf[$checkCondition[$voiceID[$interactionData[author.id]]==$replaceText[$replaceText[$checkCondition[$voiceID[$clientID]==];true;$voiceID[$interactionData[author.id]]];false;$voiceID[$clientID]]]==true;]
+$endif
+$if[$replaceText[$replaceText[$checkCondition[$message[2]==];true;$message[1]];false;$message[2]]==off]
+$interactionReply[Disabled 24/7.;;;;;yes]
+$endif
+$setGlobalUserVar[247;0;$interactionData[author.id]]
+$elseIf[$replaceText[$replaceText[$checkCondition[$message[2]==];true;$message[1]];false;$message[2]]==on]
+$if[$queueLength!=0]
+$playerConfig[no;0s;yes]
+$onlyIf[$checkCondition[$voiceID[$interactionData[author.id]]==$replaceText[$replaceText[$checkCondition[$voiceID[$clientID]==];true;$voiceID[$interactionData[author.id]]];false;$voiceID[$clientID]]]==true;]
+$endif
+$if[$replaceText[$replaceText[$checkCondition[$message[2]==];true;$message[1]];false;$message[2]]==on]
+$interactionReply[Enabled 24/7.;;;;;yes]
+$endif
+$setGlobalUserVar[247;1;$interactionData[author.id]]
+$endelseif
+$endif
+$if[$replaceText[$replaceText[$checkCondition[$message[2]==];true;$message[1]];false;$message[2]]==off-log]
+$setServerVar[logmusic;0]
+$if[$replaceText[$replaceText[$checkCondition[$message[2]==];true;on];false;off]==on]
+$interactionReply[Disabled.;;;;;yes]
+$endif
+$onlyPerms[manageserver;{
+"content": "Missing Permission, **Manage Server** - User",
+"ephemeral": "true",
+"options": {
+ "interaction": "true"
+ }
+}]
+$elseIf[$replaceText[$replaceText[$checkCondition[$message[2]==];true;$message[1]];false;$message[2]]==on-log]
+$setServerVar[logmusic;1]
+$if[$replaceText[$replaceText[$checkCondition[$message[2]==];true;on];false;off]==on]
+$interactionReply[Enabled.;;;;;yes]
+$endif
+$onlyPerms[manageserver;{
+"content": "Missing Permission, **Manage Server** - User",
+"ephemeral": "true",
+"options": {
+ "interaction": "true"
+ }
+}]
+$endelseif
+$endif
+$if[$checkCondition[$message[1]==]-$checkCondition[$message[2]==]==false-false]
+$interactionReply[Log: $replaceText[$replaceText[$message[2];off-log;Disabled.];on-log;Enabled.]
+24/7: $replaceText[$replaceText[$message[1];off;Disabled 24/7.];on;Enabled 24/7.];;;;;yes]
+$endif
+`
+})
+
+bot.command({
+ name: "slash",
+ code: `$editMessage[$get[id];{newEmbed:{author:Successful Created.} {color:$getVar[color]} {footer:$numberSeparator[$sub[$dateStamp;$get[time]]]ms} {timestamp}}]
+$createApplicationCommand[$guildID;options;List Options Music;true;slash;
+{
+ "name": "music",
+ "description": "24/7, Log",
+ "type": "SUB_COMMAND",
+ "options": [{
+    "name": "24-7",
+    "description": "Disable/Enable 24/7",
+    "type": 3,
+    "require": "true",
+    "choices": [{
+     "name": "Disable",
+     "value": "off"
+   },
+   {
+     "name": "Enable",
+     "value": "on"
+   }]
+   },
+   {
+    "name": "log",
+    "description": "Disable/Enable Log",
+    "type": 3,
+    "require": "true",
+    "choices": [{
+     "name": "Disable",
+     "value": "off-log"
+   },
+   {
+     "name": "Enable",
+     "value": "on-log"
+   }]
+ }]
+}]
+$createApplicationCommand[$guildID;play;Play song;true;slash;
+[{
+ "name": "name",
+ "description": "Write/Put the Song/Link here",
+ "type": 3,
+ "require": "true"
+},
+{
+ "name": "platform",
+ "description": "You can select the platform you want - YouTube (Default)",
+ "type": 3,
+ "require": "false",
+ "choices": [{
+   "name": "YouTube",
+   "value": "youtube"
+   },
+   {
+    "name": "SoundCloud",
+    "value": "soundcloud"
+   }]
+}]
+]
+$let[time;$dateStamp]
+$let[id;$sendMessage[{newEmbed:{author:Creating Slash:$getVar[loademoji]} {color:$getVar[color]} {timestamp}};yes]]
+$onlyBotPerms[useappcmds;Missing Permission, **Use Application Commands** - Bot]
+$onlyPerms[manageserver;Missing Permission, **Manage Server** - User]`
+})
+
 bot.command({
  name: "eval",
  $if: "v4",
@@ -290,7 +498,7 @@ $onlyIf[$voiceID!=;$getVar[errorjoin]]`
 
 bot.command({
  name: "previous",
- aliases: ["pr"],
+ aliases: ["pr", "back"],
  $if: "v4",
  code: `$if[$queueLength<1]
 $deleteMessage[$get[id]]
@@ -381,7 +589,7 @@ $addField[1;Filter;$getVar[listfilters];yes]
 $addTimestamp[1;$dateStamp]
 $footer[1;filter <filter> (value optional) / selectmenu]
 $color[1;$getVar[color]]
-$addSelectMenu[1;filter;List Filters;1;1;no;Remove:Remove Filter Applyed:off:no;Bass-only:Apply Bass-only Filter:bassonly:no;Clarity:Apply Clarity Filter:clarity:no;Echo:Apply Echo Filter:echo:no;Flanger:Apply Flanger Filter:flanger:no;Deep:Apply Haas Filter:haas:no;Gate:Apply Gate Filter:gate:no;Nightcore:Apply Nightcore Filter:nightcore:no;Phaser:Apply Phaser Filter:phaser:no;Phone:Apply Phone Filter:phone:no;Pulsator:Apply Pulsator Filter:pulsator:no;Reverb:Apply Reverb Filter:reverb:no;Tremolo:Apply Tremolo Filter:tremolo:no;Subboost:Apply Subboost Filter:subboost:no;Vaporwave:Apply Vaporwave Filter:vaporwave:no;Vibrato:Apply Vibrato Filter:vibrato:no]
+$addSelectMenu[1;filter;List Filters;1;1;no;Remove:Remove Filter Applyed:off:no;Bass-only:Apply Bass-only Filter:bassonly:no;Clarity:Apply Clarity Filter:clarity:no;Echo:Apply Echo Filter:echo:no;Flanger:Apply Flanger Filter:flanger:no;Deep:Apply Deep Filter:deep:no;Gate:Apply Gate Filter:gate:no;Haas:Apply Haas Filter:haas:no;Nightcore:Apply Nightcore Filter:nightcore:no;Phaser:Apply Phaser Filter:phaser:no;Phone:Apply Phone Filter:phone:no;Pulsator:Apply Pulsator Filter:pulsator:no;Reverb:Apply Reverb Filter:reverb:no;Tremolo:Apply Tremolo Filter:tremolo:no;Subboost:Apply Subboost Filter:subboost:no;Vaporwave:Apply Vaporwave Filter:vaporwave:no;Vibrato:Apply Vibrato Filter:vibrato:no]
 $elseIf[$toLowercase[$message[1]]==nightcore]
 $setServerVar[filters;Nightcore]
 $let[filter;$setFilter[{"atempo": "0.720", "asetrate": "48000*1.3"}]]
@@ -783,7 +991,8 @@ $addField[1;CPU;> $cropText[$cpu;5]%;yes]
 $addField[1;API Ping;> $numberSeparator[$messagePing]ms;yes]
 $addField[1;DB Ping;> $numberSeparator[$dbPing]ms;yes]
 $addField[1;WS Ping;> $numberSeparator[$ping]ms;yes]
-$addField[1;Platform;> $djsEval[require ('os').platform();yes] | $djsEval[require ('os').arch;yes];yes]
+$addField[1;Platform;> $djsEval[require ('os').platform();yes] | $djsEval[require ('os').arch;yes]
+> $advancedTextSplit[$djsEval[require('os').cpus()[0].model;yes]; ;1];yes]
 $addField[1;Last Online;> <t:$cropText[$readyTimestamp;10]:R>;yes]
 $addField[1;Uptime;> $uptime;yes]
 $footer[1;Ver. $packageVersion ($nodeVersion);$userAvatar[$authorID;512]]
@@ -858,7 +1067,7 @@ $addField[1;Guide;\`YouTube/SoundCloud/Spotify\`
 \`URL\`
 > <prefix>play <url-music>;no]
 $addField[1;Music;\`24/7, play, pause, resume, nowplaying, previous, skip, shuffle, loop, seek, volume, volume-max, stop, filter, queue, join, disconnect\`;no]
-$addField[1;Basic;\`check, stats, uptime, invite, ping, log, listen-info\`;no]
+$addField[1;Basic;\`check, stats, uptime, invite, ping, log, listen-info, slash\`;no]
 $color[1;$getVar[color]]
 $addTimestamp[1;$dateStamp]`
 })
