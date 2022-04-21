@@ -41,7 +41,9 @@ module.exports = {
   filters: "none",
   cachemessageid: "",
   cacheplay: "",
-  listfilters: "\`bassonly, clarity, echo, flanger, deep, haas, gate, nightcore, phaser, pitch, phone, pulsator, reverb, tempo, tremolo, remove, subboost, vaporwave, vibrato\`",
+  ratetime: "0",
+  customratetime: "300",
+  listfilters: "\`bassonly, clarity, deep, echo, flanger, gate, haas, nightcore, phaser, phone, pitch, pulsator, reverb, tempo, tremolo, remove, subboost, vaporwave, vibrato\`",
 
   //Emoji
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
