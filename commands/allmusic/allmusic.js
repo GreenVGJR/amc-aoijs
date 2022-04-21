@@ -49,6 +49,7 @@ $editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {color:$ge
 $else
 $editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {color:$getVar[color]}}]
 $endif
+$onlyIf[$checkContains[$message[1];open.spotify.com/playlist;open.spotify.com/artist;open.spotify.com/album;open.spotify.com/episode]!=true;Not support]
 $if[$voiceID[$clientID]==]
 $joinVc[$voiceID;no;yes;yes]
 $endif
