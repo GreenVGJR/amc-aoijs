@@ -27,8 +27,8 @@ $sendMessage[<@$clientID> active at <t:$cropText[$dateStamp;10]:F>;no]
 $endif
 $log[$forEachGuild[0.01s;{};resetfilter]]
 $log[Reseting Filter..]
-$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]] //remove this, if you get error when starting server
-$let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]] //remove this, if you get error when starting server
+$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]]
+$let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]]
 $log[Checking Music Package..]
 $log[____________________________________________
 
@@ -37,7 +37,7 @@ SoundCloud : $replaceText[$replaceText[$isValidLink[https://soundcloud.com/];tru
 Spotify    : $replaceText[$replaceText[$isValidLink[https://spotify.com/];true;✅];false;❌]
 ____________________________________________
 
-IPV4       : $advancedTextSplit[$httpRequest[https://ip-fast.com/api/ip/];";2]
+IPV4       : $advancedTextSplit[$httpRequest[https://ip-fast.com/api/ip/?location=True];";2;";1]
 Load       : $numberSeparator[$divide[$sub[$dateStamp;$get[time]];10]]s
 ____________________________________________]
 $let[time;$dateStamp]
@@ -54,6 +54,7 @@ $suppressErrors`
 const voice = new Aoijs.Voice(bot, {
   soundcloud: {
     clientId: "your clientid",
+    likeTrackLimit: 200
   },
   cache: {
     cacheType: "Memory", //Disk | None | Memory
@@ -100,9 +101,26 @@ $setGlobalUserVar[cacheplay;$songInfo[url];$songInfo[user.id]]
 $setGlobalUserVar[listenuser;$sum[$getGlobalUserVar[listenuser;$songInfo[user.id]];1];$songInfo[user.id]]
 $setServerVar[listenserver;$sum[$getServerVar[listenserver];1]]
 $setVar[listenglobal;$sum[$getVar[listenglobal];1]]
+$setServerVar[ratetime;$sum[$dateStamp;$getVar[customratetime]]]
 $else
 $volume[$getGlobalUserVar[vol;$songInfo[user.id]]]
-$endif`
+$endif
+$onlyIf[$getServerVar[ratetime]<$dateStamp;{execute:forcestop}]`
+})
+
+bot.awaitedCommand({
+ name: "forcestop",
+ $if: "v4",
+ code: `$if[$getGlobalUserVar[247;$songInfo[user.id]]$suppressErrors==0]
+$log[Rate Limited Detected, when playing song at $formatDate[$dateStamp;LLLL]]
+$sendMessage[{newEmbed:{title:Rate Limited Detected} {description:Force stop active.} {color:ff0000} {timestamp}};no]
+$leaveVC
+$else
+$log[Rate Limited Detected, when playing song at $formatDate[$dateStamp;LLLL]]
+$sendMessage[{newEmbed:{title:Rate Limited Detected} {description:Force stop active.} {color:ff0000} {timestamp}};no]
+$stopSong
+$endif
+$suppressErrors`
 })
 
 voice.onTrackEnd()
