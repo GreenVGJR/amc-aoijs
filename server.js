@@ -27,8 +27,8 @@ $sendMessage[<@$clientID> active at <t:$cropText[$dateStamp;10]:F>;no]
 $endif
 $log[$forEachGuild[0.01s;{};resetfilter]]
 $log[Reseting Filter..]
-$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]] //remove this, if you get error when starting server
-$let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]] //remove this, if you get error when starting server
+$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]]
+$let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]]
 $log[Checking Music Package..]
 $log[____________________________________________
 
@@ -37,7 +37,7 @@ SoundCloud : $replaceText[$replaceText[$isValidLink[https://soundcloud.com/];tru
 Spotify    : $replaceText[$replaceText[$isValidLink[https://spotify.com/];true;✅];false;❌]
 ____________________________________________
 
-IPV4       : $advancedTextSplit[$httpRequest[https://ip-fast.com/api/ip/];";2]
+IPV4       : $advancedTextSplit[$httpRequest[https://ip-fast.com/api/ip/?location=True];";2;";1]
 Load       : $numberSeparator[$divide[$sub[$dateStamp;$get[time]];10]]s
 ____________________________________________]
 $let[time;$dateStamp]
@@ -96,7 +96,9 @@ bot.variables({
   filters: "none",
   cachemessageid: "",
   cacheplay: "",
-  listfilters: "\`bassonly, clarity, echo, flanger, deep, haas, gate, nightcore, phaser, pitch, phone, pulsator, reverb, tempo, tremolo, remove, subboost, vaporwave, vibrato\`",
+  ratetime: "0",
+  customratetime: "300",
+  listfilters: "\`bassonly, clarity, deep, echo, flanger, gate, haas, nightcore, phaser, phone, pitch, pulsator, reverb, tempo, tremolo, remove, subboost, vaporwave, vibrato\`",
 
   //Emoji
   customemoji1: "https://cdn.discordapp.com/emojis/852434440668184615.png?size=4096",
@@ -113,6 +115,7 @@ bot.variables({
 const voice = new Aoijs.Voice(bot, {
   soundcloud: {
     clientId: "your clientid",
+    likeTrackLimit: 200
   },
   cache: {
     cacheType: "Memory", //Disk | None | Memory
@@ -159,9 +162,26 @@ $setGlobalUserVar[cacheplay;$songInfo[url];$songInfo[user.id]]
 $setGlobalUserVar[listenuser;$sum[$getGlobalUserVar[listenuser;$songInfo[user.id]];1];$songInfo[user.id]]
 $setServerVar[listenserver;$sum[$getServerVar[listenserver];1]]
 $setVar[listenglobal;$sum[$getVar[listenglobal];1]]
+$setServerVar[ratetime;$sum[$dateStamp;$getVar[customratetime]]]
 $else
 $volume[$getGlobalUserVar[vol;$songInfo[user.id]]]
-$endif`
+$endif
+$onlyIf[$getServerVar[ratetime]<$dateStamp;{execute:forcestop}]`
+})
+
+bot.awaitedCommand({
+ name: "forcestop",
+ $if: "v4",
+ code: `$if[$getGlobalUserVar[247;$songInfo[user.id]]$suppressErrors==0]
+$log[Rate Limited Detected, when playing song at $formatDate[$dateStamp;LLLL]]
+$sendMessage[{newEmbed:{title:Rate Limited Detected} {description:Force stop active.} {color:ff0000} {timestamp}};no]
+$leaveVC
+$else
+$log[Rate Limited Detected, when playing song at $formatDate[$dateStamp;LLLL]]
+$sendMessage[{newEmbed:{title:Rate Limited Detected} {description:Force stop active.} {color:ff0000} {timestamp}};no]
+$stopSong
+$endif
+$suppressErrors`
 })
 
 voice.onTrackEnd()
@@ -178,28 +198,24 @@ bot.interactionCommand({
  name: "play",
  prototype: "slash",
  $if: "v4",
- code: `$if[$checkContains[$message[1];soundcloud.com/discover/sets/;youtube.com/playlist?list=]==true]
-$interactionReply[;{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1] Song from Playlist.} {color:$getVar[color]}};;;;yes]
+ code: `$if[$queueLength<1]
+$interactionReply[;{newEmbed:{title:Started Playing} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}};;;;no]
 $else
-$if[$queueLength<1]
-$interactionReply[;{newEmbed:{title:Started Playing} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}};;;;yes]
-$else
-$interactionReply[;{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}};;;;yes]
+$interactionReply[;{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}};;;;no]
 $endif
-$endif
-$if[$checkContains[$message[1];youtu.be;m.youtube;youtube.com]==true]
-$let[message;$playTrack[youtube;$message[1]]]
-$elseIf[$checkContains[$message[1];soundcloud.com;app.goo.gl]==true]
-$onlyIf[$get[message]!=0;{
+$onlyIf[$checkCondition[$get[message]==Added 0]==false;{
 "content": "Track not found",
-"ephemeral": "true",
 "options": {
  "interaction": "true"
  }
 }]
+$if[$checkContains[$message[1];youtu.be;m.youtube;youtube.com]==true]
+$let[message;$playTrack[youtube;$message[1]]]
+$elseIf[$checkContains[$message[1];soundcloud.com;app.goo.gl]==true]
 $let[message;$playTrack[soundcloud;$message[1]]]
 $endelseif
 $elseIf[$checkContains[$message[1];open.spotify.com/track]==true]
+$if[$message[2]==]
 $if[$toLowercase[$getVar[defaultspotify]]==youtube]
 $let[message;$playTrack[youtube;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
 $let[url;$djsEval[require('axios').get('$message[1]');yes]]
@@ -207,6 +223,16 @@ $elseif[$toLowercase[$getVar[defaultspotify]]==soundcloud]
 $let[message;$playTrack[soundcloud;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
 $let[url;$djsEval[require('axios').get('$message[1]');yes]]
 $endelseif
+$endif
+$else
+$if[$message[2]==youtube]
+$let[message;$playTrack[youtube;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
+$let[url;$djsEval[require('axios').get('$message[1]');yes]]
+$elseIf[$message[2]==soundcloud]
+$let[message;$playTrack[soundcloud;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
+$let[url;$djsEval[require('axios').get('$message[1]');yes]]
+$endelseif
+$endif
 $endif
 $endelseif
 $else
@@ -224,9 +250,14 @@ $endif
 $endif
 $endif
 $if[$checkContains[$message[1];soundcloud.com/discover/sets/;youtube.com/playlist?list=]==true]
-$interactionReply[;{newEmbed:{author:Adding to Queue:$getVar[customemoji2]} {footer:This can take long time.} {color:$getVar[color]}};;;;yes]
-$else
+$interactionReply[;{newEmbed:{author:Adding to Queue:$getVar[customemoji2]} {footer:This can take long time.} {color:$getVar[color]}};;;;no]
 $endif
+$onlyIf[$checkContains[$message[1];open.spotify.com/playlist;open.spotify.com/artist;open.spotify.com/album;open.spotify.com/episode]!=true;{
+"content": "Not support",
+"options": {
+ "interaction": "true"
+ }
+}]
 $if[$voiceID[$clientID]==]
 $joinVc[$voiceID;no;yes;yes]
 $endif
@@ -405,18 +436,20 @@ $else
 $editMessage[$get[id];{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}}]
 $endif
 $endif
+$onlyIf[$checkCondition[$get[message]==Added 0]==false;Track not found]
 $if[$checkContains[$message[1];youtu.be;m.youtube;youtube.com]==true]
 $let[message;$playTrack[youtube;$message]]
 $elseIf[$checkContains[$message[1];soundcloud.com;app.goo.gl]==true]
-$onlyIf[$get[message]!=Added 0;Track not found]
 $let[message;$playTrack[soundcloud;$message]]
 $endelseif
 $elseIf[$checkContains[$message[1];open.spotify.com/track]==true]
 $if[$toLowercase[$getVar[defaultspotify]]==youtube]
 $let[message;$playTrack[youtube;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
+$editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {footer:Converting to YouTube} {color:$getVar[color]}}]
 $let[url;$djsEval[require('axios').get('$message[1]');yes]]
 $elseif[$toLowercase[$getVar[defaultspotify]]==soundcloud]
 $let[message;$playTrack[soundcloud;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
+$editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {footer:Converting to SoundCloud} {color:$getVar[color]}}]
 $let[url;$djsEval[require('axios').get('$message[1]');yes]]
 $endelseif
 $endif
@@ -438,6 +471,7 @@ $editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {color:$ge
 $else
 $editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {color:$getVar[color]}}]
 $endif
+$onlyIf[$checkContains[$message[1];open.spotify.com/playlist;open.spotify.com/artist;open.spotify.com/album;open.spotify.com/episode]!=true;Not support]
 $if[$voiceID[$clientID]==]
 $joinVc[$voiceID;no;yes;yes]
 $endif
@@ -595,7 +629,7 @@ $setServerVar[filters;Nightcore]
 $let[filter;$setFilter[{"atempo": "0.720", "asetrate": "48000*1.3"}]]
 $sendMessage[Applyed \`nightcore\`.;no]
 $endelseif
-$elseIf[$checkContains[$toLowercase[$message[1]];remove;clear;reset;off]==true]
+$elseIf[$checkContains[$toLowercase[$message[1]];remove;clear;reset;off;0]==true]
 $setServerVar[filters;$getVar[filters]]
 $let[filter;$resetFilters]
 $sendMessage[Reseted filters.;no]
@@ -690,6 +724,7 @@ $let[filter;$setFilter[{"agate": "1"}]]
 $sendMessage[Applyed \`gate\`.;no]
 $endelseif
 $endif
+$setServerVar[ratetime;0]
 $onlyIf[$queueLength!=0;$getVar[errorqueue]]
 $onlyIf[$checkCondition[$voiceID==$replaceText[$replaceText[$checkCondition[$voiceID[$clientID]==];true;$voiceID];false;$voiceID[$clientID]]]==true;$replaceText[$getVar[errorsameuser];{voice};<#$voiceID[$clientID]>]]
 $onlyIf[$voiceID!=;$getVar[errorjoin]]`
@@ -715,6 +750,7 @@ $if[$interactionData[values[0]]==vaporwave;{execute:filter-vaporwave};]
 $if[$interactionData[values[0]]==phaser;{execute:filter-phaser};]
 $if[$interactionData[values[0]]==pulsator;{execute:filter-pulsator};]
 $if[$interactionData[values[0]]==gate;{execute:filter-gate};]
+$setServerVar[ratetime;0]
 $onlyIf[$checkCondition[$voiceID[$interactionData[author.id]]==$replaceText[$replaceText[$checkCondition[$voiceID[$clientID]==];true;$voiceID[$interactionData[author.id]]];false;$voiceID[$clientID]]]==true;]
 $onlyIf[$queueLength!=0;]
 $onlyIf[$voiceID[$interactionData[author.id]]!=;]`
@@ -961,14 +997,18 @@ bot.command({
 
 bot.command({
  name: "ping",
+ $if: "v4",
  code: `$reply[$messageID;no]
 $editMessage[$get[id];{newEmbed:{color:$getVar[color]} {timestamp} {footer:$userTag} {field:Websocket Ping:\`$numberSeparator[$get[ping]]ms\`:yes} {field:API Ping:\`$numberSeparator[$get[messageping]]ms\`:yes} {field:Database Ping:\`$numberSeparator[$get[dbping]]ms\`:yes} {field:Voice Ping:\`$numberSeparator[$get[voiceping]]ms\`:yes} {field:Shard Ping:\`$numberSeparator[$get[shardping]]ms\`:yes} {field:Message Ping:\`$numberSeparator[$sub[$dateStamp;$get[secondping]]]ms\`:no}}]
 $let[id;$sendMessage[{newEmbed:{color:$getVar[color]} {timestamp} {footer:$userTag} {field:Websocket Ping:\`Checking\`:yes} {field:API Ping:\`Checking\`:yes} {field:Database Ping:\`Checking\`:yes} {field:Voice Ping:\`Checking\`:yes} {field:Shard Ping:\`Checking\`:yes} {field:Message Ping:\`Checking\`:no}};yes]]
 $let[secondping;$dateStamp]
 $let[shardping;$shardPing]
 $let[ping;$ping]
-$if[$voiceID[$clientID]==]
+$if[$checkCondition[$voiceID[$clientID]==]-$queueLength==false-0]
 $let[voiceping;0]
+$elseIf[$checkCondition[$voiceID[$clientID]==]==true]
+$let[voiceping;0]
+$endelseif
 $else
 $let[voiceping;$voicePing]
 $endif
@@ -1059,7 +1099,13 @@ Latency: $numberSeparator[$messagePing]ms]`
 bot.command({
  name: "help",
  aliases: ["command", "commands"],
+ $if: "v4",
  code: `$reply[$messageID;no]
+$if[$checkContains[$botOwnerID;$authorID]==true]
+$addButton[2;Update (Handler);1;author-2;yes]
+$addButton[2;Eval;1;author-1;yes]
+$addButton[1;Owner Command;3;author-0;yes;⤵]
+$endif
 $thumbnail[1;$userAvatar[$clientID;2048]]
 $addField[1;Guide;\`YouTube/SoundCloud/Spotify\`
 > <prefix>play <name/url> | All
