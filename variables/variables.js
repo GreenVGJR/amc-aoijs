@@ -15,6 +15,7 @@ module.exports = {
   errorloop: "Only have {amount} song.", //Available {amount}
   erroruser: "{newEmbed:{title:❌ You cant use this command} {color:$getVar[color]}}",
   errorsameuser: "You must same in {voice} to use this command.", //Available {voice}
+  errorbutton: "You cant use this.",
   customerror: "Something just happened.", //Custom $suppressErrors
 
   join: "Joined Voice Channel to the {join}.", //Available {join}
@@ -43,6 +44,9 @@ module.exports = {
   cacheplay: "",
   ratetime: "0",
   customratetime: "300",
+  buttonmusic: "0", //0 = off | 1 = on
+  buttonmusicmessage: "",
+  buttonmusichannel: "",
   listfilters: "\`bassonly, clarity, deep, echo, flanger, gate, haas, nightcore, phaser, phone, pitch, pulsator, reverb, tempo, tremolo, remove, subboost, vaporwave, vibrato\`",
 
   //Emoji
@@ -54,5 +58,14 @@ module.exports = {
  
   listenuser: "0",
   listenserver: "0",
-  listenglobal: "0"
+  listenglobal: "0",
+
+  //Playlist
+  playlistuser: "",
+  playlistusercount: "1",
+  playlistuserpublic: "off",
+  playlistuserauto: "off",
+  playlistuserwords: "off",
+  playlistcacheuser: "",
+  playlistcachecount: "1"
 }
