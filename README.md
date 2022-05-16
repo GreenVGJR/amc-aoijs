@@ -31,7 +31,17 @@ v4.5.0-4.6.0     : https://is.gd/backupmusic_2
 
 5.1.0-prerelease : https://is.gd/backupmusic_5 (log)
 
-5.1.0            : 
+5.1.0            : https://is.gd/backupmusic_6 (log)
+
+5.1.2 (old)      : https://is.gd/backupmusic_7 (log)
+
+5.1.2 (new)      : 
+
+5.2.0 (old)      :
+
+5.2.0 (new)      :
+
+6.0.0            :
 
 _____________
 FAQ
@@ -48,10 +58,6 @@ No License
 Claiming your code
 
 `idc you claim my code or not, but dont takedown my project :/`
-
-Music controller V5
-
-`later`
 
 _____________
 Intents
