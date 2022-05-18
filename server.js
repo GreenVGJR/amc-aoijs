@@ -122,18 +122,21 @@ bot.variables({
 })
 
 const voice = new Aoijs.Voice(bot, {
-  soundcloud: {
-    clientId: "your clientid",
-    likeTrackLimit: 200
-  },
   cache: {
     cacheType: "Memory", //Disk | None | Memory
     directory: "./music/", //Only for "Disk"
     enabled: true
   },
+  soundcloud: {
+    clientId: "your clientid",
+    likeTrackLimit: 200
+  },
   youtube: {
  fetchAuthor: true
  },
+  playerOptions: {
+ trackInfoInterval: 150
+},
 }); 
  
 //Events
