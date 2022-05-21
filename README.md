@@ -59,6 +59,10 @@ Claiming your code
 
 `idc you claim my code or not, but dont takedown my project :/`
 
+Cant see list update on pastebin
+
+`you can go my`[`release`](https://github.com/GreenVGJR/amc-aoijs/releases)`if you wanna see the list update`
+
 _____________
 Intents
 _____________
