@@ -3,6 +3,7 @@ module.exports = {
  type: "interaction",
  prototype: "button",
  code: `$skip
+$loop[1;{};controlmusic]
 $setGlobalUserVar[cacheplay;;$interactionData[author.id]]
 $let[message;$playTrack[$replaceText[$replaceText[$checkContains[$getGlobalUserVar[cacheplay;$interactionData[author.id]];youtube.com];true;youtube];false;$replaceText[$replaceText[$checkContains[$getGlobalUserVar[cacheplay;$interactionData[author.id]];soundcloud.com];true;soundcloud];false;url]];$getGlobalUserVar[cacheplay;$interactionData[author.id]]]
 $onlyIf[$getGlobalUserVar[cacheplay;$interactionData[author.id]]!=;{
