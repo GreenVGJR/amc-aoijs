@@ -483,14 +483,14 @@ $getBotInvite&permissions=$getVar[permission]`
  {
  name: "uptime",
  code: `$reply[$messageID;no]
-\`$uptime\``
+\`$uptime\` / <t:$cropText[$readyTimestamp;10]:R>`
 },
  {
  name: "ping",
  $if: "v4",
  code: `$reply[$messageID;no]
-$editMessage[$get[id];{newEmbed:{color:$getVar[color]} {timestamp} {footer:$userTag} {field:Websocket Ping:\`$numberSeparator[$get[ping]]ms\`:yes} {field:API Ping:\`$numberSeparator[$get[messageping]]ms\`:yes} {field:Database Ping:\`$numberSeparator[$get[dbping]]ms\`:yes} {field:Voice Ping:\`$numberSeparator[$get[voiceping]]ms\`:yes} {field:Shard Ping:\`$numberSeparator[$get[shardping]]ms\`:yes} {field:Message Ping:\`$numberSeparator[$sub[$dateStamp;$get[secondping]]]ms\`:no}}]
-$let[id;$sendMessage[{newEmbed:{color:$getVar[color]} {timestamp} {footer:$userTag} {field:Websocket Ping:\`Checking\`:yes} {field:API Ping:\`Checking\`:yes} {field:Database Ping:\`Checking\`:yes} {field:Voice Ping:\`Checking\`:yes} {field:Shard Ping:\`Checking\`:yes} {field:Message Ping:\`Checking\`:no}};yes]]
+$editMessage[$get[id];{newEmbed:{color:$getVar[color]} {timestamp} {footer:$userTag} {field:Websocket Ping:\`$numberSeparator[$get[ping]]ms\`:yes} {field:API Ping:\`$numberSeparator[$get[messageping]]ms\`:yes} {field:Database Ping:\`$numberSeparator[$get[dbping]]ms\`:yes} {field:Voice Ping:\`$numberSeparator[$get[voiceping]]ms\`:yes} {field:Shard Ping:\`$numberSeparator[$get[shardping]]ms\`:yes} {field:Message Ping:\`$numberSeparator[$sub[$dateStamp;$get[secondping]]]ms\`:yes} {field:Edited Ping:\`$numberSeparator[$sub[$sub[$dateStamp;$get[secondping]];$get[messageping]]]ms\`:yes}}]
+$let[id;$sendMessage[{newEmbed:{color:$getVar[color]} {timestamp} {footer:$userTag} {field:Websocket Ping:\`Checking\`:yes} {field:API Ping:\`Checking\`:yes} {field:Database Ping:\`Checking\`:yes} {field:Voice Ping:\`Checking\`:yes} {field:Shard Ping:\`Checking\`:yes} {field:Message Ping:\`Checking\`:yes} {field:Edited Ping:\`Checking\`:yes}};yes]]
 $let[secondping;$dateStamp]
 $let[shardping;$shardPing]
 $let[ping;$ping]
@@ -547,6 +547,7 @@ UserID         : $replaceText[$replaceText[$checkCondition[$getServerVar[userid]
 Log Music      : $replaceText[$replaceText[$checkContains[$getServerVar[logmusic];1];true;✅];false;❌]
 24/7           : $replaceText[$replaceText[$getGlobalUserVar[247];1;✅];0;❌]
 Playlist       : $replaceText[$replaceText[$checkCondition[1>=$getGlobalUserVar[playlistusercount]];false;✅];true;❌]
+Controller     : $replaceText[$replaceText[$checkContains[$getServerVar[buttonmusic];1];true;✅];false;❌]
 
 Max Volume     : $getServerVar[maxvol]%
 User Volume    : $getGlobalUserVar[vol]%
@@ -776,7 +777,7 @@ $onlyPerms[manageserver;Missing Permission, **Manage Server** - User]`
 {title:$songInfo[title]}
 {url:$songInfo[url]}
 {field:Requested By:<@$songInfo[user.id]>:no}
-{field:Duration:\`$replaceText[$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;$humanizeMS[$songInfo[duration];4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;0];true;$findNumbers[$songInfo[duration]]]).toISOString().substr(11, 8);yes]];00:00:00;LIVE]\`:yes}
+{field:Duration:\`$replaceText[$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;$humanizeMS[$songInfo[duration];4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;0];true;$findNumbers[$songInfo[duration]]]).toISOString().substr(11, 8);yes]];00:00:00;LIVE]\` - \`$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0];true;LIVE];false;$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;$humanizeMS[$getCurrentDuration;4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;0];true;$getCurrentDuration]).toISOString().substr(11, 8);yes]]]\`:yes}
 {field:Artist:\`$songInfo[author]\`:yes}
 {field:Platform:\`$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com];true;YouTube];false;$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;SoundCloud];false;Audio]]\`:yes}
 {field:$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;Listened];false;Views]:\`$numberSeparator[$replaceText[$songInfo[views];null;0]]\`:yes}
@@ -788,7 +789,33 @@ $onlyPerms[manageserver;Missing Permission, **Manage Server** - User]`
 {field:Filters:\`$getServerVar[filters]\`:no}
 {timestamp}
 {thumbnail:$replaceText[$songInfo[thumbnail];undefined;$userAvatar[$clientID;1024]]}
-{color:$getVar[color]}};{actionRow:{button::1:queue:no:⏏} {button::3:previous:no:⏮} {button::3:play:no:⏯} {button::3:next:no:⏭} {button::1:stop:no:⏹}} {actionRow:{button:$replaceText[$replaceText[$checkCondition[$loopStatus==none];true;Off];false;$toLocaleUppercase[$loopStatus]]:1:loop:no:🔁} {button:-10s:2:downseek:no:⏪} {button:+10s:2:fastseek:no:⏩}}]
+{color:$getVar[color]}};{actionRow:{button::1:queue:no:⏏} {button::3:previous:no:⏮} {button::3:play:no:⏯} {button::3:next:no:⏭} {button::1:stop:no:⏹}} {actionRow:{button:$replaceText[$replaceText[$checkCondition[$loopStatus==none];true;Off];false;$toLocaleUppercase[$loopStatus]]:1:loop:no:🔁} {button:-10s:2:downseek:no:⏪} {button:+10s:2:fastseek:no:⏩} {button::1:shuffle:no:🔀}} {actionRow:{button:$volume%:1:volmute:no:🔈} {button:-10%:2:voldown:no:🔉} {button:+10%:2:volup:no:🔊}}]
 $onlyIf[$getServerVar[buttonmusicmessage]!=;]
 $onlyIf[$queueLength!=0;]`
+},
+ {
+ name: "autocontrolmusic",
+ type: "awaited",
+ code: `$loop[1;{};autocontrolmusic]
+$editMessage[$getServerVar[buttonmusicmessage];{newEmbed:{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com];true;$getVar[ytemoji]];false;$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;$getVar[scemoji]];false;$getVar[customemoji1]]]}
+{title:$songInfo[title]}
+{url:$songInfo[url]}
+{field:Requested By:<@$songInfo[user.id]>:no}
+{field:Duration:\`$replaceText[$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;$humanizeMS[$songInfo[duration];4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;0];true;$findNumbers[$songInfo[duration]]]).toISOString().substr(11, 8);yes]];00:00:00;LIVE]\` - \`$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0];true;LIVE];false;$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;$humanizeMS[$getCurrentDuration;4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;0];true;$getCurrentDuration]).toISOString().substr(11, 8);yes]]]\`:yes}
+{field:Artist:\`$songInfo[author]\`:yes}
+{field:Platform:\`$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com];true;YouTube];false;$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;SoundCloud];false;Audio]]\`:yes}
+{field:$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;Listened];false;Views]:\`$numberSeparator[$replaceText[$songInfo[views];null;0]]\`:yes}
+{field:Like:\`$numberSeparator[$replaceText[$songInfo[likes];null;0]]\`:yes}
+{field:Create:$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;<t:$cropText[$songInfo[createdTimestamp];10]:d>];false;\`none\`]:yes}
+{field:Song:\`$numberSeparator[$queueLength]\`:yes}
+{field:24/7:$replaceText[$replaceText[$getGlobalUserVar[247;$songInfo[user.id]];0;\`❌\`];1;\`✅\`]:yes}
+{field:Loop:\`$replaceText[$replaceText[$checkCondition[$loopStatus==none];true;off];false;on - $loopStatus]\`:yes}
+{field:Filters:\`$getServerVar[filters]\`:no}
+{timestamp}
+{thumbnail:$replaceText[$songInfo[thumbnail];undefined;$userAvatar[$clientID;1024]]}
+{color:$getVar[color]}}]
+$wait[$getVar[timechangemessage]]
+$onlyIf[$getServerVar[buttonmusicmessage]!=;]
+$onlyIf[$queueLength!=0;]
+$suppressErrors`
 }]
