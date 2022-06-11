@@ -2,8 +2,8 @@ module.exports = {
  name: "previous",
  type: "interaction",
  prototype: "button",
- code: `$skip
-$loop[1;{};controlmusic]
+ code: `$loop[1;{};controlmusic]
+$skip
 $setGlobalUserVar[cacheplay;;$interactionData[author.id]]
 $let[message;$playTrack[$replaceText[$replaceText[$checkContains[$getGlobalUserVar[cacheplay;$interactionData[author.id]];youtube.com];true;youtube];false;$replaceText[$replaceText[$checkContains[$getGlobalUserVar[cacheplay;$interactionData[author.id]];soundcloud.com];true;soundcloud];false;url]];$getGlobalUserVar[cacheplay;$interactionData[author.id]]]
 $onlyIf[$getGlobalUserVar[cacheplay;$interactionData[author.id]]!=;{
@@ -14,6 +14,7 @@ $onlyIf[$getGlobalUserVar[cacheplay;$interactionData[author.id]]!=;{
  }
 }]
 $onlyIf[$getServerVar[buttonmusic]!=0;{execute:forcemusicoff}]
+$onlyIf[$interactionData[message.id]==$getServerVar[buttonmusicmessage];]
 $onlyIf[$songInfo[user.id]==$interactionData[author.id];]
 $onlyIf[$getServerVar[buttonmusicmessage]!=;]
 $onlyIf[$queueLength!=0;]`
