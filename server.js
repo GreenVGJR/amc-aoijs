@@ -25,7 +25,9 @@ $log[$userTag[$clientID] active at $formatDate[$dateStamp;LLLL]]
 $else
 $sendMessage[<@$clientID> active at <t:$cropText[$dateStamp;10]:F>;no]
 $endif
-$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]]]
+$log[$replaceText[$replaceText[$checkContains[$get[update];up to date];true;No update found.];false;$get[update]
+____________________________________________
+Require Restart to Update Package.]]
 $let[update;$exec[npm i https://github.com/akaruidevelopment/music#main]]
 $log[Checking Music Package..]
 $log[____________________________________________
@@ -35,13 +37,11 @@ SoundCloud : $get[soundcloud]
 Spotify    : $get[spotify]
 ____________________________________________
 
-IPV4       : $get[ipv4]
 Load       : $numberSeparator[$divide[$sub[$dateStamp;$get[time]];1000]]s
 ____________________________________________]
 $let[youtube;$replaceText[$replaceText[$isValidLink[https://youtube.com/];true;✅];false;❌]]
 $let[soundcloud;$replaceText[$replaceText[$isValidLink[https://soundcloud.com/];true;✅];false;❌]]
 $let[spotify;$replaceText[$replaceText[$isValidLink[https://spotify.com/];true;✅];false;❌]]
-$let[ipv4;$advancedTextSplit[$httpRequest[https://ip-fast.com/api/ip/?location=True];";2;";1]]
 $resetServerVar[buttonmusichannel]
 $resetServerVar[buttonmusicmessage]
 $resetServerVar[filters]
@@ -103,7 +103,7 @@ $setServerVar[buttonmusichannel;$channelID]
 $setServerVar[buttonmusicmessage;$get[id]]
 $let[id;$sendMessage[{
  "embeds": "{newEmbed:{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com];true;$getVar[ytemoji]];false;$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;$getVar[scemoji]];false;$getVar[customemoji1]]]}
-{title:$songInfo[title]}
+{title:$replaceText[$songInfo[title];";']}
 {url:$songInfo[url]}
 {field:Requested By:<@$songInfo[user.id]>:no}
 {field:Duration:\`$replaceText[$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;$humanizeMS[$songInfo[duration];4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;0];true;$findNumbers[$songInfo[duration]]]).toISOString().substr(11, 8);yes]];00:00:00;LIVE]\` - \`$replaceText[$replaceText[$checkCondition[$songInfo[duration]==0];true;LIVE];false;$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;$humanizeMS[$getCurrentDuration;4]];true;$djsEval[new Date($replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com;soundcloud.com];false;0];true;$getCurrentDuration]).toISOString().substr(11, 8);yes]]]\`:yes}
@@ -119,7 +119,7 @@ $let[id;$sendMessage[{
 {timestamp}
 {thumbnail:$replaceText[$songInfo[thumbnail];undefined;$userAvatar[$clientID;1024]]}
 {color:$getVar[color]}}",
- "components": "{actionRow:{button::1:queue:no:⏏} {button::3:previous:no:⏮} {button::3:play:no:⏯} {button::3:next:no:⏭} {button::1:stop:no:⏹}} {actionRow:{button:$replaceText[$replaceText[$checkCondition[$loopStatus==none];true;Off];false;$toLocaleUppercase[$loopStatus]]:1:loop:no:🔁} {button:-10s:2:downseek:no:⏪} {button:+10s:2:fastseek:no:⏩} {button::1:shuffle:no:🔀}} {actionRow:{button:$volume%:1:volmute:no:🔈} {button:-10%:2:voldown:no:🔉} {button:+10%:2:volup:no:🔊}}"
+ "components": "{actionRow:{button::1:queue:no:⏏} {button::3:previous:no:⏮} {button::3:play:no:⏯} {button::3:next:no:⏭} {button::1:stop:no:⏹}} {actionRow:{button:$replaceText[$replaceText[$checkCondition[$loopStatus==none];true;Off];false;$toLocaleUppercase[$loopStatus]]:1:loop:no:🔁} {button:-10s:2:downseek:no:⏪} {button:+10s:2:fastseek:no:⏩} {button::1:shuffle:no:🔀}} {actionRow:{button:$truncate[$volume]%:1:volmute:no:🔈} {button:-10%:2:voldown:no:🔉} {button:+10%:2:volup:no:🔊}}"
 };yes]]
 $else
 $editMessage[$getServerVar[buttonmusicmessage];{newEmbed:{author:Started Playing:$replaceText[$replaceText[$checkContains[$songInfo[url];youtube.com];true;$getVar[ytemoji]];false;$replaceText[$replaceText[$checkContains[$songInfo[url];soundcloud.com];true;$getVar[scemoji]];false;$getVar[customemoji1]]]}
@@ -161,7 +161,7 @@ voice.trackStartCommand({
  code: `$if[$getCurrentDuration$suppressErrors<2000]
 $setGlobalUserVar[playlistusercount;$sum[$getGlobalUserVar[playlistusercount;$songInfo[user.id]];1];$songInfo[user.id]]
 $setGlobalUserVar[playlistuser;$getGlobalUserVar[playlistuser;$songInfo[user.id]],
-"name$getGlobalUserVar[playlistusercount;$songInfo[user.id]]": "[$songInfo[title]]($songInfo[url])";$songInfo[user.id]]
+"name$getGlobalUserVar[playlistusercount;$songInfo[user.id]]": "[$replaceText[$songInfo[title];";']]($songInfo[url])";$songInfo[user.id]]
 $onlyIf[$checkContains[$songInfo[url];youtube.com;soundcloud.com;cdn.discordapp.com]==true;]
 $onlyIf[$checkContains[$getGlobalUserVar[playlistuser;$songInfo[user.id]];$songInfo[url]]==false;]
 $onlyIf[$getGlobalUserVar[playlistuserauto;$songInfo[user.id]]!=off;]
