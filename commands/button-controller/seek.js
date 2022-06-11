@@ -2,8 +2,8 @@ module.exports = [{
  name: "downseek",
  type: "interaction",
  prototype: "button",
- code: `$loop[1;{};controlmusic]
-$seekTo[$replaceText[$replaceText[$checkCondition[$getCurrentDuration>=10000];false;0];true;$sub[$getCurrentDuration;10000]]]
+ code: `$seekTo[$replaceText[$replaceText[$checkCondition[$getCurrentDuration>=10000];false;0];true;$sub[$getCurrentDuration;10000]]]
+$loop[1;{};controlmusic]
 $onlyIf[$songInfo[duration]!=0;{
  "content": "This song was \`LIVE\`",
  "ephemeral": "true",
@@ -12,6 +12,7 @@ $onlyIf[$songInfo[duration]!=0;{
  }
 }]
 $onlyIf[$getServerVar[buttonmusic]!=0;{execute:forcemusicoff}]
+$onlyIf[$interactionData[message.id]==$getServerVar[buttonmusicmessage];]
 $onlyIf[$songInfo[user.id]==$interactionData[author.id];]
 $onlyIf[$getServerVar[buttonmusicmessage]!=;]
 $onlyIf[$queueLength!=0;]`
@@ -20,8 +21,8 @@ $onlyIf[$queueLength!=0;]`
  name: "fastseek",
  type: "interaction",
  prototype: "button",
- code: `$loop[1;{};controlmusic]
-$seekTo[$sum[$getCurrentDuration;10000]]
+ code: `$seekTo[$sum[$getCurrentDuration;10000]]
+$loop[1;{};controlmusic]
 $onlyIf[$songInfo[duration]!=0;{
  "content": "This song was \`LIVE\`",
  "ephemeral": "true",
@@ -30,6 +31,7 @@ $onlyIf[$songInfo[duration]!=0;{
  }
 }]
 $onlyIf[$getServerVar[buttonmusic]!=0;{execute:forcemusicoff}]
+$onlyIf[$interactionData[message.id]==$getServerVar[buttonmusicmessage];]
 $onlyIf[$songInfo[user.id]==$interactionData[author.id];]
 $onlyIf[$getServerVar[buttonmusicmessage]!=;]
 $onlyIf[$queueLength!=0;]`
