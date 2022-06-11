@@ -340,14 +340,18 @@ $onlyIf[$advancedTextSplit[$interactionData[values[0]];-;2]==$authorID;{
  name: "optionplaylist",
  type: "awaited",
  $if: "v4",
- code: `$interactionUpdate[;{newEmbed:{author:Playlist:$getVar[customemoji1]} {title:Options} {field:Auto-Add:\`$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]\`:yes} {field:Words:\`$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]\`:yes} {field:Public:\`$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]\`:yes} {color:$getVar[color]} {thumbnail:https://discord.com/users/$interactionData[author.id]}};{actionRow:{button:Back:2:playlist:no:↩} {button:Reset:4:resetplaylist:no:🗑}} {actionRow:{button:Auto-Add:3:autoplaylist-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]:no} {button:Words:3:wordsplaylist-$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]:no} {button:Public:3:publicplaylist-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]:no}}]`
+ code: `$interactionUpdate[;{newEmbed:{author:Playlist:$getVar[customemoji1]} {title:Options} {field:Playlist Size:\`$replaceText[$replaceText[$checkContains[$get[sizeuser];.];true;$advancedTextSplit[$get[sizeuser];.;1].$cropText[$advancedTextSplit[$get[sizeuser];.;2];2] kB];false;$get[sizeuser] B]\`:no} {field:Auto-Add:\`$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]\`:yes} {field:Words:\`$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]\`:yes} {field:Public:\`$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]\`:yes} {color:$getVar[color]} {thumbnail:https://discord.com/users/$interactionData[author.id]}};{actionRow:{button:Back:2:playlist:no:↩} {button:Reset:4:resetplaylist:no:🗑} {button:Download:1:downloadplaylist:$replaceText[$replaceText[$checkCondition[$getGlobalUserVar[playlistusercount;$interactionData[author.id]]==1];true;yes];false;no]:📥}} {actionRow:{button:Auto-Add:3:autoplaylist-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]:no} {button:Words:3:wordsplaylist-$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]:no} {button:Public:3:publicplaylist-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]:no}}]
+$let[sizeuser;$replaceText[$replaceText[$checkCondition[$get[user]>=1023];true;$cropText[$numberSeparator[$divide[$get[user];1024]];6]];false;$get[user]]]
+$let[user;$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]]`
 },
  {
  name: "resetplaylist",
  type: "interaction",
  prototype: "button",
  $if: "v4",
- code: `$interactionEdit[;{newEmbed:{author:Playlist:$getVar[customemoji1]} {title:Options} {field:Auto-Add:\`$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]\`:yes} {field:Words:\`$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]\`:yes} {field:Public:\`$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]\`:yes} {color:$getVar[color]} {thumbnail:https://discord.com/users/$interactionData[author.id]}};{actionRow:{button:Back:2:playlist:no:↩} {button:Reset:4:resetplaylist:no:🗑}} {actionRow:{button:Auto-Add:3:autoplaylist-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]:no} {button:Words:3:wordsplaylist-$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]:no} {button:Public:3:publicplaylist-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]:no}}]
+ code: `$interactionEdit[;{newEmbed:{author:Playlist:$getVar[customemoji1]} {title:Options} {field:Playlist Size:\`$replaceText[$replaceText[$checkContains[$get[sizeuser];.];true;$advancedTextSplit[$get[sizeuser];.;1].$cropText[$advancedTextSplit[$get[sizeuser];.;2];2] kB];false;$get[sizeuser] B]\`:no} {field:Auto-Add:\`$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]\`:yes} {field:Words:\`$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]\`:yes} {field:Public:\`$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]\`:yes} {color:$getVar[color]} {thumbnail:https://discord.com/users/$interactionData[author.id]}};{actionRow:{button:Back:2:playlist:no:↩} {button:Reset:4:resetplaylist:no:🗑} {button:Download:1:downloadplaylist:$replaceText[$replaceText[$checkCondition[$getGlobalUserVar[playlistusercount;$interactionData[author.id]]==1];true;yes];false;no]:📥}} {actionRow:{button:Auto-Add:3:autoplaylist-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]:no} {button:Words:3:wordsplaylist-$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]:no} {button:Public:3:publicplaylist-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]:no}}]
+$let[sizeuser;$replaceText[$replaceText[$checkCondition[$get[user]>=1023];true;$cropText[$numberSeparator[$divide[$get[user];1024]];6]];false;$get[user]]]
+$let[user;$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]]
 $deleteMessage[$interactionData[message.id]]
 $wait[1s]
 $if[$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]!=off-off-off]
@@ -359,6 +363,25 @@ $setGlobalUserVar[playlistuserauto;off;$interactionData[author.id]]
 $setGlobalUserVar[playlistuserpublic;off;$interactionData[author.id]]
 $setGlobalUserVar[playlistuserwords;off;$interactionData[author.id]]
 $interactionReply[;{newEmbed:{author:Reseting:$getVar[loademoji]} {color:$getVar[color]} {timestamp}}]
+$onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumbnail];$authorID]==true;{
+ "content": "You cant use this button.",
+ "ephemeral": "true",
+ "options": {
+  "interaction": "true"
+ }
+}]`
+},
+{
+  name: "downloadplaylist",
+  type: "interaction",
+  prototype: "button",
+  code: `$sendMessage[{
+ "files": "{file:$uri[$cropText[$replaceText[$replaceText[$getGlobalUserVar[playlistuser;$interactionData[author.id]];:;#COLON#];";%22];$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]];2];encode]:http-$username[$interactionData[author.id]].txt} {file:$cropText[$replaceText[$replaceText[$getGlobalUserVar[playlistuser;$interactionData[author.id]];:;#COLON#];";%22];$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]];2]:$username[$interactionData[author.id]].txt}",
+ "ephemeral": "true",
+ "options": {
+  "interaction": "true"
+ }
+};no]
 $onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumbnail];$authorID]==true;{
  "content": "You cant use this button.",
  "ephemeral": "true",
