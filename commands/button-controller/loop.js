@@ -14,6 +14,7 @@ $loopMode[none]
 $endelseif
 $endif
 $onlyIf[$getServerVar[buttonmusic]!=0;{execute:forcemusicoff}]
+$onlyIf[$interactionData[message.id]==$getServerVar[buttonmusicmessage];]
 $onlyIf[$songInfo[user.id]==$interactionData[author.id];]
 $onlyIf[$getServerVar[buttonmusicmessage]!=;]
 $onlyIf[$queueLength!=0;]`
