@@ -4,7 +4,6 @@ module.exports = {
  prototype: "slash",
  $if: "v4",
  code: `$if[$queueLength<1]
-$deleteMessage[$interactionData[message.id]]
 $interactionEdit[;{newEmbed:{title:Started Playing} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}};;;;no]
 $else
 $interactionEdit[;{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}};;;;no]
