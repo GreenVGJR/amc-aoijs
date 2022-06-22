@@ -113,7 +113,7 @@ $endif
 {
 name: "playlist-add",
  $if: "v4",
- code: `$if[$getGlobalUserVar[playlistuserwords]==off]
+ code: `$if[$getGlobalUserVar[playlistuserwords]-$getGlobalUserVar[playlistuserbypass]==off-0]
 $if[$checkContains[$message[1];youtu.be;m.youtube;youtube.com;soundcloud.com;app.goo.gl;open.spotify.com/track;soundcloud.com/discover/sets/;youtube.com/playlist?list=;cdn.discordapp.com]==false]
 $if[$advancedTextSplit[$message[1];http://;1]!=]
 Invalid link
@@ -125,49 +125,44 @@ Invalid link (\`$message[1]\`)
 $endif
 $endif
 $else
-$editMessage[$get[id];{newEmbed:{field:Added:$message:yes} {field:Position:$numberSeparator[$sub[$getGlobalUserVar[playlistusercount];1]]:yes} {timestamp} {color:$getVar[color]}}]
+$editMessage[$get[id];{newEmbed:{field:Added:$get[message]:yes} {field:Position:$numberSeparator[$sub[$getGlobalUserVar[playlistusercount];1]]:yes} {timestamp} {color:$getVar[color]}}]
 $createObject[{$cropText[$getGlobalUserVar[playlistuser];$charCount[$getGlobalUserVar[playlistuser]];2]}]
 $editMessage[$get[id];{newEmbed:{author:Checking Playlist:$getVar[loademoji]} {timestamp} {color:$getVar[color]}}]
 $setGlobalUserVar[playlistusercount;$sum[$getGlobalUserVar[playlistusercount];1]]
 $setGlobalUserVar[playlistuser;$getGlobalUserVar[playlistuser],
-"name$getGlobalUserVar[playlistusercount]": "$nonEscape[$message]"]
+"name$getGlobalUserVar[playlistusercount]": "$nonEscape[$get[message]]"]
+$if[$getGlobalUserVar[playlistuserbypass]==0]
 $onlyIf[$isValidLink[$nonEscape[$message]]!=false;Invalid link]
+$endif
 $editMessage[$get[id];{newEmbed:{author:Checking Link:$getVar[loademoji]} {timestamp} {color:$getVar[color]}}]
 $let[id;$sendMessage[{newEmbed:{author:Adding to playlist:$getVar[loademoji]} {timestamp} {color:$getVar[color]}};yes]]
 $endif
 $else
-$editMessage[$get[id];{newEmbed:{field:Added:$message:yes} {field:Position:$numberSeparator[$sub[$getGlobalUserVar[playlistusercount];1]]:yes} {timestamp} {color:$getVar[color]}}]
+$editMessage[$get[id];{newEmbed:{field:Added:$get[message]:yes} {field:Position:$numberSeparator[$sub[$getGlobalUserVar[playlistusercount];1]]:yes} {timestamp} {color:$getVar[color]}}]
 $createObject[{$cropText[$getGlobalUserVar[playlistuser];$charCount[$getGlobalUserVar[playlistuser]];2]}]
 $editMessage[$get[id];{newEmbed:{author:Checking Playlist:$getVar[loademoji]} {timestamp} {color:$getVar[color]}}]
 $setGlobalUserVar[playlistusercount;$sum[$getGlobalUserVar[playlistusercount];1]]
 $setGlobalUserVar[playlistuser;$getGlobalUserVar[playlistuser],
-"name$getGlobalUserVar[playlistusercount]": "$nonEscape[$message]"]
+"name$getGlobalUserVar[playlistusercount]": "$nonEscape[$get[message]]"]
 $let[id;$sendMessage[{newEmbed:{author:Adding to playlist:$getVar[loademoji]} {timestamp} {color:$getVar[color]}};yes]]
 $endif
+$let[message;$replaceText[$message;";']]
 $onlyIf[$message[1]!=;What song/playlist you want add]`
 },
  {
  name: "playlist-play",
  $if: "v4",
- code: `
-$if[$checkContains[$getUserVar[playlistcacheuser];soundcloud.com/discover/sets/;youtube.com/playlist?list=]==true]
+ code: `$if[$checkContains[$getUserVar[playlistcacheuser];soundcloud.com/discover/sets/;youtube.com/playlist?list=;open.spotify.com/playlist]==true]
 $setUserVar[playlistcacheuser;]
 $deleteMessage[$get[id]]
-$sendMessage[{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1] Song from Playlist.} {color:$getVar[color]}};no]
+$sendMessage[{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:\`$replaceText[$get[message];Added ;;1]\` Song from Playlist.} {color:$getVar[color]}};no]
 $else
-$if[$queueLength<1]
-$if[$getServerVar[logmusic]==1]
 $setUserVar[playlistcacheuser;]
 $deleteMessage[$get[id]]
+$onlyIf[$queueLength==1;]
+$editMessage[$get[id];{newEmbed:{author:$replaceText[$replaceText[$checkCondition[$queueLength==1];true;Started Playing];false;Added to Queue]:$getVar[customemoji1]} {footer:$replaceText[$replaceText[$checkCondition[$queueLength==1];true;];false;$queueLength Song]} {description:\`$replaceText[$get[message];Added ;;1]\`} {color:$getVar[color]}}]
 $endif
-$editMessage[$get[id];{newEmbed:{title:Started Playing} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}}]
-$setUserVar[playlistcacheuser;]
-$else
-$editMessage[$get[id];{newEmbed:{author:Added to queue:$getVar[customemoji1]} {footer:$queueLength Song} {description:$replaceText[$get[message];Added;;1]} {color:$getVar[color]}}]
-$onlyIf[$queueLength!=0;]
-$setUserVar[playlistcacheuser;]
-$endif
-$endif
+$onlyIf[$hasPlayer!=false;]
 $onlyIf[$checkCondition[$get[message]==Added 0]==false;Track not found]
 $if[$checkContains[$getUserVar[playlistcacheuser];open.spotify.com/track]==true]
 $if[$toLowercase[$getVar[defaultspotify]]==youtube]
@@ -178,6 +173,9 @@ $elseif[$toLowercase[$getVar[defaultspotify]]==soundcloud]
 $let[message;$playTrack[soundcloud;$advancedTextSplit[$get[url];data: ';2;"og:description" content=";2; ·;1] - $advancedTextSplit[$get[url];data: ';2;"og:title" content=";2;";1]]]
 $editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {footer:Converting to SoundCloud} {color:$getVar[color]}}]
 $let[url;$djsEval[require('axios').get('$getUserVar[playlistcacheuser]');yes]]
+$endelseif
+$elseif[$checkContains[$getUserVar[playlistcacheuser];open.spotify.com/playlist]==true]
+$let[message;$playTrack[spotify;$getUserVar[playlistcacheuser]]]
 $endelseif
 $else
 $let[message;$playTrack[youtube;$getUserVar[playlistcacheuser]]]
@@ -191,13 +189,13 @@ $else
 $let[message;$playTrack[youtube;$getUserVar[playlistcacheuser]]]
 $endif
 $endif
-$if[$checkContains[$getUserVar[playlistcacheuser];soundcloud.com/discover/sets/;youtube.com/playlist?list=]==true]
+$if[$checkContains[$getUserVar[playlistcacheuser];soundcloud.com/discover/sets/;youtube.com/playlist?list=;open.spotify.com/playlist]==true]
 $editMessage[$get[id];{newEmbed:{author:Adding to Queue:$getVar[customemoji2]} {footer:This can take long time.} {color:$getVar[color]}}]
 $editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {color:$getVar[color]}}]
 $else
 $editMessage[$get[id];{newEmbed:{author:Searching:$getVar[loademoji]} {color:$getVar[color]}}]
 $endif
-$onlyIf[$checkContains[$getUserVar[playlistcacheuser];open.spotify.com/playlist;open.spotify.com/artist;open.spotify.com/album;open.spotify.com/episode]!=true;Not support]
+$onlyIf[$checkContains[$getUserVar[playlistcacheuser];open.spotify.com/artist;open.spotify.com/album;open.spotify.com/episode]!=true;Not support]
 $if[$voiceID[$clientID]==]
 $joinVc[$voiceID;no;yes;yes]
 $endif
@@ -208,6 +206,7 @@ $let[id;$sendMessage[{newEmbed:{author:Processing:$getVar[loademoji]} {color:$ge
 $onlyIf[$truncate[$message[1]]<$getGlobalUserVar[playlistusercount];Your playlist only has **$numberSeparator[$sub[$getGlobalUserVar[playlistusercount];1]]** song.]
 $onlyIf[$isNumber[$message[1]]!=false;Must number]
 $onlyIf[$message[1]!=;Usage: \`playlist-play <number position>\`]
+$onlyIf[$voiceID!=;$getVar[errorjoin]]
 $onlyIf[$getGlobalUserVar[playlistusercount]!=1;You dont have your playlist.]`
 },
  {
@@ -340,7 +339,7 @@ $onlyIf[$advancedTextSplit[$interactionData[values[0]];-;2]==$authorID;{
  name: "optionplaylist",
  type: "awaited",
  $if: "v4",
- code: `$interactionUpdate[;{newEmbed:{author:Playlist:$getVar[customemoji1]} {title:Options} {field:Playlist Size:\`$replaceText[$replaceText[$checkContains[$get[sizeuser];.];true;$advancedTextSplit[$get[sizeuser];.;1].$cropText[$advancedTextSplit[$get[sizeuser];.;2];2] kB];false;$get[sizeuser] B]\`:no} {field:Auto-Add:\`$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]\`:yes} {field:Words:\`$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]\`:yes} {field:Public:\`$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]\`:yes} {color:$getVar[color]} {thumbnail:https://discord.com/users/$interactionData[author.id]}};{actionRow:{button:Back:2:playlist:no:↩} {button:Reset:4:resetplaylist:no:🗑} {button:Download:1:downloadplaylist:$replaceText[$replaceText[$checkCondition[$getGlobalUserVar[playlistusercount;$interactionData[author.id]]==1];true;yes];false;no]:📥}} {actionRow:{button:Auto-Add:3:autoplaylist-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]:no} {button:Words:3:wordsplaylist-$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]:no} {button:Public:3:publicplaylist-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]:no}}]
+ code: `$interactionUpdate[;{newEmbed:{author:Playlist:$getVar[customemoji1]} {title:Options} {field:Playlist Size:\`$replaceText[$replaceText[$checkContains[$get[sizeuser];.];true;$advancedTextSplit[$get[sizeuser];.;1].$cropText[$advancedTextSplit[$get[sizeuser];.;2];2] kB];false;$get[sizeuser] B]\`:no} {field:Auto-Add:\`$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]\`:yes} {field:Words:\`$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]\`:yes} {field:Public:\`$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]\`:yes} {field:Bypass:\`$replaceText[$replaceText[$getGlobalUserVar[playlistuserbypass;$interactionData[author.id]];0;off];1;on]\`:yes} {color:$getVar[color]} {thumbnail:https://discord.com/users/$interactionData[author.id]}};{actionRow:{selectMenu:selectmenu:Options - $cropText[$username[$interactionData[author.id]];15;0;..]#$discriminator[$interactionData[author.id]]:1:1:$replaceText[$replaceText[$checkCondition[$getGlobalUserVar[playlistusercount;$interactionData[author.id]]==1];true;yes];false;no]:{selectMenuOptions:Delete Playlist:deleteplaylist-$interactionData[author.id]:Delete your playlist.}}} {actionRow:{button:Back:2:playlist:no:↩} {button:Reset:4:resetplaylist:no:🗑} {button:Download:1:downloadplaylist:$replaceText[$replaceText[$checkCondition[$getGlobalUserVar[playlistusercount;$interactionData[author.id]]==1];true;yes];false;no]:📥}} {actionRow:{button:Auto-Add:3:autoplaylist-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]:no} {button:Words:3:wordsplaylist-$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]:no} {button:Public:3:publicplaylist-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]:no}} {actionRow:{button:Bypass:1:bypassplaylist-$getGlobalUserVar[playlistuserbypass;$interactionData[author.id]]:no}}]
 $let[sizeuser;$replaceText[$replaceText[$checkCondition[$get[user]>=1023];true;$cropText[$numberSeparator[$divide[$get[user];1024]];6]];false;$get[user]]]
 $let[user;$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]]`
 },
@@ -349,16 +348,18 @@ $let[user;$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]
  type: "interaction",
  prototype: "button",
  $if: "v4",
- code: `$interactionEdit[;{newEmbed:{author:Playlist:$getVar[customemoji1]} {title:Options} {field:Playlist Size:\`$replaceText[$replaceText[$checkContains[$get[sizeuser];.];true;$advancedTextSplit[$get[sizeuser];.;1].$cropText[$advancedTextSplit[$get[sizeuser];.;2];2] kB];false;$get[sizeuser] B]\`:no} {field:Auto-Add:\`$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]\`:yes} {field:Words:\`$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]\`:yes} {field:Public:\`$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]\`:yes} {color:$getVar[color]} {thumbnail:https://discord.com/users/$interactionData[author.id]}};{actionRow:{button:Back:2:playlist:no:↩} {button:Reset:4:resetplaylist:no:🗑} {button:Download:1:downloadplaylist:$replaceText[$replaceText[$checkCondition[$getGlobalUserVar[playlistusercount;$interactionData[author.id]]==1];true;yes];false;no]:📥}} {actionRow:{button:Auto-Add:3:autoplaylist-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]:no} {button:Words:3:wordsplaylist-$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]:no} {button:Public:3:publicplaylist-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]:no}}]
+ code: `$interactionEdit[;{newEmbed:{author:Playlist:$getVar[customemoji1]} {title:Options} {field:Playlist Size:\`$replaceText[$replaceText[$checkContains[$get[sizeuser];.];true;$advancedTextSplit[$get[sizeuser];.;1].$cropText[$advancedTextSplit[$get[sizeuser];.;2];2] kB];false;$advancedTextSplit[$get[sizeuser];
+;1] B]\`:no} {field:Auto-Add:\`$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]\`:yes} {field:Words:\`$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]\`:yes} {field:Public:\`$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]\`:yes} {field:Bypass:\`$replaceText[$replaceText[$getGlobalUserVar[playlistuserbypass;$interactionData[author.id]];0;off];1;on]\`:yes} {color:$getVar[color]} {thumbnail:https://discord.com/users/$interactionData[author.id]}};{actionRow:{selectMenu:selectmenu:Options - $cropText[$username[$interactionData[author.id]];15;0;..]#$discriminator[$interactionData[author.id]]:1:1:$replaceText[$replaceText[$checkCondition[$getGlobalUserVar[playlistusercount;$interactionData[author.id]]==1];true;yes];false;no]:{selectMenuOptions:Delete Playlist:deleteplaylist-$interactionData[author.id]:Delete your playlist.}}} {actionRow:{button:Back:2:playlist:no:↩} {button:Reset:4:resetplaylist:no:🗑} {button:Download:1:downloadplaylist:$replaceText[$replaceText[$checkCondition[$getGlobalUserVar[playlistusercount;$interactionData[author.id]]==1];true;yes];false;no]:📥}} {actionRow:{button:Auto-Add:3:autoplaylist-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]:no} {button:Words:3:wordsplaylist-$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]:no} {button:Public:3:publicplaylist-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]:no}} {actionRow:{button:Bypass:1:bypassplaylist-$getGlobalUserVar[playlistuserbypass;$interactionData[author.id]]:no}}]
 $let[sizeuser;$replaceText[$replaceText[$checkCondition[$get[user]>=1023];true;$cropText[$numberSeparator[$divide[$get[user];1024]];6]];false;$get[user]]]
 $let[user;$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]]
 $deleteMessage[$interactionData[message.id]]
 $wait[1s]
-$if[$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]!=off-off-off]
+$if[$getGlobalUserVar[playlistuserwords;$interactionData[author.id]]-$getGlobalUserVar[playlistuserauto;$interactionData[author.id]]-$getGlobalUserVar[playlistuserpublic;$interactionData[author.id]]-$getGlobalUserVar[playlistuserbypass;$interactionData[author.id]]!=off-off-off-0]
 $interactionEdit[;{author:Failed Reseting} {color:$getVar[color]} {timestamp}]
 $else
 $interactionEdit[;{newEmbed:{author:Reseted.} {color:$getVar[color]} {timestamp}}]
 $endif
+$setGlobalUserVar[playlistuserbypass;0;$interactionData[author.id]]
 $setGlobalUserVar[playlistuserauto;off;$interactionData[author.id]]
 $setGlobalUserVar[playlistuserpublic;off;$interactionData[author.id]]
 $setGlobalUserVar[playlistuserwords;off;$interactionData[author.id]]
@@ -375,20 +376,16 @@ $onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumb
   name: "downloadplaylist",
   type: "interaction",
   prototype: "button",
-  code: `$sendMessage[{
- "files": "{file:$uri[$cropText[$replaceText[$replaceText[$getGlobalUserVar[playlistuser;$interactionData[author.id]];:;#COLON#];";%22];$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]];2];encode]:http-$username[$interactionData[author.id]].txt} {file:$cropText[$replaceText[$replaceText[$getGlobalUserVar[playlistuser;$interactionData[author.id]];:;#COLON#];";%22];$charCount[$getGlobalUserVar[playlistuser;$interactionData[author.id]]];2]:$username[$interactionData[author.id]].txt}",
- "ephemeral": "true",
- "options": {
-  "interaction": "true"
- }
-};no]
+  code: `$interactionReply[;;;{file:$cropText[$get[file];$charCount[$get[file]];2]:$username[$interactionData[author.id]]-$dateStamp.txt};;yes]
 $onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumbnail];$authorID]==true;{
- "content": "You cant use this button.",
+ "files": "{file:$repeatMessage[$charCount[$get[file]];?]:file.txt}",
  "ephemeral": "true",
  "options": {
   "interaction": "true"
  }
-}]`
+}]
+$let[file;$replaceText[$getGlobalUserVar[playlistuser;$interactionData[author.id]];:;#COLON#]]
+$cooldown[5s;]`
 },
  {
   name: "autoplaylist-off",
@@ -474,6 +471,43 @@ $onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumb
  }
 }]`
 },
+{
+  name: "bypassplaylist-0",
+  type: "interaction",
+  prototype: "button",
+  code: `$deleteMessage[$get[id]]
+$wait[3s]
+$let[id;$sendMessage[{
+ "content": "Note: This feature will bypass all blocked that can cause your playlist inaccessible.",
+ "reply": {
+  "messageReference": "$interactionData[message.id]"
+ }
+};yes]]
+$loop[1;{};optionplaylist]
+$setGlobalUserVar[playlistuserbypass;1;$interactionData[author.id]]
+$onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumbnail];$authorID]==true;{
+ "content": "You cant use this button.",
+ "ephemeral": "true",
+ "options": {
+  "interaction": "true"
+ }
+}]
+$suppressErrors`
+},
+ {
+  name: "bypassplaylist-1",
+  type: "interaction",
+  prototype: "button",
+  code: `$loop[1;{};optionplaylist]
+$setGlobalUserVar[playlistuserbypass;0;$interactionData[author.id]]
+$onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumbnail];$authorID]==true;{
+ "content": "You cant use this button.",
+ "ephemeral": "true",
+ "options": {
+  "interaction": "true"
+ }
+}]`
+},
  {
  name: "confirmplaylist",
  type: "awaited",
@@ -505,8 +539,7 @@ $onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumb
  name: "noconfirmdeleteplaylist",
  type: "interaction",
  prototype: "button",
- code: `$deleteMessage[$interactionData[message.id]]
-$interactionReply[;{newEmbed:{author:Canceled.} {color:$getVar[color]} {timestamp}]
+ code: `$interactionUpdate[;{newEmbed:{author:Canceled.} {color:$getVar[color]} {timestamp}}]
 $onlyIf[$checkContains[$getEmbed[$channelID;$interactionData[message.id];1;thumbnail];$authorID]==true;{
  "content": "You cant use this button.",
  "ephemeral": "true",
