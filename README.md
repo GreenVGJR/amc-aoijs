@@ -15,6 +15,4 @@ Last Update: 19 May 2022 - 18:55 WIB
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
 
-Will not getting update before v5.2.0 release
-
 Better to use [Handler Version](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v5)
