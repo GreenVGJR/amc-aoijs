@@ -1,8 +1,4 @@
 module.exports = {
-  //Stats
-  file: "server.js",
-  database: "./database/main/main_scheme_1.sql",
-
   //Customize Property For Message
   pause: "⏸️ Paused.",
   resume: "▶️ Resumed!",
@@ -33,7 +29,7 @@ module.exports = {
   maxvol: "150", //Max Volume
 
   //Changing Other - Advance
-  permission: "2176183360",
+  permission: "277070867456",
   deafenclient: "1", //Server Deafen Client, 0 = false | 1 = true
   defaultspotify: "youtube", //YouTube/SoundCloud
   multiseek: "1000", //Seek Command
@@ -66,8 +62,8 @@ module.exports = {
   buttonmusicmessage: "",
   buttonmusichannel: "",
   timechangemessage: "8000", //0 = disable | milisecond
-  openpublicbutton: "0", //0 = no | 1 = yes (for inside vc users) (soon)
-  forceusebutton: "0", //0 = no | 1 = yes (for everyone, include non-vc users) (soon)
+  openpublicbutton: "0", //0 = no | 1 = yes (for inside vc users)
+  forceusebutton: "0", //0 = no | 1 = yes (for everyone, include non-vc users)
 
   //Playlist(s)
   playlistuser: "",
@@ -75,6 +71,7 @@ module.exports = {
   playlistuserpublic: "off",
   playlistuserauto: "off",
   playlistuserwords: "off",
+  playlistuserbypass: "0", //0 = off | 1 = on (bypass from blocking)
   playlistcacheuser: "",
   playlistcachecount: "1"
 }
