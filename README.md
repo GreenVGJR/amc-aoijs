@@ -1,4 +1,4 @@
-[![Main Package](https://img.shields.io/badge/aoi.js-5.1.2-blue?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/aoi.js)
+[![Main Package](https://img.shields.io/badge/aoi.js-5.2.0-blue?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/aoi.js)
 [![Music Package](https://img.shields.io/badge/@akarui/aoi.music-DEV-blue?style=for-the-badge&logo=github)](https://github.com/AkaruiDevelopment/music)
 
 
@@ -9,8 +9,8 @@ ___
 ### This is code advanced music for aoi.js, discord bot.
 
 ```
-Ver. 5.1.2
+Ver. 5.2.0
 
-Last Update: 12 June 2022 - 08:17 WIB
+Last Update: 22 June 2022 - 21:56 WIB
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
