@@ -1,5 +1,5 @@
 [![Main Package](https://img.shields.io/badge/aoi.js-5.2.0-blue?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/aoi.js)
-[![Music Package](https://img.shields.io/badge/@akarui/aoi.music-DEV-blue?style=for-the-badge&logo=github)](https://github.com/AkaruiDevelopment/music)
+[![Music Package](https://img.shields.io/badge/@akarui/aoi.music-DEV-purple?style=for-the-badge&logo=github)](https://github.com/AkaruiDevelopment/music)
 
 
 [![amc-aoijs](https://github-readme-stats.vercel.app/api/pin/?username=greenvgjr&repo=amc-aoijs&theme=dark)](https://github.com/GreenVGJR/amc-aoijs)<br/>
@@ -11,7 +11,7 @@ ___
 ```
 Ver. 5.2.0
 
-Last Update: 22 June 2022 - 22:01 WIB
+Last Update: 23 June 2022 - 20:51 WIB
 ```
 ##### [List Update](https://pastebin.com/raw/r2cnXCXt) | [Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/handler-v4) | [Non-Handler - V4](https://github.com/GreenVGJR/amc-aoijs/tree/non-handler-v4)
 
