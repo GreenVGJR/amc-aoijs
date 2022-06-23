@@ -1033,7 +1033,8 @@ $queue[$get[page];5;\`{position} |\` **[{title}]({url})**]}
 $let[page;$replaceText[$replaceText[$checkCondition[$get[firstpage]<=$replaceText[$replaceText[$checkCondition[$truncate[$sum[$divide[$queueLength;5];0.9]]==0];true;1];false;$truncate[$sum[$divide[$queueLength;5];0.9]]]];true;$get[firstpage]];false;$replaceText[$replaceText[$checkCondition[$truncate[$sum[$divide[$queueLength;5];0.9]]==0];true;1];false;$truncate[$sum[$divide[$queueLength;5];0.9]]]]]
 $let[firstpage;$sub[$advancedTextSplit[$getEmbed[$channelID;$interactionData[message.id];2;description];Queue | Page ;2;-;1];1]]
 $onlyIf[$checkContains[$usersInChannel[$replaceText[$replaceText[$checkCondition[$voiceID[$interactionData[author.id]]==];true;$voiceID[$clientID]];false;$voiceID[$interactionData[author.id]]]];$clientID]==true;]
-$onlyIf[$hasPlayer!=false;]`
+$onlyIf[$hasPlayer!=false;]
+$suppressErrors`
 })
 
 bot.interactionCommand({
@@ -1041,7 +1042,8 @@ bot.interactionCommand({
  prototype: "button",
  code: `$deleteMessage[$interactionData[message.id]]
 $onlyIf[$checkContains[$usersInChannel[$replaceText[$replaceText[$checkCondition[$voiceID[$interactionData[author.id]]==];true;$voiceID[$clientID]];false;$voiceID[$interactionData[author.id]]]];$clientID]==true;]
-$onlyIf[$queueLength!=0;]`
+$onlyIf[$hasPlayer!=false;]
+$suppressErrors`
 })
 
 bot.interactionCommand({
@@ -1060,7 +1062,8 @@ $queue[$get[page];5;\`{position} |\` **[{title}]({url})**]}
 $let[page;$replaceText[$replaceText[$checkCondition[$get[firstpage]<=$replaceText[$replaceText[$checkCondition[$truncate[$sum[$divide[$queueLength;5];0.9]]==0];true;1];false;$truncate[$sum[$divide[$queueLength;5];0.9]]]];true;$get[firstpage]];false;$replaceText[$replaceText[$checkCondition[$truncate[$sum[$divide[$queueLength;5];0.9]]==0];true;1];false;$truncate[$sum[$divide[$queueLength;5];0.9]]]]]
 $let[firstpage;$sum[$advancedTextSplit[$getEmbed[$channelID;$interactionData[message.id];2;description];Queue | Page ;2;-;1];1]]
 $onlyIf[$checkContains[$usersInChannel[$replaceText[$replaceText[$checkCondition[$voiceID[$interactionData[author.id]]==];true;$voiceID[$clientID]];false;$voiceID[$interactionData[author.id]]]];$clientID]==true;]
-$onlyIf[$hasPlayer!=false;]`
+$onlyIf[$hasPlayer!=false;]
+$suppressErrors`
 })
 
 bot.command({
