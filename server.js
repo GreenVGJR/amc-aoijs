@@ -277,9 +277,7 @@ voice.onQueueEnd()
 voice.queueEndCommand({
  channel: "$channelID",
  $if: "v4",
- code: `$sendMessage[{newEmbed:{title:Error} {description:Failed playing song.} {timestamp} {color:ff0000}};no]
-$onlyIf[$queueLength!=0;]
-$setServerVar[buttonmusichannel;]
+ code: `$setServerVar[buttonmusichannel;]
 $setServerVar[buttonmusicmessage;]
 $setServerVar[filters;$getVar[filters]]
 $if[$getServerVar[buttonmusic]==1]
