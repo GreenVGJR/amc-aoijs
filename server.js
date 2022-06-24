@@ -23,10 +23,6 @@ bot.status({
 bot.onMessage()
 bot.onInteractionCreate()
 
-//Callbacks
-bot.onMessage()
-bot.onInteractionCreate()
-
 bot.readyCommand({
  channel: "$getVar[channelstatus]",
  $if: "v4",
