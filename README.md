@@ -35,9 +35,9 @@ v4.5.0-4.6.0     : https://is.gd/backupmusic_2
 
 5.1.2 (old)      : https://is.gd/backupmusic_7 (log)
 
-5.1.2 (new)      : 
+5.1.2 (new)      : https://is.gd/backupmusic_8
 
-5.2.0 (old)      :
+5.2.0 (old)      : https://is.gd/backupmusic_9 (log)
 
 5.2.0 (new)      :
 
