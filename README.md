@@ -9,7 +9,7 @@ ___
 ### This is code advanced music for aoi.js, discord bot.
 
 ```
-Ver. 5.2.0
+Ver. 5.2.0 - 5.5.0
 
 Last Update: 23 June 2022 - 20:51 WIB
 ```
