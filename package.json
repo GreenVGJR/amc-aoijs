@@ -14,7 +14,7 @@
   "dependencies": {
     "@akarui/aoi.music": "github:akaruidevelopment/music#main",
     "@discordjs/opus": "^0.7.0",
-    "aoi.js": "^5.2.0",
+    "aoi.js": "^5.5.0",
     "node-opus": "^0.3.3",
     "opusscript": "^0.0.8"
   },
