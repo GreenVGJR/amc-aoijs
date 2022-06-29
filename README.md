@@ -1,4 +1,4 @@
-[![Main Package](https://img.shields.io/badge/aoi.js-5.2.0-blue?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/aoi.js)
+[![Main Package](https://img.shields.io/badge/aoi.js-5.5.0-blue?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/aoi.js)
 [![Music Package](https://img.shields.io/badge/@akarui/aoi.music-DEV-purple?style=for-the-badge&logo=github)](https://github.com/AkaruiDevelopment/music)
 
 
