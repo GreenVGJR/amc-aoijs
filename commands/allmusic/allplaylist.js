@@ -32,23 +32,24 @@ $addSelectMenu[1;selectmenu;Options - $cropText[$username[$authorID];15;0;..]#$d
 $createObject[{$cropText[$getGlobalUserVar[playlistuser];$charCount[$getGlobalUserVar[playlistuser]];2]}]
 $endif
 $else
-$if[$findUser[$message[1];no]==]
+$if[$findNumbers[$message[1]]!=]
+$if[$userExists[$findNumbers[$message[1]]]==false]
 $author[1;Playlist;$getVar[customemoji1]]
 $description[1;Cant find the user.]
 $addTimestamp[1]
 $addSelectMenu[1;selectmenu;Options - $cropText[$username[$authorID];15;0;..]#$discriminator[$authorID];1;1;no;Options:List Options:optionplaylist-$authorID:no]
 $color[1;$getVar[color]]
 $else
-$if[$getGlobalUserVar[playlistuserpublic;$findUser[$message[1];no]]==on]
-$if[$getGlobalUserVar[playlistuser;$findUser[$message[1];no]]==]
+$if[$getGlobalUserVar[playlistuserpublic;$findNumbers[$message[1]]]==on]
+$if[$getGlobalUserVar[playlistuser;$findNumbers[$message[1]]]==]
 $author[1;Playlist;$getVar[customemoji1]]
-$description[1;<@!$findUser[$message[1];no]> dont have the playlist.]
+$description[1;<@!$findNumbers[$message[1]]> dont have the playlist.]
 $addTimestamp[1]
 $addSelectMenu[1;selectmenu;Options - $cropText[$username[$authorID];15;0;..]#$discriminator[$authorID];1;1;no;Options:List Options:optionplaylist-$authorID:no]
 $color[1;$getVar[color]]
 $else
-$author[1;Playlist - $cropText[$username[$findUser[$message[1];no]];15;0;..]#$discriminator[$findUser[$message[1];no]];$getVar[customemoji1]]
-$title[1;Page 1 - $truncate[$sum[$divide[$getGlobalUserVar[playlistusercount;$findUser[$message[1];no]];10];0.8]]]
+$author[1;Playlist - $cropText[$username[$findNumbers[$message[1]]];15;0;..]#$discriminator[$findNumbers[$message[1]]];$getVar[customemoji1]]
+$title[1;Page 1 - $truncate[$sum[$divide[$getGlobalUserVar[playlistusercount;$findNumbers[$message[1]]];10];0.8]]]
 $description[1;$replaceText[$replaceText[$checkCondition[$getObjectProperty[name1]==undefined];true;];false;1. $getObjectProperty[name1]]
 $replaceText[$replaceText[$checkCondition[$getObjectProperty[name2]==undefined];true;];false;2. $getObjectProperty[name2]]
 $replaceText[$replaceText[$checkCondition[$getObjectProperty[name3]==undefined];true;];false;3. $getObjectProperty[name3]]
@@ -60,16 +61,16 @@ $replaceText[$replaceText[$checkCondition[$getObjectProperty[name8]==undefined];
 $replaceText[$replaceText[$checkCondition[$getObjectProperty[name9]==undefined];true;];false;9. $getObjectProperty[name9]]
 $replaceText[$replaceText[$checkCondition[$getObjectProperty[name10]==undefined];true;];false;10. $getObjectProperty[name10]]]
 $color[1;$getVar[color]]
-$footer[1;$sub[$getGlobalUserVar[playlistusercount;$findUser[$message[1];no]];1] Song]
-$thumbnail[1;https://discord.com/users/$findUser[$message[1];no]]
-$addButton[2;Page $truncate[$sum[$divide[$getGlobalUserVar[playlistusercount;$findUser[$message[1];no]];10];0.8]];2;rightplaylist;yes;⏩]
+$footer[1;$sub[$getGlobalUserVar[playlistusercount;$findNumbers[$message[1]]];1] Song]
+$thumbnail[1;https://discord.com/users/$findNumbers[$message[1]]]
+$addButton[2;Page $truncate[$sum[$divide[$getGlobalUserVar[playlistusercount;$findNumbers[$message[1]]];10];0.8]];2;rightplaylist;yes;⏩]
 $addButton[2;Close;1;closeplaylist;yes;⏹]
 $addButton[2;Page 1;2;leftplaylist;yes;⏪]
-$addSelectMenu[1;selectmenu;Options - $cropText[$username[$findUser[$message[1];no];15;0;..]#$discriminator[$findUser[$message[1];no]] (Button Disabled);1;1;no;Options:List Options:optionplaylist-$authorID:no;Delete Playlist:Delete your playlist.:deleteplaylist-$authorID:no]
-$createObject[{$cropText[$getGlobalUserVar[playlistuser;$findUser[$message[1];no]];$charCount[$getGlobalUserVar[playlistuser;$findUser[$message[1];no]]];2]}]
+$addSelectMenu[1;selectmenu;Options - $cropText[$username[$findNumbers[$message[1]]];15;0;..]#$discriminator[$findNumbers[$message[1]]] (Button Disabled);1;1;no;Options:List Options:optionplaylist-$authorID:no;Delete Playlist:Delete your playlist.:deleteplaylist-$authorID:no]
+$createObject[{$cropText[$getGlobalUserVar[playlistuser;$findNumbers[$message[1]]];$charCount[$getGlobalUserVar[playlistuser;$findNumbers[$message[1]]]];2]}]
 $endif
 $else
-$if[$findUser[$message[1];no]==$authorID]
+$if[$findNumbers[$message[1]]==$authorID]
 $if[$getGlobalUserVar[playlistuser]==]
 $author[1;Playlist;$getVar[customemoji1]]
 $description[1;You dont have your playlist.]
@@ -106,6 +107,13 @@ $addSelectMenu[1;selectmenu;Options - $cropText[$username[$authorID];15;0;..]#$d
 $color[1;$getVar[color]]
 $endif
 $endif
+$endif
+$else
+$author[1;Playlist;$getVar[customemoji1]]
+$description[1;Use \`UserID/Mention\` to find the playlist.]
+$addTimestamp[1]
+$addSelectMenu[1;selectmenu;Options - $cropText[$username[$authorID];15;0;..]#$discriminator[$authorID];1;1;no;Options:List Options:optionplaylist-$authorID:no]
+$color[1;$getVar[color]]
 $endif
 $endif
 `
