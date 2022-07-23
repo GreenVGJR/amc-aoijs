@@ -39,7 +39,9 @@ v4.5.0-4.6.0     : https://is.gd/backupmusic_2
 
 5.2.0 (old)      : https://is.gd/backupmusic_9 (log)
 
-5.2.0 (new)      :
+5.2.0 (new)      : https://is.gd/backupmusic_10 (log)
+
+5.5.5 (old)      : https://is.gd/backupmusic_11 (log)
 
 6.0.0            :
 
@@ -61,7 +63,7 @@ Claiming your code
 
 Cant see list update on pastebin
 
-`you can go my`[`release`](https://github.com/GreenVGJR/amc-aoijs/releases)`if you wanna see the list update`
+`you can see my`[`release`](https://github.com/GreenVGJR/amc-aoijs/releases)`if you want see list updates`
 
 _____________
 Intents
